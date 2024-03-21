@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="Joomla! - Open Source Content Management" -->
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Portfolio</title>
+		<description><![CDATA[]]></description>
+		<link>https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/portfolio/70-pages/portfolio/category-1</link>
+		<lastBuildDate>Thu, 21 Mar 2024 08:47:54 +0000</lastBuildDate>
+		<generator>Joomla! - Open Source Content Management</generator>
+		<atom:link rel="self" type="application/rss+xml" href="https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/portfolio/70-pages/portfolio/category-1?format=feed&amp;type=rss"/>
+		<language>en-gb</language>
+		<item>
+			<title>Promotional</title>
+			<link>https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/portfolio/70-pages/portfolio/category-1/70-promotional</link>
+			<guid isPermaLink="true">https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/portfolio/70-pages/portfolio/category-1/70-promotional</guid>
+			<description><![CDATA[<p><img src="https://livedemo00-joomla.template-help.com/joomla_prod-16454/images/portfolio/project-thumb5.jpg" /></p><p>Promotion can be done by different media. Here you will see the artistic approach to promotion.</p>
+]]></description>
+			<category>Category 1</category>
+			<pubDate>Thu, 21 Jun 2018 04:10:01 +0000</pubDate>
+		</item>
+		<item>
+			<title>Games &amp; Entertainment</title>
+			<link>https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/portfolio/70-pages/portfolio/category-1/71-games-entertainment</link>
+			<guid isPermaLink="true">https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/portfolio/70-pages/portfolio/category-1/71-games-entertainment</guid>
+			<description><![CDATA[<p><img src="https://livedemo00-joomla.template-help.com/joomla_prod-16454/images/portfolio/project-thumb6.jpg" /></p><p>Traditional art forms are things you cannot win; you can only experience them.</p>
+]]></description>
+			<category>Category 1</category>
+			<pubDate>Thu, 21 Jun 2018 04:10:01 +0000</pubDate>
+		</item>
+	</channel>
+</rss>

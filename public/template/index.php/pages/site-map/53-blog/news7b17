@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="Joomla! - Open Source Content Management" -->
+<feed xmlns="http://www.w3.org/2005/Atom"  xml:lang="en-gb">
+	<title type="text">Site map</title>
+	<subtitle type="text"></subtitle>
+	<link rel="alternate" type="text/html" href="https://livedemo00-joomla.template-help.com"/>
+	<id>https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/site-map/53-blog/news</id>
+	<updated>2024-03-21T08:46:01+00:00</updated>
+	<author>
+		<name>cube</name>
+	</author>
+	<generator uri="https://www.joomla.org">Joomla! - Open Source Content Management</generator>
+	<link rel="self" type="application/atom+xml" href="https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/site-map/53-blog/news?format=feed&amp;type=atom"/>
+	<entry>
+		<title>LinkedIn Stock Downgraded After Microsoft Deal </title>
+		<link rel="alternate" type="text/html" href="https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/site-map/53-blog/news/119-linkedin-stock-downgraded-after-microsoft-deal"/>
+		<published>2018-06-21T04:10:01+00:00</published>
+		<updated>2018-06-21T04:10:01+00:00</updated>
+		<id>https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/site-map/53-blog/news/119-linkedin-stock-downgraded-after-microsoft-deal</id>
+		<author>
+			<name>Super User</name>
+		</author>
+		<summary type="html">&lt;p&gt;&lt;img src=&quot;https://livedemo00-joomla.template-help.com/joomla_prod-16454/images/blog/blog-thumb2.jpg&quot; /&gt;&lt;/p&gt;&lt;p&gt;Fox TV Channel is showcasing the most successful series and full-length films of 20th Century Fox this month in all American cinemas with wide promotional campaign of their upcoming projects.&lt;/p&gt;
+</summary>
+		<content type="html">&lt;p&gt;&lt;img src=&quot;https://livedemo00-joomla.template-help.com/joomla_prod-16454/images/blog/blog-thumb2.jpg&quot; /&gt;&lt;/p&gt;&lt;p&gt;Fox TV Channel is showcasing the most successful series and full-length films of 20th Century Fox this month in all American cinemas with wide promotional campaign of their upcoming projects.&lt;/p&gt;
+</content>
+		<category term="News" />
+	</entry>
+</feed>

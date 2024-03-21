@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="Joomla! - Open Source Content Management" -->
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Careers</title>
+		<description><![CDATA[]]></description>
+		<link>https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/careers</link>
+		<lastBuildDate>Thu, 21 Mar 2024 08:38:21 +0000</lastBuildDate>
+		<generator>Joomla! - Open Source Content Management</generator>
+		<atom:link rel="self" type="application/rss+xml" href="https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/careers?format=feed&amp;type=rss"/>
+		<language>en-gb</language>
+		<item>
+			<title>We truly believe that the success of our business depends on our employees.</title>
+			<link>https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/careers/110-lorem-ipsum-dolor-sit-amet</link>
+			<guid isPermaLink="true">https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/careers/110-lorem-ipsum-dolor-sit-amet</guid>
+			<description><![CDATA[<p>We offer excellent opportunities for individuals seeking to strive and flourish in the research and consultancy industry, focusing on their professional as well as personal development. Our distinctive environment offers careers that are exciting, challenging and rewarding. We encourage our people to learn, experiment and grow - for both their own personal benefit and the company’s.</p>
+{loadposition careers-accordion-1}]]></description>
+			<category>Careers</category>
+			<pubDate>Thu, 21 Jun 2018 04:10:01 +0000</pubDate>
+		</item>
+		<item>
+			<title>The Sunday Times Best Company to work for</title>
+			<link>https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/careers/111-etiam-in-neque-non-sapien-lobortis</link>
+			<guid isPermaLink="true">https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/careers/111-etiam-in-neque-non-sapien-lobortis</guid>
+			<description><![CDATA[<p>We’re proud to say that our office has made The Sunday Times Best Small Companies to work for list at our first attempt. Our Company is the top-ranking research consultancy in the small companies category to have achieved a listing, achieving 50th place out of the top 100  companies  recognised as great places to work in the UK. The accolade acknowledges “that senior employees truly live the values of the firm”, that people say “their jobs are good for growth” and the company “clearly values new ideas from employees”. We received top rankings for the My Manager, Personal Growth and Fair Deal categories. This is truly a testament to the talented collection of people, special energy and morale we have at The Futures Company.</p>
+{loadposition careers-accordion-2}]]></description>
+			<category>Careers</category>
+			<pubDate>Thu, 21 Jun 2018 04:10:01 +0000</pubDate>
+		</item>
+		<item>
+			<title>IT Careers</title>
+			<link>https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/careers/112-porro-magni-dolore-eos-eius-ducimus</link>
+			<guid isPermaLink="true">https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/careers/112-porro-magni-dolore-eos-eius-ducimus</guid>
+			<description><![CDATA[<p>Each day our world creates new technology: devices, apps, and services. Which means new ways to do things, new ways to connect, new things to learn. While each holds the promise of helping us get more done with less effort, they also can become one more thing competing for our scarce time and attention.</p>
+{loadposition careers-accordion-3}]]></description>
+			<category>Careers</category>
+			<pubDate>Thu, 21 Jun 2018 04:10:01 +0000</pubDate>
+		</item>
+		<item>
+			<title>Machine learning</title>
+			<link>https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/careers/113-vestibulum-commodo-mollis</link>
+			<guid isPermaLink="true">https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/careers/113-vestibulum-commodo-mollis</guid>
+			<description><![CDATA[<p>We are looking to hire mathematically minded people who have the talent to analyze and derive meaning from data, as well as those who know how to deploy techniques of machine learning. We work with a diverse set of technologies, including deep learning, probabilistic programming, large-scale learning, and causal reasoning. For scientists who’ve got algorithmic ability, this skill set can be the ticket to one of the hottest jobs on the market.</p>
+{loadposition careers-accordion-4}]]></description>
+			<category>Careers</category>
+			<pubDate>Thu, 21 Jun 2018 04:10:01 +0000</pubDate>
+		</item>
+	</channel>
+</rss>

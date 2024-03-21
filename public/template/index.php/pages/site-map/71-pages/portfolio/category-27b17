@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="Joomla! - Open Source Content Management" -->
+<feed xmlns="http://www.w3.org/2005/Atom"  xml:lang="en-gb">
+	<title type="text">Site map</title>
+	<subtitle type="text"></subtitle>
+	<link rel="alternate" type="text/html" href="https://livedemo00-joomla.template-help.com"/>
+	<id>https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/site-map/71-pages/portfolio/category-2</id>
+	<updated>2024-03-21T08:46:08+00:00</updated>
+	<author>
+		<name>cube</name>
+	</author>
+	<generator uri="https://www.joomla.org">Joomla! - Open Source Content Management</generator>
+	<link rel="self" type="application/atom+xml" href="https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/site-map/71-pages/portfolio/category-2?format=feed&amp;type=atom"/>
+	<entry>
+		<title>Art &amp; Illustration</title>
+		<link rel="alternate" type="text/html" href="https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/site-map/71-pages/portfolio/category-2/68-art-illustration"/>
+		<published>2018-06-21T04:10:01+00:00</published>
+		<updated>2018-06-21T04:10:01+00:00</updated>
+		<id>https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/site-map/71-pages/portfolio/category-2/68-art-illustration</id>
+		<author>
+			<name>Super User</name>
+		</author>
+		<summary type="html">&lt;p&gt;&lt;img src=&quot;https://livedemo00-joomla.template-help.com/joomla_prod-16454/images/portfolio/project-thumb3.jpg&quot; /&gt;&lt;/p&gt;&lt;p&gt;An illustration is a visual approach to a verbal story.&lt;/p&gt;
+</summary>
+		<content type="html">&lt;p&gt;&lt;img src=&quot;https://livedemo00-joomla.template-help.com/joomla_prod-16454/images/portfolio/project-thumb3.jpg&quot; /&gt;&lt;/p&gt;&lt;p&gt;An illustration is a visual approach to a verbal story.&lt;/p&gt;
+</content>
+		<category term="Category 2" />
+	</entry>
+	<entry>
+		<title>Web &amp; Interactive</title>
+		<link rel="alternate" type="text/html" href="https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/site-map/71-pages/portfolio/category-2/69-web-interactive"/>
+		<published>2018-06-21T04:10:01+00:00</published>
+		<updated>2018-06-21T04:10:01+00:00</updated>
+		<id>https://livedemo00-joomla.template-help.com/joomla_prod-16454/index.php/pages/site-map/71-pages/portfolio/category-2/69-web-interactive</id>
+		<author>
+			<name>Super User</name>
+		</author>
+		<summary type="html">&lt;p&gt;&lt;img src=&quot;https://livedemo00-joomla.template-help.com/joomla_prod-16454/images/portfolio/project-thumb4.jpg&quot; /&gt;&lt;/p&gt;&lt;p&gt;Best website designs showcased.&lt;/p&gt;
+</summary>
+		<content type="html">&lt;p&gt;&lt;img src=&quot;https://livedemo00-joomla.template-help.com/joomla_prod-16454/images/portfolio/project-thumb4.jpg&quot; /&gt;&lt;/p&gt;&lt;p&gt;Best website designs showcased.&lt;/p&gt;
+</content>
+		<category term="Category 2" />
+	</entry>
+</feed>
