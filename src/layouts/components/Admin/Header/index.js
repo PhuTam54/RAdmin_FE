@@ -139,7 +139,7 @@ function HeaderAdmin() {
                         </a>
                         <div className="dropdown-menu dropdown-menu-right">
                             <div className="dropdown-title">Logged in 5 min ago</div>
-                            <a href="admin/profile" className="dropdown-item has-icon">
+                            <a href="/profile" className="dropdown-item has-icon">
                                 <i className="far fa-user" /> Profile
                             </a>
                             <a href="features-activities.html" className="dropdown-item has-icon">

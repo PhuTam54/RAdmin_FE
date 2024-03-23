@@ -6,7 +6,7 @@ function SidebarAdmin() {
                 <aside id="sidebar-wrapper">
                     <div className="sidebar-brand">
                         <image src={logo} width={0} height={18}></image>
-                        <a href="index.html"> RAdmin - Mall </a>
+                        <a href="/"> RAdmin - Mall </a>
                     </div>
                     <div className="sidebar-brand sidebar-brand-sm">
                         <a href="index.html">St</a>
@@ -62,6 +62,11 @@ function SidebarAdmin() {
                                 <li>
                                     <a className="nav-link" href="/feedback">
                                         Feedback
+                                    </a>
+                                </li>
+                                <li>
+                                    <a className="nav-link" href="/users">
+                                        Users
                                     </a>
                                 </li>
                             </ul>

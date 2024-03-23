@@ -26,6 +26,10 @@ const routes = {
     //      Booking
     feedback: '/feedback',
     createFeedback: '/feedback/create',
+
+    //      Users
+    users: '/users',
+    createUsers: '/users/create',
 };
 
 export default routes;
