@@ -1,4 +1,5 @@
 const routes = {
+
     admin: '/',
     chart: '/chart',
 
@@ -30,6 +31,7 @@ const routes = {
     //      Users
     users: '/users',
     createUsers: '/users/create',
+
 };
 
 export default routes;
