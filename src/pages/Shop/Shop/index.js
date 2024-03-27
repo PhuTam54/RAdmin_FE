@@ -9,7 +9,7 @@ function Product() {
 
     useEffect(() => {
         axios
-            .get('http://example.com/api/products')
+            .get('https://localhost:7168/api/v1/Products')
             .then((response) => {
                 setProducts(response.data);
                 setLoading(false);

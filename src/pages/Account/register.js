@@ -1,5 +1,4 @@
-import p50 from '~/assets/img/p-50.png';
-import logo from '~/assets/img/stisla-fill.svg';
+import images from '~/assets/img/';
 
 function Register() {
     return (
@@ -9,7 +8,7 @@ function Register() {
                     <div className="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
                         <div className="login-brand">
                             <img
-                                src={logo}
+                                src={images.logo}
                                 alt="logo"
                                 width={100}
                                 className="shadow-light rounded-circle"

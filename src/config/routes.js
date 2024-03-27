@@ -1,5 +1,4 @@
 const routes = {
-
     admin: '/',
     chart: '/chart',
 
@@ -12,7 +11,13 @@ const routes = {
     resetpassword: '/resetpassword',
 
     invoice: '/invoice',
-    //      Product
+
+    //      Shops
+    
+    // Category
+    category: '/category',
+    createCategory: '/category/create',
+    // Product
     product: '/product',
     createProduct: '/product/create',
 
@@ -31,7 +36,6 @@ const routes = {
     //      Users
     users: '/users',
     createUsers: '/users/create',
-
 };
 
 export default routes;
