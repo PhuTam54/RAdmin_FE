@@ -1,5 +1,4 @@
-import avatar from '~/assets/img/avatar/avatar-1.png';
-import product from '~/assets/img/products/product-3-50.png';
+import images from '~/assets/img/';
 
 function HeaderAdmin() {
     return (
@@ -32,27 +31,11 @@ function HeaderAdmin() {
                         </button>
                         <div className="search-backdrop" />
                         <div className="search-result">
-                            <div className="search-header">Histories</div>
+                            <div className="search-header">Search</div>
                             <div className="search-item">
-                                <a href="#">How to hack NASA using CSS</a>
+                                <a href="#">How to CSS</a>
                                 <a href="#" className="search-close">
                                     <i className="fas fa-times" />
-                                </a>
-                            </div>
-                            <div className="search-header">Result</div>
-                            <div className="search-item">
-                                <a href="#">
-                                    <img className="mr-3 rounded" width={30} src={product} alt="product" />
-                                    Headphone Blitz
-                                </a>
-                            </div>
-                            <div className="search-header">Projects</div>
-                            <div className="search-item">
-                                <a href="#">
-                                    <div className="search-icon bg-primary text-white mr-3">
-                                        <i className="fas fa-laptop" />
-                                    </div>
-                                    Create a new Homepage Design
                                 </a>
                             </div>
                         </div>
@@ -73,7 +56,7 @@ function HeaderAdmin() {
                             <div className="dropdown-list-content dropdown-list-message">
                                 <a href="#" className="dropdown-item dropdown-item-unread">
                                     <div className="dropdown-item-avatar">
-                                        <img alt="image" src={avatar} className="rounded-circle" />
+                                        <img alt="image" src={images.avatar} className="rounded-circle" />
                                         <div className="is-online" />
                                     </div>
                                     <div className="dropdown-item-desc">
@@ -134,7 +117,7 @@ function HeaderAdmin() {
                             data-toggle="dropdown"
                             className="nav-link dropdown-toggle nav-link-lg nav-link-user"
                         >
-                            <img alt="image" src={avatar} className="rounded-circle mr-1" />
+                            <img alt="image" src={images.avatar} className="rounded-circle mr-1" />
                             <div className="d-sm-none d-lg-inline-block">Hi, Ujang Maman</div>
                         </a>
                         <div className="dropdown-menu dropdown-menu-right">
