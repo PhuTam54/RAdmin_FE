@@ -118,6 +118,8 @@ function Category() {
 
     const handleSave = () => {
         handleCreateShow();
+    };
+    const handleSaveConfirm = () => {
         if (name) {
             const url = 'https://localhost:7168/api/v1/Categories';
             const newData = {
@@ -327,7 +329,7 @@ function Category() {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleSave}>
+                    <Button variant="primary" onClick={handleSaveConfirm}>
                         Create
                     </Button>
                 </Modal.Footer>
