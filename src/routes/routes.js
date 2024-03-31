@@ -18,11 +18,10 @@ import ResetPassword from '~/pages/Account/resetpassword';
 import Profile from '~/pages/Magager/Profile';
 import Invoice from '~/pages/Magager/Invoice';
 // Shop
-// Category
-import Category from '~/pages/Shop/Category/index'
-//      Product
+import Category from '~/pages/Shop/Category/index';
 import Product from '~/pages/Shop/Product/index';
-// import CreateProduct from '~/pages/Product/create';
+import Floors from '~/pages/Shop/Floors/index';
+
 //      Booking
 import Booking from '~/pages/Magager/Booking/index';
 
@@ -37,6 +36,7 @@ import Booking from '~/pages/Magager/Booking/index';
 // //      FeedBack
 // import Users from '~/pages/Users/index';
 // import CreateUsers from '~/pages/Users/create';
+import User from '~/pages/Magager/Users/index';
 
 // Public routes
 export const publicRoutes = [
@@ -55,17 +55,18 @@ export const publicRoutes = [
 
     { path: config.routes.profile, component: Profile, layout: AdminLayout },
     { path: config.routes.invoice, component: Invoice, layout: AdminLayout },
-     // Shop
-    // Category
-    
+
+    // Shop
     { path: config.routes.category, component: Category, layout: AdminLayout },
-    //      Product
     { path: config.routes.product, component: Product, layout: AdminLayout },
+    { path: config.routes.floors, component: Floors, layout: AdminLayout },
+
     // { path: config.routes.createProduct, component: CreateProduct, layout: AdminLayout },
 
     //      Booking
     { path: config.routes.booking, component: Booking, layout: AdminLayout },
     // { path: config.routes.createBooking, component: CreateBooking, layout: AdminLayout },
+    { path: config.routes.users, component: User, layout: AdminLayout },
 
     // //      Movie
     // { path: config.routes.movie, component: Movie, layout: AdminLayout },

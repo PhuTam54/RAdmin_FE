@@ -1,6 +1,15 @@
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import images from '~/assets/img/';
+import { NavDropdown, Nav } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 function HeaderAdmin() {
+    const navigate = useNavigate();
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        navigate('/login');
+        toast.success('Logout Success');
+    };
     return (
         <>
             <div className="navbar-bg" />
@@ -125,16 +134,13 @@ function HeaderAdmin() {
                             <a href="/profile" className="dropdown-item has-icon">
                                 <i className="far fa-user" /> Profile
                             </a>
-                            <a href="features-activities.html" className="dropdown-item has-icon">
-                                <i className="fas fa-bolt" /> Activities
-                            </a>
-                            <a href="features-settings.html" className="dropdown-item has-icon">
-                                <i className="fas fa-cog" /> Settings
-                            </a>
                             <div className="dropdown-divider" />
-                            <a href="#" className="dropdown-item has-icon text-danger">
+                            <NavDropdown.Item
+                                onClick={() => handleLogout()}
+                                className="dropdown-item has-icon text-danger"
+                            >
                                 <i className="fas fa-sign-out-alt" /> Logout
-                            </a>
+                            </NavDropdown.Item>
                         </div>
                     </li>
                 </ul>
