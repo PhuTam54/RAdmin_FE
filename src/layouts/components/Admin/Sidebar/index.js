@@ -127,6 +127,11 @@ function SidebarAdmin() {
                                 </li>
                                 <li>
                                     <a className="nav-link" href="/booking">
+                                        Booking
+                                    </a>
+                                </li>
+                                <li>
+                                    <a className="nav-link" href="/booking">
                                         ContactInfo
                                     </a>
                                 </li>

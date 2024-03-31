@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Table, Modal, Button, Container, Row, Col } from 'react-bootstrap';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import Data from './Data.json';
 
 function Category() {
     const [loading, setLoading] = useState(true);
     const [editShow, setEditShow] = useState(false);
     const [deleteShow, setDeleteShow] = useState(false);
     const [createShow, setCreateShow] = useState(false);
-
     const [name, setName] = useState('');
     const [slug, setSlug] = useState('');
     const [editId, setEditId] = useState('');
@@ -19,26 +16,36 @@ function Category() {
     const [editSlug, setEditSlug] = useState('');
     const [data, setData] = useState([]);
 
+    //search
     const [search, setSearch] = useState('');
+    const [searchedData, setSearchedData] = useState([]);
+    useEffect(() => {
+        const filteredData = data.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()));
+        setSearchedData(filteredData);
+    }, [search, data]);
 
     //Page
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const recordsPerPage = 5;
-    // const lastindex = currentPage * recordsPerPage;
-    // const firstIndex = lastindex - recordsPerPage;
-    // const records = Data.slice(firstIndex, lastindex);
-    // const npage = Math.ceil(Data.length / recordsPerPage)
-    // const numbers = [...Array(npage + 1).keys()].slice(1);
+    const [currentPage, setCurrentPage] = useState(1);
+    const recordsPerPage = 7;
+    const lastindex = currentPage * recordsPerPage;
+    const firstIndex = lastindex - recordsPerPage;
+    const records = searchedData.slice(firstIndex, lastindex);
+    const npage = Math.ceil(searchedData.length / recordsPerPage);
+    const numbers = [...Array(npage + 1).keys()].slice(1);
 
-    const handleClose = () => {
-        setDeleteShow(false);
-        setCreateShow(false);
-        setEditShow(false);
-    };
-
-    const handleEditShow = () => setEditShow(true);
-    const handleDeleteShow = () => setDeleteShow(true);
-    const handleCreateShow = () => setCreateShow(true);
+    function prePage() {
+        if (currentPage !== 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    }
+    function changeCPage(id) {
+        setCurrentPage(id);
+    }
+    function nextPage() {
+        if (currentPage !== npage) {
+            setCurrentPage(currentPage + 1);
+        }
+    }
 
     useEffect(() => {
         getData();
@@ -49,13 +56,12 @@ function Category() {
             .get(`https://localhost:7168/api/v1/Categories`)
             .then((response) => {
                 setData(response.data);
-                // setTotalPage(response.total_pages);
-
-                setLoading(false); 
+                setSearchedData(response.data);
+                setLoading(false);
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
-                setLoading(false); 
+                setLoading(false);
             });
     };
 
@@ -68,55 +74,58 @@ function Category() {
                 setEditName(data.name);
                 setEditSlug(data.slug);
             })
-            .catch((error) => console.error('Error fetching employee data:', error));
+            .catch((error) => console.error('Error fetching category data:', error));
     };
+
     const handleUpdate = () => {
         const url = `https://localhost:7168/api/v1/Categories/${editId}`;
-        const data = {
-            id: editId,
+        const updatedData = {
             name: editName,
             slug: editSlug,
-            // isActive: isActive,
         };
         axios
-            .post(url, data)
-            .then((data) => {
+            .put(url, updatedData)
+            .then(() => {
                 handleClose();
                 getData();
                 clear();
-                toast.success('Employee has been updated');
+                toast.success('Category has been updated');
             })
             .catch((error) => {
-                toast.error('Employee defail updated', error);
+                toast.error('Failed to update category', error);
             });
     };
-    const handleDelete = (id) => {
+
+    const handleDelete = () => {
         handleDeleteShow();
-        if (window.confirm('Delete')) {
-            axios
-                .delete(`https://localhost:7168/api/v1/Categories/${id}`)
-                .then((response) => {
-                    if (response.status === 200) {
-                        toast.success('Employee has been deleted');
-                        getData();
-                    }
-                })
-                .catch((error) => {
-                    toast.error('Failed to delete employee', error);
-                });
-        }
+    };
+
+    const handleDeleteConfirm = (id) => {
+        axios
+            .delete(`https://localhost:7168/api/v1/Categories/${id}`)
+            .then((response) => {
+                if (response.status === 200) {
+                    toast.success('Category has been deleted');
+                    getData();
+                    handleClose();
+                }
+            })
+            .catch((error) => {
+                toast.error('Failed to delete category', error);
+                handleClose();
+            });
     };
 
     const handleSave = () => {
         handleCreateShow();
         if (name) {
             const url = 'https://localhost:7168/api/v1/Categories';
-            const data = {
+            const newData = {
                 name: name,
                 slug: slug,
             };
             axios
-                .post(url, data)
+                .post(url, newData)
                 .then(() => {
                     getData();
                     clear();
@@ -132,14 +141,21 @@ function Category() {
     const clear = () => {
         setName('');
         setSlug('');
-        // setIsActive(0);
         setEditId('');
         setEditName('');
         setEditSlug('');
-        // setEditIsActive(0);
     };
 
-    // const handlePageClick = () => {};
+    const handleClose = () => {
+        setDeleteShow(false);
+        setCreateShow(false);
+        setEditShow(false);
+    };
+
+    const handleEditShow = () => setEditShow(true);
+    const handleDeleteShow = () => setDeleteShow(true);
+    const handleCreateShow = () => setCreateShow(true);
+
     return (
         <section className="section">
             <div className="section-header">
@@ -160,11 +176,7 @@ function Category() {
                         <div className="card">
                             <div className="card-header">
                                 <h4>All Categories</h4>
-
                                 <div className="section-header-button">
-                                    {/* <a href="/category/create" className="btn btn-primary">
-                                        Add New
-                                    </a> */}
                                     <button className="btn btn-primary" onClick={() => handleSave()}>
                                         Create
                                     </button>
@@ -210,53 +222,42 @@ function Category() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {data && data.length > 0
-                                                        ? data
-                                                              .filter((item) => {
-                                                                  return search.toLowerCase() === ''
-                                                                      ? item
-                                                                      : item.name.toLowerCase().includes(search);
-                                                              })
-                                                              .map((item, index) => {
-                                                                  return (
-                                                                      <tr key={item.id}>
-                                                                          <td>{index + 1}</td>
-                                                                          <td>{item.name}</td>
-                                                                          <td>{item.slug}</td>
-                                                                          <td colSpan={2}>
-                                                                              <button
-                                                                                  className="btn btn-primary"
-                                                                                  onClick={() => handleEdit(item.id)}
-                                                                              >
-                                                                                  Edit
-                                                                              </button>
-                                                                              &nbsp;
-                                                                              <button
-                                                                                  className="btn btn-danger"
-                                                                                  onClick={() => handleDelete(item.id)}
-                                                                              >
-                                                                                  Delete
-                                                                              </button>
-                                                                          </td>
-                                                                      </tr>
-                                                                  );
-                                                              })
-                                                        : 'Loading...'}
+                                                    {records.map((item, index) => (
+                                                        <tr key={item.id}>
+                                                            <td>{index + 1}</td>
+                                                            <td>{item.name}</td>
+                                                            <td>{item.slug}</td>
+                                                            <td colSpan={2}>
+                                                                <button
+                                                                    className="btn btn-primary"
+                                                                    onClick={() => handleEdit(item.id)}
+                                                                >
+                                                                    Edit
+                                                                </button>
+                                                                &nbsp;
+                                                                <button
+                                                                    className="btn btn-danger"
+                                                                    onClick={() => handleDelete()}
+                                                                >
+                                                                    Delete
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
                                                 </tbody>
                                             </table>
                                         </div>
                                         <div className="float-right">
                                             <nav>
-                                                {/* <ul className="pagination">
-                                                    <li className="page-item disabled">
+                                                <ul className="pagination">
+                                                    <li className="page-item">
                                                         <a
                                                             className="page-link"
                                                             href="#"
                                                             aria-label="Previous"
                                                             onClick={prePage}
                                                         >
-                                                            <span aria-hidden="true">«</span>
-                                                            <span className="sr-only">Previous</span>
+                                                            «
                                                         </a>
                                                     </li>
 
@@ -281,30 +282,11 @@ function Category() {
                                                             aria-label="Next"
                                                             onClick={nextPage}
                                                         >
-                                                            <span aria-hidden="true">»</span>
-                                                            <span className="sr-only">Next</span>
+                                                            »
                                                         </a>
                                                     </li>
-                                                </ul> */}
+                                                </ul>
                                             </nav>
-                                            {/* <ReactPaginate
-                                                breakLabel="..."
-                                                nextLabel="next >"
-                                                onPageChange={handlePageClick}
-                                                pageRangeDisplayed={5}
-                                                pageCount={totalPage}
-                                                previousLabel="< previous"
-                                                pageClassName="page-item"
-                                                pageLinkClassName="page-item"
-                                                previousClassName="page-item"
-                                                previousLinkClassName="page-item" 
-                                                nextClassName="page-item"
-                                                nextLinkClassName="page-item"
-                                                breakClassName="page-item"
-                                                breakLinkClassName="page-item"
-                                                containerClassName="page-item"
-                                                containerLinkClassName="page-item"
-                                            /> */}
                                         </div>
                                     </>
                                 )}
@@ -335,7 +317,7 @@ function Category() {
                                     className="form-control"
                                     placeholder="Enter Slug"
                                     value={slug}
-                                    onChange={(e) => setName(e.target.value)}
+                                    onChange={(e) => setSlug(e.target.value)}
                                 />
                             </Col>
                         </Row>
@@ -364,7 +346,7 @@ function Category() {
                                     className="form-control"
                                     placeholder="Enter Name"
                                     value={editName}
-                                    onChange={(e) => setEditSlug(e.target.value)}
+                                    onChange={(e) => setEditName(e.target.value)}
                                 />
                             </Col>
                             <Col>
@@ -398,7 +380,7 @@ function Category() {
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
                     </Button>
-                    <Button variant="danger" onClick={handleDelete}>
+                    <Button variant="danger" onClick={handleDeleteConfirm}>
                         Delete
                     </Button>
                 </Modal.Footer>
@@ -408,17 +390,5 @@ function Category() {
         </section>
     );
 }
-// function prePage() {
-//     if (currentPage !== 1) {
-//         setCurrentPage(currentPage - 1);
-//     }
-// }
-// function changeCPage(id) {
-//     setCurrentPage(id);
-// }
-// function nextPage() {
-//     if (currentPage !== npage) {
-//         setCurrentPage(currentPage + 1);
-//     }
-// }
+
 export default Category;
