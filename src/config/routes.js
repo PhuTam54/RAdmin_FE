@@ -12,7 +12,13 @@ const routes = {
     resetpassword: '/resetpassword',
 
     invoice: '/invoice',
-    //      Product
+
+    //      Shops
+    
+    // Category
+    category: '/category',
+    createCategory: '/category/create',
+    // Product
     product: '/product',
     createProduct: '/product/create',
 
