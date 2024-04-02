@@ -109,8 +109,8 @@ function SidebarAdmin() {
                                 </li>
 
                                 <li>
-                                    <a className="nav-link" href="/shop">
-                                        Shop
+                                    <a className="nav-link" href="/shops">
+                                        Shops
                                     </a>
                                 </li>
                             </ul>

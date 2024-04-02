@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import images from '~/assets/img/';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 function Register() {

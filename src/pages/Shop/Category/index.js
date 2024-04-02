@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Table, Modal, Button, Container, Row, Col } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Search from '~/layouts/components/Admin/Search';
+import Pagination from '~/layouts/components/Admin/Pagination';
+import { getCategoryData, createCategory, editCategoryData, updateCategory, deleteCategory } from '~/services/categoryService';
 
 function Category() {
     const [loading, setLoading] = useState(true);
@@ -15,6 +17,7 @@ function Category() {
     const [editName, setEditName] = useState('');
     const [editSlug, setEditSlug] = useState('');
     const [data, setData] = useState([]);
+    const [deleteId, setDeleteId] = useState('');
 
     //search
     const [search, setSearch] = useState('');
@@ -47,16 +50,16 @@ function Category() {
         }
     }
 
+    // Call Api
     useEffect(() => {
         getData();
     }, []);
 
     const getData = () => {
-        axios
-            .get(`https://localhost:7168/api/v1/Categories`)
-            .then((response) => {
-                setData(response.data);
-                setSearchedData(response.data);
+        getCategoryData()
+            .then((data) => {
+                setData(data);
+                setSearchedData(data);
                 setLoading(false);
             })
             .catch((error) => {
@@ -65,11 +68,29 @@ function Category() {
             });
     };
 
+    const handleSave = () => {
+        handleCreateShow();
+    };
+
+    const handleSaveConfirm = () => {
+        if (name) {
+            createCategory(name, slug)
+                .then(() => {
+                    getData();
+                    clear();
+                    handleClose();
+                    toast.success('Category has been created');
+                })
+                .catch((error) => {
+                    toast.error('Failed to create category', error);
+                });
+        }
+    };
+
     const handleEdit = (id) => {
         handleEditShow();
-        axios
-            .get(`https://localhost:7168/api/v1/Categories/${id}`)
-            .then(({ data }) => {
+        editCategoryData(id)
+            .then((data) => {
                 setEditId(id);
                 setEditName(data.name);
                 setEditSlug(data.slug);
@@ -78,13 +99,7 @@ function Category() {
     };
 
     const handleUpdate = () => {
-        const url = `https://localhost:7168/api/v1/Categories/${editId}`;
-        const updatedData = {
-            name: editName,
-            slug: editSlug,
-        };
-        axios
-            .put(url, updatedData)
+        updateCategory(editId, editName, editSlug)
             .then(() => {
                 handleClose();
                 getData();
@@ -96,48 +111,21 @@ function Category() {
             });
     };
 
-    const handleDelete = () => {
+    const handleDelete = (id) => {
+        setDeleteId(id);
         handleDeleteShow();
     };
 
-    const handleDeleteConfirm = (id) => {
-        axios
-            .delete(`https://localhost:7168/api/v1/Categories/${id}`)
-            .then((response) => {
-                if (response.status === 200) {
-                    toast.success('Category has been deleted');
-                    getData();
-                    handleClose();
-                }
+    const handleDeleteConfirm = async () => {
+        deleteCategory(deleteId)
+            .then(() => {
+                toast.success('Category has been deleted');
+                handleClose();
+                getData();
             })
             .catch((error) => {
                 toast.error('Failed to delete category', error);
-                handleClose();
             });
-    };
-
-    const handleSave = () => {
-        handleCreateShow();
-    };
-    const handleSaveConfirm = () => {
-        if (name) {
-            const url = 'https://localhost:7168/api/v1/Categories';
-            const newData = {
-                name: name,
-                slug: slug,
-            };
-            axios
-                .post(url, newData)
-                .then(() => {
-                    getData();
-                    clear();
-                    handleClose();
-                    toast.success('Category has been created');
-                })
-                .catch((error) => {
-                    toast.error('Failed to create category', error);
-                });
-        }
     };
 
     const clear = () => {
@@ -195,23 +183,7 @@ function Category() {
                                                 <option>Action For Selected</option>
                                             </select>
                                         </div>
-                                        <div className="float-right">
-                                            <form>
-                                                <div className="input-group">
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        placeholder="Search"
-                                                        onChange={(e) => setSearch(e.target.value)}
-                                                    />
-                                                    <div className="input-group-append">
-                                                        <button className="btn btn-primary">
-                                                            <i className="fas fa-search" />
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
+                                        <Search setSearch={setSearch} />
                                         <div className="clearfix mb-3" />
                                         <div className="table-responsive">
                                             <table className="table table-striped">
@@ -226,7 +198,7 @@ function Category() {
                                                 <tbody>
                                                     {records.map((item, index) => (
                                                         <tr key={item.id}>
-                                                            <td>{index + 1}</td>
+                                                            <td>{index + firstIndex + 1}</td>
                                                             <td>{item.name}</td>
                                                             <td>{item.slug}</td>
                                                             <td colSpan={2}>
@@ -239,7 +211,7 @@ function Category() {
                                                                 &nbsp;
                                                                 <button
                                                                     className="btn btn-danger"
-                                                                    onClick={() => handleDelete()}
+                                                                    onClick={() => handleDelete(item.id)}
                                                                 >
                                                                     Delete
                                                                 </button>
@@ -249,47 +221,13 @@ function Category() {
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div className="float-right">
-                                            <nav>
-                                                <ul className="pagination">
-                                                    <li className="page-item">
-                                                        <a
-                                                            className="page-link"
-                                                            href="#"
-                                                            aria-label="Previous"
-                                                            onClick={prePage}
-                                                        >
-                                                            «
-                                                        </a>
-                                                    </li>
-
-                                                    {numbers.map((n, i) => (
-                                                        <li
-                                                            className={`page-item ${currentPage === n ? 'active' : ''}`}
-                                                            key={i}
-                                                        >
-                                                            <a
-                                                                className="page-link"
-                                                                href="#"
-                                                                onClick={() => changeCPage(n)}
-                                                            >
-                                                                {n}
-                                                            </a>
-                                                        </li>
-                                                    ))}
-                                                    <li className="page-item">
-                                                        <a
-                                                            className="page-link"
-                                                            href="#"
-                                                            aria-label="Next"
-                                                            onClick={nextPage}
-                                                        >
-                                                            »
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                        </div>
+                                        <Pagination
+                                            prePage={prePage}
+                                            nextPage={nextPage}
+                                            changeCPage={changeCPage}
+                                            currentPage={currentPage}
+                                            numbers={numbers}
+                                        />
                                     </>
                                 )}
                             </div>
@@ -311,15 +249,6 @@ function Category() {
                                     placeholder="Enter Name"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                />
-                            </Col>
-                            <Col>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter Slug"
-                                    value={slug}
-                                    onChange={(e) => setSlug(e.target.value)}
                                 />
                             </Col>
                         </Row>
@@ -349,15 +278,6 @@ function Category() {
                                     placeholder="Enter Name"
                                     value={editName}
                                     onChange={(e) => setEditName(e.target.value)}
-                                />
-                            </Col>
-                            <Col>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter Slug"
-                                    value={editSlug}
-                                    onChange={(e) => setEditSlug(e.target.value)}
                                 />
                             </Col>
                         </Row>

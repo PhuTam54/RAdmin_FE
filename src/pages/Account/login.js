@@ -1,9 +1,24 @@
-import images from '~/assets/img/';
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import images from '~/assets/img/';
+
+const axiosInstance = axios.create();
+
+axiosInstance.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    },
+);
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -11,14 +26,14 @@ function Login() {
     const navigate = useNavigate();
 
     const handleLogin = async (event) => {
-        event.preventDefault(); // Ngăn chặn hành vi mặc định của form
+        event.preventDefault();
         if (!email || !password) {
             toast.error('Email/Password is required!');
             return;
         }
 
         try {
-            const response = await axios.post('https://localhost:7168/api/v1/LoginRegister/Login', {
+            const response = await axiosInstance.post('https://localhost:7168/api/v1/LoginRegister/Login', {
                 email: email,
                 password: password,
             });
@@ -53,43 +68,36 @@ function Login() {
                             </div>
                             <div className="card-body">
                                 <form onSubmit={handleLogin}>
-                                    {' '}
-                                    {/* Thêm onSubmit để xử lý sự kiện submit của form */}
                                     <div className="form-group">
                                         <label htmlFor="email">Email</label>
                                         <input
-                                            id="email"
                                             type="email"
                                             className="form-control"
                                             name="email"
                                             tabIndex={1}
                                             value={email}
                                             onChange={(event) => setEmail(event.target.value)}
+                                            required
                                         />
                                         <div className="invalid-feedback">Please fill in your email</div>
                                     </div>
                                     <div className="form-group">
-                                        <div className="d-block">
-                                            <label htmlFor="password" className="control-label">
-                                                Password
-                                            </label>
-                                            <div className="float-right">
-                                                <a href="/forgotpassword" className="text-small">
-                                                    Forgot Password?
-                                                </a>
-                                            </div>
-                                        </div>
+                                        <label htmlFor="password">Password</label>
                                         <input
-                                            id="password"
                                             type="password"
                                             className="form-control"
                                             name="password"
                                             tabIndex={2}
-                                            required=""
                                             value={password}
                                             onChange={(event) => setPassword(event.target.value)}
+                                            required
                                         />
                                         <div className="invalid-feedback">please fill in your password</div>
+                                        <div className="float-right">
+                                            <Link to="/forgotpassword" className="text-small">
+                                                Forgot Password?
+                                            </Link>
+                                        </div>
                                     </div>
                                     <div className="form-group">
                                         <div className="custom-control custom-checkbox">
@@ -108,11 +116,9 @@ function Login() {
                                     <div className="form-group">
                                         <button
                                             type="submit"
-                                            className={
-                                                email && password
-                                                    ? 'active btn btn-primary btn-lg btn-block'
-                                                    : 'btn btn-primary btn-lg btn-block'
-                                            }
+                                            className={`btn btn-primary btn-lg btn-block ${
+                                                email && password ? 'active' : ''
+                                            }`}
                                             tabIndex={4}
                                         >
                                             Login
@@ -123,7 +129,7 @@ function Login() {
                                     <div className="text-job text-muted">Login With Social</div>
                                 </div>
                                 <div className="mt-5 text-muted text-center">
-                                    Don't have an account? <a href="/register">Create One</a>
+                                    Don't have an account? <Link to="/register">Create One</Link>
                                 </div>
                             </div>
                         </div>

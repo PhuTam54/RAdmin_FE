@@ -13,14 +13,13 @@ const routes = {
 
     invoice: '/invoice',
 
-    //      Shops
-    
-    // Category
+    //      Shop
     category: '/category',
-    createCategory: '/category/create',
-    // Product
     product: '/product',
-    createProduct: '/product/create',
+    floors: '/floors',
+    shops: '/shops',
+    createShops: '/createShops',
+    editShops: '/editShops',
 
     //      Booking
     booking: '/booking',
