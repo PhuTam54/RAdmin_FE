@@ -1,21 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Table, Modal, Button, Container, Row, Col } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Search from '~/layouts/components/Admin/Search';
+import Pagination from '~/layouts/components/Admin/Pagination';
+import { getShopsData, createShops, editShopsData, updateShops, deleteShops } from '~/services/shopService';
 
 function Shops() {
     const [loading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
     const [editShow, setEditShow] = useState(false);
     const [deleteShow, setDeleteShow] = useState(false);
     const [createShow, setCreateShow] = useState(false);
+    const [floosId, setFloosId] = useState('');
+    const [categoryId, setCategoryId] = useState('');
     const [name, setName] = useState('');
-    const [slug, setSlug] = useState('');
+    const [image, setImg] = useState('');
+    const [address, setAddress] = useState('');
+    const [phone, setPhone] = useState('');
+    const [description, setDescription] = useState('');
     const [editId, setEditId] = useState('');
+    const [editCategoryId, setEditCategoryId] = useState('');
+    const [editFloosId, setEditFloosId] = useState('');
     const [editName, setEditName] = useState('');
-    const [editSlug, setEditSlug] = useState('');
-    const [data, setData] = useState([]);
+    const [editImg, setEditImage] = useState('');
+    const [editAddress, setEditAddress] = useState('');
+    const [editPhone, setEditPhone] = useState('');
+    const [editDescription, setEditDescription] = useState('');
+    const [deleteId, setDeleteId] = useState('');
 
+    // id: 2,
+    // name: 'Adidas',
+    // image: 'Adidas/img',
+    // address: '18A',
+    // phone_Number: '0987654321',
+    // description: 'Adidasin you area',
     //search
     const [search, setSearch] = useState('');
     const [searchedData, setSearchedData] = useState([]);
@@ -47,17 +66,16 @@ function Shops() {
         }
     }
 
+    // Call Api
     useEffect(() => {
         getData();
     }, []);
 
     const getData = () => {
-
-        axios
-            .get(`https://localhost:7168/api/v1/Shops`)
-            .then((response) => {
-                setData(response.data);
-                setSearchedData(response.data);
+        getShopsData()
+            .then((data) => {
+                setData(data);
+                setSearchedData(data);
                 setLoading(false);
             })
             .catch((error) => {
@@ -66,29 +84,40 @@ function Shops() {
             });
     };
 
+    const handleSave = () => {
+        handleCreateShow();
+    };
+
+    const handleSaveConfirm = () => {
+        createShops(floosId, categoryId, name, image, address, phone, description)
+            .then(() => {
+                getData();
+                clear();
+                handleClose();
+                toast.success('Shops has been created');
+            })
+            .catch((error) => {
+                toast.error('Failed to create Shops', error);
+            });
+    };
+
     const handleEdit = (id) => {
         handleEditShow();
-        axios
-            .get(`https://localhost:7168/api/v1/Shops/${id}`)
-            .then(({ data }) => {
+        editShopsData(id)
+            .then((data) => {
                 setEditId(id);
+                setEditFloosId(data.floosId);
+                setEditCategoryId(data.categoryId);
                 setEditName(data.name);
-                setEditSlug(data.slug);
+                setEditImage(data.image);
+                setEditPhone(data.phone);
+                setEditAddress(data.address);
             })
             .catch((error) => console.error('Error fetching Shops data:', error));
     };
 
     const handleUpdate = () => {
-        const url = `https://localhost:7168/api/v1/Shops/${editId}`;
-        const updatedData = {
-            name: 'string',
-            image: 'string',
-            address: 'string',
-            phone_Number: 'string',
-            description: 'string',
-        };
-        axios
-            .put(url, updatedData)
+        updateShops(editId, editFloosId, editCategoryId, editName, editImg, editPhone, editAddress, editDescription)
             .then(() => {
                 handleClose();
                 getData();
@@ -100,59 +129,39 @@ function Shops() {
             });
     };
 
-    const handleDelete = () => {
+    const handleDelete = (id) => {
+        setDeleteId(id);
         handleDeleteShow();
     };
 
-    const handleDeleteConfirm = (id) => {
-        axios
-            .delete(`https://localhost:7168/api/v1/Shops/${id}`)
-            .then((response) => {
-                if (response.status === 200) {
-                    toast.success('Shops has been deleted');
-                    getData();
-                    handleClose();
-                }
+    const handleDeleteConfirm = async () => {
+        deleteShops(deleteId)
+            .then(() => {
+                toast.success('Shops has been deleted');
+                handleClose();
+                getData();
             })
             .catch((error) => {
                 toast.error('Failed to delete Shops', error);
-                handleClose();
             });
     };
 
-    const handleSave = () => {
-        handleCreateShow();
-    };
-    const handleSaveConfirm = () => {
-        if (name) {
-            const url = 'https://localhost:7168/api/v1/Shops';
-            const newData = {
-                name: 'string',
-                image: 'string',
-                address: 'string',
-                phone_Number: 'string',
-                description: 'string',
-            };
-            axios
-                .post(url, newData)
-                .then(() => {
-                    getData();
-                    clear();
-                    handleClose();
-                    toast.success('Shops has been created');
-                })
-                .catch((error) => {
-                    toast.error('Failed to create Shops', error);
-                });
-        }
-    };
-
     const clear = () => {
+        setFloosId('');
+        setCategoryId('');
         setName('');
-        setSlug('');
+        setImg('');
+        setAddress('');
+        setPhone('');
+        setDescription('');
         setEditId('');
+        setEditFloosId('');
+        setEditCategoryId('');
         setEditName('');
-        setEditSlug('');
+        setEditAddress('');
+        setEditImage('');
+        setEditPhone('');
+        setEditDescription('');
     };
 
     const handleClose = () => {
@@ -169,6 +178,11 @@ function Shops() {
         <section className="section">
             <div className="section-header">
                 <h1>Shops</h1>
+                <div className="section-header-button">
+                    <a href="/createshops" className="btn btn-primary">
+                        Add New
+                    </a>
+                </div>
                 <div className="section-header-breadcrumb">
                     <div className="breadcrumb-item active">
                         <a href="#">Dashboard</a>
@@ -185,11 +199,11 @@ function Shops() {
                         <div className="card">
                             <div className="card-header">
                                 <h4>All Shops</h4>
-                                <div className="section-header-button">
+                                {/* <div className="section-header-button">
                                     <button className="btn btn-primary" onClick={() => handleSave()}>
                                         Create
                                     </button>
-                                </div>
+                                </div> */}
                             </div>
 
                             <div className="card-body">
@@ -202,40 +216,34 @@ function Shops() {
                                                 <option>Action For Selected</option>
                                             </select>
                                         </div>
-                                        <div className="float-right">
-                                            <form>
-                                                <div className="input-group">
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        placeholder="Search"
-                                                        onChange={(e) => setSearch(e.target.value)}
-                                                    />
-                                                    <div className="input-group-append">
-                                                        <button className="btn btn-primary">
-                                                            <i className="fas fa-search" />
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
+                                        <Search setSearch={setSearch} />
                                         <div className="clearfix mb-3" />
                                         <div className="table-responsive">
                                             <table className="table table-striped">
                                                 <thead>
                                                     <tr>
                                                         <th>Id</th>
+                                                        <th>Floors Id</th>
+                                                        <th>Category Id</th>
                                                         <th>Name</th>
-                                                        <th>Slug</th>
+                                                        <th>Img</th>
+                                                        <th>Phone</th>
+                                                        <th>Address</th>
+                                                        <th>Description</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     {records.map((item, index) => (
                                                         <tr key={item.id}>
-                                                            <td>{index + 1}</td>
+                                                            <td>{index + firstIndex + 1}</td>
+                                                            <td>{item.floosId}</td>
+                                                            <td>{item.categoryId}</td>
                                                             <td>{item.name}</td>
-                                                            <td>{item.slug}</td>
+                                                            <td>{item.image}</td>
+                                                            <td>{item.phone_Number}</td>
+                                                            <td>{item.address}</td>
+                                                            <td>{item.description}</td>
                                                             <td colSpan={2}>
                                                                 <button
                                                                     className="btn btn-primary"
@@ -246,7 +254,7 @@ function Shops() {
                                                                 &nbsp;
                                                                 <button
                                                                     className="btn btn-danger"
-                                                                    onClick={() => handleDelete()}
+                                                                    onClick={() => handleDelete(item.id)}
                                                                 >
                                                                     Delete
                                                                 </button>
@@ -256,47 +264,13 @@ function Shops() {
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div className="float-right">
-                                            <nav>
-                                                <ul className="pagination">
-                                                    <li className="page-item">
-                                                        <a
-                                                            className="page-link"
-                                                            href="#"
-                                                            aria-label="Previous"
-                                                            onClick={prePage}
-                                                        >
-                                                            «
-                                                        </a>
-                                                    </li>
-
-                                                    {numbers.map((n, i) => (
-                                                        <li
-                                                            className={`page-item ${currentPage === n ? 'active' : ''}`}
-                                                            key={i}
-                                                        >
-                                                            <a
-                                                                className="page-link"
-                                                                href="#"
-                                                                onClick={() => changeCPage(n)}
-                                                            >
-                                                                {n}
-                                                            </a>
-                                                        </li>
-                                                    ))}
-                                                    <li className="page-item">
-                                                        <a
-                                                            className="page-link"
-                                                            href="#"
-                                                            aria-label="Next"
-                                                            onClick={nextPage}
-                                                        >
-                                                            »
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                        </div>
+                                        <Pagination
+                                            prePage={prePage}
+                                            nextPage={nextPage}
+                                            changeCPage={changeCPage}
+                                            currentPage={currentPage}
+                                            numbers={numbers}
+                                        />
                                     </>
                                 )}
                             </div>
@@ -304,7 +278,7 @@ function Shops() {
                     </div>
                 </div>
             </div>
-            <Modal show={createShow} onHide={handleClose}>
+            {/* <Modal show={createShow} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Create Shops</Modal.Title>
                 </Modal.Header>
@@ -320,6 +294,42 @@ function Shops() {
                                     onChange={(e) => setName(e.target.value)}
                                 />
                             </Col>
+                            <Col>
+                                <input
+                                    id="fileInput"
+                                    type="file"
+                                    className="form-control"
+                                    value={image}
+                                    onChange={(e) => setImg(e.target.value)}
+                                />
+                            </Col>
+                            <Col>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Name"
+                                    value={address}
+                                    onChange={(e) => setAddress(e.target.value)}
+                                />
+                            </Col>
+                            <Col>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Name"
+                                    value={phone_Number}
+                                    onChange={(e) => setPhone(e.target.value)}
+                                />
+                            </Col>
+                            <Col>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Name"
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                />
+                            </Col>
                         </Row>
                     </Container>
                 </Modal.Body>
@@ -331,7 +341,7 @@ function Shops() {
                         Create
                     </Button>
                 </Modal.Footer>
-            </Modal>
+            </Modal> */}
 
             <Modal show={editShow} onHide={handleClose}>
                 <Modal.Header closeButton>

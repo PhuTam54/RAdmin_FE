@@ -1,4 +1,5 @@
 const routes = {
+
     admin: '/',
     chart: '/chart',
 
@@ -16,7 +17,9 @@ const routes = {
     category: '/category',
     product: '/product',
     floors: '/floors',
-
+    shops: '/shops',
+    createShops: '/createShops',
+    editShops: '/editShops',
 
     //      Booking
     booking: '/booking',
@@ -33,6 +36,7 @@ const routes = {
     //      Users
     users: '/users',
     createUsers: '/users/create',
+
 };
 
 export default routes;

@@ -21,6 +21,9 @@ import Invoice from '~/pages/Magager/Invoice';
 import Category from '~/pages/Shop/Category/index';
 import Product from '~/pages/Shop/Product/index';
 import Floors from '~/pages/Shop/Floors/index';
+import Shops from '~/pages/Shop/Shop/index';
+import CreateShops from '~/pages/Shop/Shop/create';
+import EditShops from '~/pages/Shop/Shop/edit';
 
 //      Booking
 import Booking from '~/pages/Magager/Booking/index';
@@ -60,12 +63,12 @@ export const publicRoutes = [
     { path: config.routes.category, component: Category, layout: AdminLayout },
     { path: config.routes.product, component: Product, layout: AdminLayout },
     { path: config.routes.floors, component: Floors, layout: AdminLayout },
-
-    // { path: config.routes.createProduct, component: CreateProduct, layout: AdminLayout },
+    { path: config.routes.shops, component: Shops, layout: AdminLayout },
+    { path: config.routes.createShops, component: CreateShops, layout: AdminLayout },
+    { path: config.routes.editShops, component: EditShops, layout: AdminLayout },
 
     //      Booking
     { path: config.routes.booking, component: Booking, layout: AdminLayout },
-    // { path: config.routes.createBooking, component: CreateBooking, layout: AdminLayout },
     { path: config.routes.users, component: User, layout: AdminLayout },
 
     // //      Movie

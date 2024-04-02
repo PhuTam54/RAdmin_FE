@@ -2,38 +2,53 @@ import {React, useState, useEffect } from 'react';
 import { Table, Modal, Button, Container, Row, Col } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { createShops } from '~/services/shopService';
+import { editShopsData,updateShops } from '~/services/shopService';
 
-function CreateShops() {
-    const [floosId, setFloosId] = useState('');
-    const [categoryId, setCategoryId] = useState('');
-    const [name, setName] = useState('');
-    const [image, setImg] = useState('');
-    const [address, setAddress] = useState('');
-    const [phone, setPhone] = useState('');
-    const [description, setDescription] = useState('');
+function EditShops() {
+    const [editId, setEditId] = useState('');
+    const [editCategoryId, setEditCategoryId] = useState('');
+    const [editFloosId, setEditFloosId] = useState('');
+    const [editName, setEditName] = useState('');
+    const [editImg, setEditImage] = useState('');
+    const [editAddress, setEditAddress] = useState('');
+    const [editPhone, setEditPhone] = useState('');
+    const [editDescription, setEditDescription] = useState('');
 
-    const handleCreate = () => {
-        createShops(floosId, categoryId, name, image, address, phone, description)
+    const handleEdit = (id) => {
+        editShopsData(id)
+            .then((data) => {
+                setEditId(id);
+                setEditFloosId(data.floosId);
+                setEditCategoryId(data.categoryId);
+                setEditName(data.name);
+                setEditImage(data.image);
+                setEditPhone(data.phone);
+                setEditAddress(data.address);
+            })
+            .catch((error) => console.error('Error fetching Shops data:', error));
+    };
+    const handleUpdate = () => {
+        updateShops(editId, editFloosId, editCategoryId, editName, editImg, editPhone, editAddress, editDescription)
             .then(() => {
                 // getData();
                 clear();
-                toast.success('Shops has been created');
+                toast.success('Shops has been updated');
             })
             .catch((error) => {
-                toast.error('Failed to create Shops', error);
+                toast.error('Failed to update Shops', error);
             });
     };
-
     const clear = () => {
-        setFloosId('');
-        setCategoryId('');
-        setName('');
-        setImg('');
-        setAddress('');
-        setPhone('');
-        setDescription('');
+        setEditId('');
+        setEditFloosId('');
+        setEditCategoryId('');
+        setEditName('');
+        setEditAddress('');
+        setEditImage('');
+        setEditPhone('');
+        setEditDescription('');
     };
+
     return (
         <section className="section">
             <div className="section-header">
@@ -143,4 +158,4 @@ function CreateShops() {
     );
 }
 
-export default CreateShops;
+export default EditShops;

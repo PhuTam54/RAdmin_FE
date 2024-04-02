@@ -1,26 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Table, Modal, Button, Container, Row, Col } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Search from '~/layouts/components/Admin/Search';
+import Pagination from '~/layouts/components/Admin/Pagination';
+import { getFloorsData, createFloors, editFloorsData, updateFloors, deleteFloors } from '~/services/floorService';
 
 function Floors() {
-    const axiosInstance = axios.create();
-
-    axiosInstance.interceptors.request.use(
-        (config) => {
-            const token = localStorage.getItem('token');
-            console.log(token);
-            if (token) {
-                config.headers.Authorization = `Bearer ${token}`;
-            }
-            return config;
-        },
-        (error) => {
-            return Promise.reject(error);
-        },
-    );
-
     const [loading, setLoading] = useState(true);
     const [editShow, setEditShow] = useState(false);
     const [deleteShow, setDeleteShow] = useState(false);
@@ -29,6 +15,7 @@ function Floors() {
     const [editId, setEditId] = useState('');
     const [editNumber, setEditNumber] = useState('');
     const [data, setData] = useState([]);
+    const [deleteId, setDeleteId] = useState('');
 
     //search
     const [search, setSearch] = useState('');
@@ -61,17 +48,16 @@ function Floors() {
         }
     }
 
+    // Call Api
     useEffect(() => {
         getData();
-        
     }, []);
 
     const getData = () => {
-        axiosInstance
-            .get(`https://localhost:7168/api/v1/Floors`)
-            .then((response) => {
-                setData(response.data);
-                setSearchedData(response.data);
+        getFloorsData()
+            .then((data) => {
+                setData(data);
+                setSearchedData(data);
                 setLoading(false);
             })
             .catch((error) => {
@@ -80,11 +66,27 @@ function Floors() {
             });
     };
 
+    const handleSave = () => {
+        handleCreateShow();
+    };
+
+    const handleSaveConfirm = () => {
+        createFloors(number)
+            .then(() => {
+                getData();
+                clear();
+                handleClose();
+                toast.success('Floors has been created');
+            })
+            .catch((error) => {
+                toast.error('Failed to create Floors', error);
+            });
+    };
+
     const handleEdit = (id) => {
         handleEditShow();
-        axiosInstance
-            .get(`https://localhost:7168/api/v1/Floors/id/${id}`)
-            .then(({ data }) => {
+        editFloorsData(id)
+            .then((data) => {
                 setEditId(id);
                 setEditNumber(data.number);
             })
@@ -92,13 +94,7 @@ function Floors() {
     };
 
     const handleUpdate = () => {
-        const url = `https://localhost:7168/api/v1/Floors/id/${editId}`;
-        const updatedData = {
-            id: editId,
-            number: editNumber,
-        };
-        axiosInstance
-            .put(url, updatedData)
+        updateFloors(editId, editNumber)
             .then(() => {
                 handleClose();
                 getData();
@@ -106,52 +102,25 @@ function Floors() {
                 toast.success('Floors has been updated');
             })
             .catch((error) => {
-                console.error('Failed to update Floors:', error);
-                toast.error('Failed to update Floors. Please try again later.');
+                toast.error('Failed to update Floors', error);
             });
     };
 
-    const handleDelete = () => {
+    const handleDelete = (id) => {
+        setDeleteId(id);
         handleDeleteShow();
     };
 
-    const handleDeleteConfirm = async (id) => {
-        if (window.confirm('delete') === true) {
-            axiosInstance
-                .delete(`https://localhost:7168/api/v1/Floors/id?id=${id}`)
-                .then((result) => {
-                    if (result.status === 200) {
-                        toast.success('delete success');
-                        getData();
-                    }
-                })
-                .catch((error) => {
-                    toast.error('delete failde');
-                });
-        }
-    };
-
-    const handleSave = () => {
-        handleCreateShow();
-    };
-    const handleSaveConfirm = () => {
-        if (number) {
-            const url = 'https://localhost:7168/api/v1/Floors';
-            const newData = {
-                number: number,
-            };
-            axiosInstance
-                .post(url, newData)
-                .then(() => {
-                    getData();
-                    clear();
-                    handleClose();
-                    toast.success('Floors has been created');
-                })
-                .catch((error) => {
-                    toast.error('Failed to create Floors', error);
-                });
-        }
+    const handleDeleteConfirm = async () => {
+        deleteFloors(deleteId)
+            .then(() => {
+                toast.success('Floors has been deleted');
+                handleClose();
+                getData();
+            })
+            .catch((error) => {
+                toast.error('Failed to delete Floors', error);
+            });
     };
 
     const clear = () => {
@@ -207,30 +176,14 @@ function Floors() {
                                                 <option>Action For Selected</option>
                                             </select>
                                         </div>
-                                        <div className="float-right">
-                                            <form>
-                                                <div className="input-group">
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        placeholder="Search"
-                                                        onChange={(e) => setSearch(e.target.value)}
-                                                    />
-                                                    <div className="input-group-append">
-                                                        <button className="btn btn-primary">
-                                                            <i className="fas fa-search" />
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
+                                        <Search setSearch={setSearch} />
                                         <div className="clearfix mb-3" />
                                         <div className="table-responsive">
                                             <table className="table table-striped">
                                                 <thead>
                                                     <tr>
                                                         <th>Id</th>
-                                                        <th>Number</th>
+                                                        <th>Name</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -249,7 +202,7 @@ function Floors() {
                                                                 &nbsp;
                                                                 <button
                                                                     className="btn btn-danger"
-                                                                    onClick={() => handleDeleteConfirm(item.id)}
+                                                                    onClick={() => handleDelete(item.id)}
                                                                 >
                                                                     Delete
                                                                 </button>
@@ -259,47 +212,13 @@ function Floors() {
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div className="float-right">
-                                            <nav>
-                                                <ul className="pagination">
-                                                    <li className="page-item">
-                                                        <a
-                                                            className="page-link"
-                                                            href="#"
-                                                            aria-label="Previous"
-                                                            onClick={prePage}
-                                                        >
-                                                            «
-                                                        </a>
-                                                    </li>
-
-                                                    {numbers.map((n, i) => (
-                                                        <li
-                                                            className={`page-item ${currentPage === n ? 'active' : ''}`}
-                                                            key={i}
-                                                        >
-                                                            <a
-                                                                className="page-link"
-                                                                href="#"
-                                                                onClick={() => changeCPage(n)}
-                                                            >
-                                                                {n}
-                                                            </a>
-                                                        </li>
-                                                    ))}
-                                                    <li className="page-item">
-                                                        <a
-                                                            className="page-link"
-                                                            href="#"
-                                                            aria-label="Next"
-                                                            onClick={nextPage}
-                                                        >
-                                                            »
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                        </div>
+                                        <Pagination
+                                            prePage={prePage}
+                                            nextPage={nextPage}
+                                            changeCPage={changeCPage}
+                                            currentPage={currentPage}
+                                            numbers={numbers}
+                                        />
                                     </>
                                 )}
                             </div>
@@ -318,7 +237,7 @@ function Floors() {
                                 <input
                                     type="text"
                                     className="form-control"
-                                    placeholder="Enter number"
+                                    placeholder="Enter Name"
                                     value={number}
                                     onChange={(e) => setNumber(e.target.value)}
                                 />
@@ -347,7 +266,7 @@ function Floors() {
                                 <input
                                     type="text"
                                     className="form-control"
-                                    placeholder="Enter Number"
+                                    placeholder="Enter Name"
                                     value={editNumber}
                                     onChange={(e) => setEditNumber(e.target.value)}
                                 />
