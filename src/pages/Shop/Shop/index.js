@@ -4,37 +4,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getShopsData, createShops, editShopsData, updateShops, deleteShops } from '~/services/shopService';
+import { getShopsData, deleteShops } from '~/services/shopService';
 
 function Shops() {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
-    const [editShow, setEditShow] = useState(false);
     const [deleteShow, setDeleteShow] = useState(false);
-    const [createShow, setCreateShow] = useState(false);
-    const [floosId, setFloosId] = useState('');
-    const [categoryId, setCategoryId] = useState('');
-    const [name, setName] = useState('');
-    const [image, setImg] = useState('');
-    const [address, setAddress] = useState('');
-    const [phone, setPhone] = useState('');
-    const [description, setDescription] = useState('');
-    const [editId, setEditId] = useState('');
-    const [editCategoryId, setEditCategoryId] = useState('');
-    const [editFloosId, setEditFloosId] = useState('');
-    const [editName, setEditName] = useState('');
-    const [editImg, setEditImage] = useState('');
-    const [editAddress, setEditAddress] = useState('');
-    const [editPhone, setEditPhone] = useState('');
-    const [editDescription, setEditDescription] = useState('');
     const [deleteId, setDeleteId] = useState('');
 
-    // id: 2,
-    // name: 'Adidas',
-    // image: 'Adidas/img',
-    // address: '18A',
-    // phone_Number: '0987654321',
-    // description: 'Adidasin you area',
     //search
     const [search, setSearch] = useState('');
     const [searchedData, setSearchedData] = useState([]);
@@ -84,51 +61,6 @@ function Shops() {
             });
     };
 
-    const handleSave = () => {
-        handleCreateShow();
-    };
-
-    const handleSaveConfirm = () => {
-        createShops(floosId, categoryId, name, image, address, phone, description)
-            .then(() => {
-                getData();
-                clear();
-                handleClose();
-                toast.success('Shops has been created');
-            })
-            .catch((error) => {
-                toast.error('Failed to create Shops', error);
-            });
-    };
-
-    const handleEdit = (id) => {
-        handleEditShow();
-        editShopsData(id)
-            .then((data) => {
-                setEditId(id);
-                setEditFloosId(data.floosId);
-                setEditCategoryId(data.categoryId);
-                setEditName(data.name);
-                setEditImage(data.image);
-                setEditPhone(data.phone);
-                setEditAddress(data.address);
-            })
-            .catch((error) => console.error('Error fetching Shops data:', error));
-    };
-
-    const handleUpdate = () => {
-        updateShops(editId, editFloosId, editCategoryId, editName, editImg, editPhone, editAddress, editDescription)
-            .then(() => {
-                handleClose();
-                getData();
-                clear();
-                toast.success('Shops has been updated');
-            })
-            .catch((error) => {
-                toast.error('Failed to update Shops', error);
-            });
-    };
-
     const handleDelete = (id) => {
         setDeleteId(id);
         handleDeleteShow();
@@ -146,33 +78,11 @@ function Shops() {
             });
     };
 
-    const clear = () => {
-        setFloosId('');
-        setCategoryId('');
-        setName('');
-        setImg('');
-        setAddress('');
-        setPhone('');
-        setDescription('');
-        setEditId('');
-        setEditFloosId('');
-        setEditCategoryId('');
-        setEditName('');
-        setEditAddress('');
-        setEditImage('');
-        setEditPhone('');
-        setEditDescription('');
-    };
-
     const handleClose = () => {
         setDeleteShow(false);
-        setCreateShow(false);
-        setEditShow(false);
     };
 
-    const handleEditShow = () => setEditShow(true);
     const handleDeleteShow = () => setDeleteShow(true);
-    const handleCreateShow = () => setCreateShow(true);
 
     return (
         <section className="section">
@@ -199,11 +109,6 @@ function Shops() {
                         <div className="card">
                             <div className="card-header">
                                 <h4>All Shops</h4>
-                                {/* <div className="section-header-button">
-                                    <button className="btn btn-primary" onClick={() => handleSave()}>
-                                        Create
-                                    </button>
-                                </div> */}
                             </div>
 
                             <div className="card-body">
@@ -237,20 +142,26 @@ function Shops() {
                                                     {records.map((item, index) => (
                                                         <tr key={item.id}>
                                                             <td>{index + firstIndex + 1}</td>
-                                                            <td>{item.floosId}</td>
-                                                            <td>{item.categoryId}</td>
+                                                            <td>{item.floor_Id}</td>
+                                                            <td>{item.category_Id}</td>
                                                             <td>{item.name}</td>
-                                                            <td>{item.image}</td>
+                                                            <td>
+                                                                <img
+                                                                    src={'https://localhost:7168/api/v1/Shops/'+item.image}
+                                                                    style={{ width: '100px', height: 'auto' }}
+                                                                    alt={item.image}
+                                                                />
+                                                            </td>
                                                             <td>{item.phone_Number}</td>
                                                             <td>{item.address}</td>
                                                             <td>{item.description}</td>
                                                             <td colSpan={2}>
-                                                                <button
+                                                                <a
+                                                                    href={`/shops/edit/${item.id}`}
                                                                     className="btn btn-primary"
-                                                                    onClick={() => handleEdit(item.id)}
                                                                 >
                                                                     Edit
-                                                                </button>
+                                                                </a>
                                                                 &nbsp;
                                                                 <button
                                                                     className="btn btn-danger"
@@ -278,99 +189,6 @@ function Shops() {
                     </div>
                 </div>
             </div>
-            {/* <Modal show={createShow} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Create Shops</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Container>
-                        <Row>
-                            <Col>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter Name"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                />
-                            </Col>
-                            <Col>
-                                <input
-                                    id="fileInput"
-                                    type="file"
-                                    className="form-control"
-                                    value={image}
-                                    onChange={(e) => setImg(e.target.value)}
-                                />
-                            </Col>
-                            <Col>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter Name"
-                                    value={address}
-                                    onChange={(e) => setAddress(e.target.value)}
-                                />
-                            </Col>
-                            <Col>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter Name"
-                                    value={phone_Number}
-                                    onChange={(e) => setPhone(e.target.value)}
-                                />
-                            </Col>
-                            <Col>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter Name"
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                />
-                            </Col>
-                        </Row>
-                    </Container>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleSaveConfirm}>
-                        Create
-                    </Button>
-                </Modal.Footer>
-            </Modal> */}
-
-            <Modal show={editShow} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Edit Shops</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Container>
-                        <Row>
-                            <Col>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter Name"
-                                    value={editName}
-                                    onChange={(e) => setEditName(e.target.value)}
-                                />
-                            </Col>
-                        </Row>
-                    </Container>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleUpdate}>
-                        Update
-                    </Button>
-                </Modal.Footer>
-            </Modal>
 
             <Modal show={deleteShow} onHide={handleClose}>
                 <Modal.Header closeButton>

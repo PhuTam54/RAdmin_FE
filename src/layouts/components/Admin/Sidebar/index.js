@@ -43,7 +43,7 @@ function SidebarAdmin() {
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="nav-link" href="/product">
+                                    <a className="nav-link" href="/movies">
                                         Movie
                                     </a>
                                 </li>

@@ -16,18 +16,20 @@ const routes = {
     //      Shop
     category: '/category',
     product: '/product',
+    createProduct: '/create/product',
+    editProduct: '/edit/product/:id',
     floors: '/floors',
     shops: '/shops',
     createShops: '/createShops',
-    editShops: '/editShops',
+    editShops: `/shops/edit/:id`,
 
     //      Booking
     booking: '/booking',
     createBooking: '/booking/create',
 
     //      Booking
-    movie: '/movie',
-    createMovie: '/movie/create',
+    movies: '/movies',
+    // createMovie: '/movie/create',
 
     //      Booking
     feedback: '/feedback',
