@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getProductData, deleteProduct } from '~/services/productService';
+import { getProductData, deleteProduct } from '~/services/Shop/productService';
 
 function Product() {
     const [loading, setLoading] = useState(true);
@@ -89,7 +89,7 @@ function Product() {
             <div className="section-header">
                 <h1>Product</h1>
                 <div className="section-header-button">
-                    <a href="/create/product" className="btn btn-primary">
+                    <a href="/product/create" className="btn btn-primary">
                         Add New
                     </a>
                 </div>
@@ -154,7 +154,7 @@ function Product() {
                                                             <td>{item.description}</td>
                                                             <td colSpan={2}>
                                                                 <a
-                                                                    href={`/edit/product/${item.id}`}
+                                                                    href={`/product/edit/${item.id}`}
                                                                     className="btn btn-primary"
                                                                 >
                                                                     Edit

@@ -4,16 +4,24 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getFloorsData, createFloors, editFloorsData, updateFloors, deleteFloors } from '~/services/Shop/floorService';
+import {
+    getGenres,
+    createGenres,
+    editGenres,
+    updateGenres,
+    deleteGenres,
+} from '~/services/Movies/genresService';
 
-function Floors() {
+function Genres() {
     const [loading, setLoading] = useState(true);
     const [editShow, setEditShow] = useState(false);
     const [deleteShow, setDeleteShow] = useState(false);
     const [createShow, setCreateShow] = useState(false);
-    const [number, setNumber] = useState('');
+    const [name, setName] = useState('');
+    const [slug, setSlug] = useState('');
     const [editId, setEditId] = useState('');
-    const [editNumber, setEditNumber] = useState('');
+    const [editName, setEditName] = useState('');
+    const [editSlug, setEditSlug] = useState('');
     const [data, setData] = useState([]);
     const [deleteId, setDeleteId] = useState('');
 
@@ -21,7 +29,7 @@ function Floors() {
     const [search, setSearch] = useState('');
     const [searchedData, setSearchedData] = useState([]);
     useEffect(() => {
-        const filteredData = data.filter((item) => item.number.toString().toLowerCase().includes(search.toLowerCase()));
+        const filteredData = data.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()));
         setSearchedData(filteredData);
     }, [search, data]);
 
@@ -54,7 +62,7 @@ function Floors() {
     }, []);
 
     const getData = () => {
-        getFloorsData()
+        getGenres()
             .then((data) => {
                 setData(data);
                 setSearchedData(data);
@@ -71,38 +79,39 @@ function Floors() {
     };
 
     const handleSaveConfirm = () => {
-        createFloors(number)
+        createGenres(name, slug)
             .then(() => {
                 getData();
                 clear();
                 handleClose();
-                toast.success('Floors has been created');
+                toast.success('Genres has been created');
             })
             .catch((error) => {
-                toast.error('Failed to create Floors', error);
+                toast.error('Failed to create Genres', error);
             });
     };
 
     const handleEdit = (id) => {
         handleEditShow();
-        editFloorsData(id)
+        editGenres(id)
             .then((data) => {
                 setEditId(id);
-                setEditNumber(data.number);
+                setEditName(data.name);
+                setEditSlug(data.slug);
             })
-            .catch((error) => console.error('Error fetching Floors data:', error));
+            .catch((error) => console.error('Error fetching Genres data:', error));
     };
 
     const handleUpdate = () => {
-        updateFloors(editId, editNumber)
+        updateGenres(editId, editName, editSlug)
             .then(() => {
                 handleClose();
                 getData();
                 clear();
-                toast.success('Floors has been updated');
+                toast.success('Genres has been updated');
             })
             .catch((error) => {
-                toast.error('Failed to update Floors', error);
+                toast.error('Failed to update Genres', error);
             });
     };
 
@@ -112,21 +121,23 @@ function Floors() {
     };
 
     const handleDeleteConfirm = async () => {
-        deleteFloors(deleteId)
+        deleteGenres(deleteId)
             .then(() => {
-                toast.success('Floors has been deleted');
+                toast.success('Genres has been deleted');
                 handleClose();
                 getData();
             })
             .catch((error) => {
-                toast.error('Failed to delete Floors', error);
+                toast.error('Failed to delete Genres', error);
             });
     };
 
     const clear = () => {
-        setNumber('');
+        setName('');
+        setSlug('');
         setEditId('');
-        setEditNumber('');
+        setEditName('');
+        setEditSlug('');
     };
 
     const handleClose = () => {
@@ -142,15 +153,15 @@ function Floors() {
     return (
         <section className="section">
             <div className="section-header">
-                <h1>Floors</h1>
+                <h1>Genres</h1>
                 <div className="section-header-breadcrumb">
                     <div className="breadcrumb-item active">
                         <a href="#">Dashboard</a>
                     </div>
                     <div className="breadcrumb-item">
-                        <a href="#">Floors</a>
+                        <a href="#">Genres</a>
                     </div>
-                    <div className="breadcrumb-item">All Floors</div>
+                    <div className="breadcrumb-item">All Genres</div>
                 </div>
             </div>
             <div className="section-body">
@@ -158,7 +169,7 @@ function Floors() {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-header">
-                                <h4>All Floors</h4>
+                                <h4>All Genres</h4>
                                 <div className="section-header-button">
                                     <button className="btn btn-primary" onClick={() => handleSave()}>
                                         Create
@@ -184,6 +195,7 @@ function Floors() {
                                                     <tr>
                                                         <th>Id</th>
                                                         <th>Name</th>
+                                                        <th>Slug</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -191,7 +203,8 @@ function Floors() {
                                                     {records.map((item, index) => (
                                                         <tr key={item.id}>
                                                             <td>{index + firstIndex + 1}</td>
-                                                            <td>{item.number}</td>
+                                                            <td>{item.name}</td>
+                                                            <td>{item.slug}</td>
                                                             <td colSpan={2}>
                                                                 <button
                                                                     className="btn btn-primary"
@@ -228,7 +241,7 @@ function Floors() {
             </div>
             <Modal show={createShow} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Create Floors</Modal.Title>
+                    <Modal.Title>Create Genres</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Container>
@@ -238,8 +251,8 @@ function Floors() {
                                     type="text"
                                     className="form-control"
                                     placeholder="Enter Name"
-                                    value={number}
-                                    onChange={(e) => setNumber(e.target.value)}
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
                                 />
                             </Col>
                         </Row>
@@ -257,7 +270,7 @@ function Floors() {
 
             <Modal show={editShow} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Edit Floors</Modal.Title>
+                    <Modal.Title>Edit Genres</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Container>
@@ -267,8 +280,8 @@ function Floors() {
                                     type="text"
                                     className="form-control"
                                     placeholder="Enter Name"
-                                    value={editNumber}
-                                    onChange={(e) => setEditNumber(e.target.value)}
+                                    value={editName}
+                                    onChange={(e) => setEditName(e.target.value)}
                                 />
                             </Col>
                         </Row>
@@ -288,7 +301,7 @@ function Floors() {
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure you want to delete this Floors?</Modal.Body>
+                <Modal.Body>Are you sure you want to delete this Genres?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
@@ -304,4 +317,4 @@ function Floors() {
     );
 }
 
-export default Floors;
+export default Genres;

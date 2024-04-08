@@ -1,4 +1,4 @@
-import { axiosInstance, get, post, put, del } from '~/utils/httpRequest';
+import { get, post, put, del } from '~/utils/httpRequest';
 
 export const getCategoryData = async () => {
     try {

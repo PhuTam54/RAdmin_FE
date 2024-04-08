@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { updateProduct, editProductData } from '~/services/productService';
+import { updateProduct, editProductData } from '~/services/Shop/productService';
 import { useNavigate, useParams } from 'react-router-dom';
 
 function EditProduct() {
@@ -39,13 +39,11 @@ function EditProduct() {
                 console.error('Error fetching Shop data:', error);
             }
         };
-
         fetchData();
     }, [id]);
 
     const handleUpdate = async (event) => {
         event.preventDefault();
-
         try {
             await updateProduct(
                 data.editId,

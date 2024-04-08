@@ -4,24 +4,20 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getFloorsData, createFloors, editFloorsData, updateFloors, deleteFloors } from '~/services/Shop/floorService';
+import { getShows, deleteShows } from '~/services/Movies/showService';
 
-function Floors() {
+
+function Shows() {
     const [loading, setLoading] = useState(true);
-    const [editShow, setEditShow] = useState(false);
-    const [deleteShow, setDeleteShow] = useState(false);
-    const [createShow, setCreateShow] = useState(false);
-    const [number, setNumber] = useState('');
-    const [editId, setEditId] = useState('');
-    const [editNumber, setEditNumber] = useState('');
     const [data, setData] = useState([]);
+    const [deleteShow, setDeleteShow] = useState(false);
     const [deleteId, setDeleteId] = useState('');
 
     //search
     const [search, setSearch] = useState('');
     const [searchedData, setSearchedData] = useState([]);
     useEffect(() => {
-        const filteredData = data.filter((item) => item.number.toString().toLowerCase().includes(search.toLowerCase()));
+        const filteredData = data.filter((item) => item.show_Code.toLowerCase().includes(search.toLowerCase()));
         setSearchedData(filteredData);
     }, [search, data]);
 
@@ -48,13 +44,14 @@ function Floors() {
         }
     }
 
+
     // Call Api
     useEffect(() => {
         getData();
     }, []);
 
     const getData = () => {
-        getFloorsData()
+        getShows()
             .then((data) => {
                 setData(data);
                 setSearchedData(data);
@@ -66,91 +63,46 @@ function Floors() {
             });
     };
 
-    const handleSave = () => {
-        handleCreateShow();
-    };
-
-    const handleSaveConfirm = () => {
-        createFloors(number)
-            .then(() => {
-                getData();
-                clear();
-                handleClose();
-                toast.success('Floors has been created');
-            })
-            .catch((error) => {
-                toast.error('Failed to create Floors', error);
-            });
-    };
-
-    const handleEdit = (id) => {
-        handleEditShow();
-        editFloorsData(id)
-            .then((data) => {
-                setEditId(id);
-                setEditNumber(data.number);
-            })
-            .catch((error) => console.error('Error fetching Floors data:', error));
-    };
-
-    const handleUpdate = () => {
-        updateFloors(editId, editNumber)
-            .then(() => {
-                handleClose();
-                getData();
-                clear();
-                toast.success('Floors has been updated');
-            })
-            .catch((error) => {
-                toast.error('Failed to update Floors', error);
-            });
-    };
-
     const handleDelete = (id) => {
         setDeleteId(id);
         handleDeleteShow();
     };
 
     const handleDeleteConfirm = async () => {
-        deleteFloors(deleteId)
+        deleteShows(deleteId)
             .then(() => {
-                toast.success('Floors has been deleted');
+                toast.success('Shows has been deleted');
                 handleClose();
                 getData();
             })
             .catch((error) => {
-                toast.error('Failed to delete Floors', error);
+                toast.error('Failed to delete Shows', error);
             });
-    };
-
-    const clear = () => {
-        setNumber('');
-        setEditId('');
-        setEditNumber('');
     };
 
     const handleClose = () => {
         setDeleteShow(false);
-        setCreateShow(false);
-        setEditShow(false);
     };
 
-    const handleEditShow = () => setEditShow(true);
     const handleDeleteShow = () => setDeleteShow(true);
-    const handleCreateShow = () => setCreateShow(true);
 
     return (
         <section className="section">
             <div className="section-header">
-                <h1>Floors</h1>
+                <h1>Shows</h1>
+                <div className="section-header-button">
+                    <a href="/shows/create" className="btn btn-primary">
+                        Add New
+                    </a>
+                </div>
                 <div className="section-header-breadcrumb">
                     <div className="breadcrumb-item active">
                         <a href="#">Dashboard</a>
                     </div>
                     <div className="breadcrumb-item">
-                        <a href="#">Floors</a>
+                        <a href="#">Shows</a>
                     </div>
-                    <div className="breadcrumb-item">All Floors</div>
+                    <div className="breadcrumb-item">All Shows</div>
                 </div>
             </div>
             <div className="section-body">
@@ -158,12 +110,7 @@ function Floors() {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-header">
-                                <h4>All Floors</h4>
-                                <div className="section-header-button">
-                                    <button className="btn btn-primary" onClick={() => handleSave()}>
-                                        Create
-                                    </button>
-                                </div>
+                                <h4>All Shows</h4>
                             </div>
 
                             <div className="card-body">
@@ -180,10 +127,13 @@ function Floors() {
                                         <div className="clearfix mb-3" />
                                         <div className="table-responsive">
                                             <table className="table table-striped">
-                                                <thead>
+                                            <thead>
                                                     <tr>
                                                         <th>Id</th>
-                                                        <th>Name</th>
+                                                        <th>Show_Code</th>
+                                                        <th>Start_Date</th>
+                                                        <th>MovieId</th>
+                                                        <th>RoomId</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -191,14 +141,18 @@ function Floors() {
                                                     {records.map((item, index) => (
                                                         <tr key={item.id}>
                                                             <td>{index + firstIndex + 1}</td>
-                                                            <td>{item.number}</td>
+                                                            <td>{item.show_Code}</td>
+                                                            <td>{item.start_Date}</td>
+                                                            <td>{item.movie_Id}</td>
+                                                            <td>{item.room_Id}</td>
+
                                                             <td colSpan={2}>
-                                                                <button
+                                                            <a
+                                                                    href={`/shows/edit/${item.id}`}
                                                                     className="btn btn-primary"
-                                                                    onClick={() => handleEdit(item.id)}
                                                                 >
                                                                     Edit
-                                                                </button>
+                                                                </a>
                                                                 &nbsp;
                                                                 <button
                                                                     className="btn btn-danger"
@@ -226,69 +180,12 @@ function Floors() {
                     </div>
                 </div>
             </div>
-            <Modal show={createShow} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Create Floors</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Container>
-                        <Row>
-                            <Col>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter Name"
-                                    value={number}
-                                    onChange={(e) => setNumber(e.target.value)}
-                                />
-                            </Col>
-                        </Row>
-                    </Container>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleSaveConfirm}>
-                        Create
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-
-            <Modal show={editShow} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Edit Floors</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Container>
-                        <Row>
-                            <Col>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter Name"
-                                    value={editNumber}
-                                    onChange={(e) => setEditNumber(e.target.value)}
-                                />
-                            </Col>
-                        </Row>
-                    </Container>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleUpdate}>
-                        Update
-                    </Button>
-                </Modal.Footer>
-            </Modal>
 
             <Modal show={deleteShow} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure you want to delete this Floors?</Modal.Body>
+                <Modal.Body>Are you sure you want to delete this Shows?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
@@ -304,4 +201,4 @@ function Floors() {
     );
 }
 
-export default Floors;
+export default Shows;

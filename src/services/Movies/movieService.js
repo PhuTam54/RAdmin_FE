@@ -10,9 +10,33 @@ export const getMoviesData = async () => {
     }
 };
 
-export const createMovies = async (title , actor ,movie_Image, cover_Image, description, duration, director, favorite_Count, trailer,genreIds,languageIds) => {
+export const createMovies = async (
+    title,
+    actor,
+    movie_Image,
+    cover_Image,
+    description,
+    duration,
+    director,
+    favorite_Count,
+    trailer,
+    genreIds,
+    languageIds,
+) => {
     try {
-        const createData = {  title , actor ,movie_Image, cover_Image, description, duration, director, favorite_Count, trailer,genreIds,languageIds};
+        const createData = {
+            title,
+            actor,
+            movie_Image,
+            cover_Image,
+            description,
+            duration,
+            director,
+            favorite_Count,
+            trailer,
+            genreIds,
+            languageIds,
+        };
         await post(`v1/Movies`, createData);
     } catch (error) {
         console.error('Failed to create Movies', error);
@@ -20,7 +44,7 @@ export const createMovies = async (title , actor ,movie_Image, cover_Image, desc
     }
 };
 
-export const editMoviesData = async (id) => {
+export const editMovies = async (id) => {
     try {
         const response = await get(`/v1/Movies/id?id=${id}`);
         return response;
@@ -30,9 +54,35 @@ export const editMoviesData = async (id) => {
     }
 };
 
-export const updateMovies = async ( title , actor ,movie_Image, cover_Image, description, duration, director, favorite_Count, trailer,genreIds,languageIds) => {
+export const updateMovies = async (
+    id,
+    title,
+    actor,
+    movie_Image,
+    cover_Image,
+    description,
+    duration,
+    director,
+    favorite_Count,
+    trailer,
+    genreIds,
+    languageIds,
+) => {
     try {
-        const updatedData = {  title , actor ,movie_Image, cover_Image, description, duration, director, favorite_Count, trailer,genreIds,languageIds };
+        const updatedData = {
+            id,
+            title,
+            actor,
+            movie_Image,
+            cover_Image,
+            description,
+            duration,
+            director,
+            favorite_Count,
+            trailer,
+            genreIds,
+            languageIds,
+        };
         await put(`/v1/Movies/id?id=${id}`, updatedData);
     } catch (error) {
         console.error('Failed to update Movies', error);
@@ -42,7 +92,6 @@ export const updateMovies = async ( title , actor ,movie_Image, cover_Image, des
 
 export const deleteMovies = async (id) => {
     try {
-       
         await del(`/v1/Movies/id?id=${id}`);
         return true;
     } catch (error) {

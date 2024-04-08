@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getMoviesData, deleteMovies } from '~/services/movieService';
+import { getMoviesData, deleteMovies } from '~/services/Movies/movieService';
 
 function Movies() {
     const [loading, setLoading] = useState(true);
@@ -89,7 +89,7 @@ function Movies() {
             <div className="section-header">
                 <h1>Movies</h1>
                 <div className="section-header-button">
-                    <a href="/createMovies" className="btn btn-primary">
+                    <a href="/movies/create" className="btn btn-primary">
                         Add New
                     </a>
                 </div>

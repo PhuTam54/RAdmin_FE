@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { createProduct } from '~/services/productService';
+import { createProduct } from '~/services/Shop/productService';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
