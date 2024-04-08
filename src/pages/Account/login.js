@@ -1,24 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import images from '~/assets/img/';
-
-const axiosInstance = axios.create();
-
-axiosInstance.interceptors.request.use(
-    (config) => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-    },
-    (error) => {
-        return Promise.reject(error);
-    },
-);
+import { httpRequest } from '~/utils/httpRequest';
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -33,7 +18,7 @@ function Login() {
         }
 
         try {
-            const response = await axiosInstance.post('https://localhost:7168/api/v1/LoginRegister/Login', {
+            const response = await httpRequest.post('https://localhost:7168/api/v1/LoginRegister/Login', {
                 email: email,
                 password: password,
             });
@@ -46,11 +31,7 @@ function Login() {
                 toast.error('Invalid response from server');
             }
         } catch (error) {
-            if (error.response && error.response.status === 400) {
-                toast.error(error.response.data.error);
-            } else {
-                toast.error('An error occurred while logging in. Please try again later.');
-            }
+            toast.error('Email/Password is required.');
         }
     };
 

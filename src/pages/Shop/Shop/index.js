@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getShopsData, deleteShops } from '~/services/shopService';
+import { getShopsData, deleteShops } from '~/services/Shop/shopService';
 
 function Shops() {
     const [loading, setLoading] = useState(true);

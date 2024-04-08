@@ -31,8 +31,14 @@ import EditShops from '~/pages/Shop/Shop/edit';
 import Booking from '~/pages/Magager/Booking/index';
 
 //      Movie
-import Movies from '~/pages/Movies/movie';
-// import CreateMovie from '~/pages/Movie/create';
+import Movies from '~/pages/Movies/Movie/movie';
+import CreateMovies from '~/pages/Movies/Movie/create';
+import EditMovies from '~/pages/Movies/Movie/edit';
+
+import Genres from '~/pages/Movies/Genres/index';
+import Rooms from '~/pages/Movies/room';
+import Shows from '~/pages/Movies/show';
+
 
 // //      FeedBack
 // import Feedback from '~/pages/FeedBack/index';
@@ -77,7 +83,13 @@ export const publicRoutes = [
 
     //      Movie
     { path: config.routes.movies, component: Movies, layout: AdminLayout },
-    // { path: config.routes.createMovie, component: CreateMovie, layout: AdminLayout },
+    { path: config.routes.createMovies, component: CreateMovies, layout: AdminLayout },
+    { path: config.routes.editMovies, component: EditMovies, layout: AdminLayout },
+
+    { path: config.routes.genres, component: Genres, layout: AdminLayout },
+    { path: config.routes.shows, component: Shows, layout: AdminLayout },
+    { path: config.routes.rooms, component: Rooms, layout: AdminLayout },
+
 
     // //      FeedBack
     // { path: config.routes.feedback, component: Feedback, layout: AdminLayout },
