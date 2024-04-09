@@ -5,6 +5,7 @@ const routes = {
 
     profile: '/profile',
     error_404: '/error_404',
+    
     //      Account
     login: '/login',
     register: '/register',
@@ -16,18 +17,25 @@ const routes = {
     //      Shop
     category: '/category',
     product: '/product',
+    createProduct: '/create/product',
+    editProduct: '/edit/product/:id',
     floors: '/floors',
     shops: '/shops',
-    createShops: '/createShops',
-    editShops: '/editShops',
+    createShops: '/create/shops',
+    editShops: `edit/shops/:id`,
 
     //      Booking
     booking: '/booking',
     createBooking: '/booking/create',
 
-    //      Booking
-    movie: '/movie',
-    createMovie: '/movie/create',
+    //      Movie
+    movies: '/movies',
+    createMovies: '/create/movies',
+    editMovies: '/edit/movies/:id',
+
+    genres: '/genres',
+    shows: '/shows',
+    rooms: '/rooms',
 
     //      Booking
     feedback: '/feedback',

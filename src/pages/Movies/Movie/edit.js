@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { updateShops, editShopsData } from '~/services/Shop/shopService';
 import { useNavigate, useParams } from 'react-router-dom';
 
-function EditShops() {
+function EditMovies() {
     const [categories, setCategories] = useState([]);
     const [floors, setFloors] = useState([]);
 
@@ -250,4 +250,4 @@ function EditShops() {
     );
 }
 
-export default EditShops;
+export default EditMovies;

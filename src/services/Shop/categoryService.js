@@ -1,4 +1,4 @@
-import { axiosInstance, get, post, put, del } from '~/utils/httpRequest';
+import { get, post, put, del } from '~/utils/httpRequest';
 
 export const getCategoryData = async () => {
     try {
@@ -10,15 +10,15 @@ export const getCategoryData = async () => {
     }
 };
 
-export const createCategory = async (name, slug) => {
-    try {
-        const newData = { name, slug };
-        await post('/v1/Categories', newData);
-    } catch (error) {
-        console.error('Failed to create category', error);
-        throw error;
-    }
-};
+    export const createCategory = async (name, slug) => {
+        try {
+            const newData = { name, slug };
+            await post('/v1/Categories', newData);
+        } catch (error) {
+            console.error('Failed to create category', error);
+            throw error;
+        }
+    };
 
 export const editCategoryData = async (id) => {
     try {

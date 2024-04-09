@@ -1,94 +1,73 @@
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { updateShops, editShopsData } from '~/services/Shop/shopService';
-import { useNavigate, useParams } from 'react-router-dom';
+import { createShops } from '~/services/Shop/shopService';
+import { useNavigate } from 'react-router-dom';
 
-function EditShops() {
-    const [categories, setCategories] = useState([]);
-    const [floors, setFloors] = useState([]);
+function CreateMovies() {
+    const [genres, setGenres] = useState([]);
+    const [languages, setLanguages] = useState([]);
 
     const [data, setData] = useState({
-        editId: '',
-        editCategoryId: '',
-        editFloorsId: '',
-        editName: '',
-        editImg: '', 
-        editAddress: '',
-        editPhone: '',
-        editDescription: '',
+        title: '',
+        actor: '',
+        movie_Image: '',
+        cover_Image: '',
+        description: '',
+        duration: '',
+        director: '',
+        favorite_Count: '',
+        trailer: '',
+        genreIds: '',
+        languageIds: '',
     });
 
-    const { id } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const shopData = await editShopsData(id);
-                setData({
-                    editId: shopData.id,
-                    editFloorsId: shopData.floor_Id,
-                    editCategoryId: shopData.category_Id,
-                    editName: shopData.name,
-                    editImg: shopData.image,
-                    editAddress: shopData.address,
-                    editPhone: shopData.phone_Number,
-                    editDescription: shopData.description,
-                });
-    
-                const categoriesData = await fetch('https://localhost:7168/api/v1/Categories');
-                const categoriesJson = await categoriesData.json();
-                setCategories(categoriesJson);
-    
-                const floorsData = await fetch('https://localhost:7168/api/v1/Floors');
-                const floorsJson = await floorsData.json();
-                setFloors(floorsJson);
-    
+                const genresData = await fetch('https://localhost:7168/api/v1/Genres');
+                const genresJson = await genresData.json();
+                setGenres(genresJson);
+
+                const languagesData = await fetch('https://localhost:7168/api/v1/Languages');
+                const languagesJson = await languagesData.json();
+                setLanguages(languagesJson);
             } catch (error) {
                 console.error('Error fetching Shop data:', error);
             }
         };
-    
-        fetchData();
-    }, [id]);
-    
 
-    const handleUpdate = async (event) => {
+        fetchData();
+    }, []);
+
+    const handleCreate = async (event) => {
         event.preventDefault();
 
         try {
-            await updateShops(
-                data.editId,
-                data.editFloorsId,
-                data.editCategoryId,
-                data.editName,
-                data.editImg,
-                data.editAddress,
-                data.editPhone,
-                data.editDescription,
-            );
-            toast.success('Shop updated successfully');
+            await createShops(data);
+            toast.success('Shop created successfully');
             navigate('/shops');
         } catch (error) {
-            toast.error('Failed to update Shop');
+            toast.error('Failed to create Shop');
         }
     };
 
     const handleImageChange = (event) => {
         const image = event.target.files[0];
-        setData({ ...data, editImg: image });
+        setData({ ...data, image: image });
     };
 
     return (
         <section className="section">
             <div className="section-header">
                 <div className="section-header-back">
-                    <a href="/shops" className="btn btn-icon">
+                    <a href="/movies" className="btn btn-icon">
                         <i className="fas fa-arrow-left" />
                     </a>
                 </div>
-                <h1>Edit Shop</h1>
+                <h1>Create Shop</h1>
                 <div className="section-header-breadcrumb">
                     <div className="breadcrumb-item active">
                         <a href="#">Dashboard</a>
@@ -96,61 +75,60 @@ function EditShops() {
                     <div className="breadcrumb-item">
                         <a href="#">Shops</a>
                     </div>
-                    <div className="breadcrumb-item">Edit Shop</div>
+                    <div className="breadcrumb-item">Create Shop</div>
                 </div>
             </div>
             <div className="section-body">
-                <h2 className="section-title">Edit Shop</h2>
-                <p className="section-lead">On this page you can edit Shop details.</p>
+                <h2 className="section-title">Create Shop</h2>
+                <p className="section-lead">On this page you can create a new Shop and fill in all fields.</p>
                 <div className="row">
                     <div className="col-12">
                         <div className="card">
                             <div className="card-header">
-                                <h4>Edit Shop Details</h4>
+                                <h4>Write Your Shop</h4>
                             </div>
                             <div className="card-body">
-                                <form onSubmit={handleUpdate}>
+                                <form onSubmit={handleCreate}>
                                     <div className="form-group row mb-4">
                                         <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Id
+                                            Title
                                         </label>
                                         <div className="col-sm-12 col-md-7">
                                             <input
                                                 type="text"
                                                 className="form-control"
-                                                value={data.editId}
-                                                disabled
-                                                onChange={(e) => setData({ ...data, editId: e.target.value })}
+                                                value={data.title}
+                                                onChange={(e) => setData({ ...data, title: e.target.value })}
                                             />
                                         </div>
                                     </div>
                                     <div className="form-group row mb-4">
                                         <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Name
+                                            Actor
                                         </label>
                                         <div className="col-sm-12 col-md-7">
                                             <input
                                                 type="text"
                                                 className="form-control"
-                                                value={data.editName}
-                                                onChange={(e) => setData({ ...data, editName: e.target.value })}
+                                                value={data.actor}
+                                                onChange={(e) => setData({ ...data, actor: e.target.value })}
                                             />
                                         </div>
                                     </div>
                                     <div className="form-group row mb-4">
                                         <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Floors Id
+                                            Languages Id
                                         </label>
                                         <div className="col-sm-12 col-md-7">
                                             <select
                                                 className="form-control selectric"
-                                                value={data.editFloorsId}
-                                                onChange={(e) => setData({ ...data, editFloorsId: e.target.value })}
+                                                value={data.languageIds}
+                                                onChange={(e) => setData({ ...data, languageIds: e.target.value })}
                                             >
-                                                <option>Select floor</option>
-                                                {floors.map((floor) => (
-                                                    <option key={floor.id} value={floor.id}>
-                                                        {floor.number}
+                                                <option>Select Languages</option>
+                                                {languages.map((lg) => (
+                                                    <option key={lg.id} value={lg.id}>
+                                                        {lg.name}
                                                     </option>
                                                 ))}
                                             </select>
@@ -158,18 +136,18 @@ function EditShops() {
                                     </div>
                                     <div className="form-group row mb-4">
                                         <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Category Id
+                                            Genres Id
                                         </label>
                                         <div className="col-sm-12 col-md-7">
                                             <select
                                                 className="form-control selectric"
-                                                value={data.editCategoryId}
-                                                onChange={(e) => setData({ ...data, editCategoryId: e.target.value })}
+                                                value={data.genreIds}
+                                                onChange={(e) => setData({ ...data, genreIds: e.target.value })}
                                             >
                                                 <option>Select category</option>
-                                                {categories.map((category) => (
-                                                    <option key={category.id} value={category.id}>
-                                                        {category.name}
+                                                {genres.map((genres) => (
+                                                    <option key={genres.id} value={genres.id}>
+                                                        {genres.name}
                                                     </option>
                                                 ))}
                                             </select>
@@ -195,47 +173,77 @@ function EditShops() {
                                     </div>
                                     <div className="form-group row mb-4">
                                         <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Phone
-                                        </label>
-                                        <div className="col-sm-12 col-md-7">
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                value={data.editPhone}
-                                                onChange={(e) => setData({ ...data, editPhone: e.target.value })}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="form-group row mb-4">
-                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Address
-                                        </label>
-                                        <div className="col-sm-12 col-md-7">
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                value={data.editAddress}
-                                                onChange={(e) => setData({ ...data, editAddress: e.target.value })}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="form-group row mb-4">
-                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
                                             Description
                                         </label>
                                         <div className="col-sm-12 col-md-7">
                                             <input
                                                 type="text"
                                                 className="form-control"
-                                                value={data.editDescription}
-                                                onChange={(e) => setData({ ...data, editDescription: e.target.value })}
+                                                value={data.description}
+                                                onChange={(e) => setData({ ...data, description: e.target.value })}
                                             />
                                         </div>
                                     </div>
                                     <div className="form-group row mb-4">
+                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
+                                            Director
+                                        </label>
+                                        <div className="col-sm-12 col-md-7">
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                value={data.director}
+                                                onChange={(e) => setData({ ...data, director: e.target.value })}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="form-group row mb-4">
+                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
+                                            Favorite Count
+                                        </label>
+                                        <div className="col-sm-12 col-md-7">
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                value={data.favorite_Count}
+                                                onChange={(e) => setData({ ...data, favorite_Count: e.target.value })}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="form-group row mb-4">
+                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
+                                            Trailer
+                                        </label>
+                                        <div className="col-sm-12 col-md-7">
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                value={data.trailer}
+                                                onChange={(e) => setData({ ...data, trailer: e.target.value })}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="form-group row mb-4">
+                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
+                                            Duration
+                                        </label>
+                                        <div className="col-sm-12 col-md-7">
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                value={data.duration}
+                                                onChange={(e) => setData({ ...data, duration: e.target.value })}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="form-group row mb-4">
                                         <div className="col-sm-12 col-md-7 offset-md-3">
                                             <button className="btn btn-primary" type="submit">
-                                                Update Shop
+                                                Create Shop
                                             </button>
                                         </div>
                                     </div>
@@ -250,4 +258,4 @@ function EditShops() {
     );
 }
 
-export default EditShops;
+export default CreateMovies;

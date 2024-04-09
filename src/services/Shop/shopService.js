@@ -10,10 +10,10 @@ export const getShopsData = async () => {
     }
 };
 
-export const createShops = async (number) => {
+export const createShops = async (category_Id , floor_Id ,name, image, address, phone_Number, description) => {
     try {
-        const newData = { number };
-        await post('/v1/Shops', newData);
+        const createData = { category_Id , floor_Id ,name, image, address, phone_Number, description};
+        await post(`v1/Shops?categoryId=${category_Id}&floorId=${floor_Id}`, createData);
     } catch (error) {
         console.error('Failed to create Shops', error);
         throw error;
@@ -30,9 +30,9 @@ export const editShopsData = async (id) => {
     }
 };
 
-export const updateShops = async (id, number) => {
+export const updateShops = async (id, floor_Id , category_Id, name, image, address, phone_Number, description) => {
     try {
-        const updatedData = { id, number };
+        const updatedData = { id, floor_Id , category_Id, name, image, address, phone_Number, description };
         await put(`/v1/Shops/id?id=${id}`, updatedData);
     } catch (error) {
         console.error('Failed to update Shops', error);

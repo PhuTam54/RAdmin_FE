@@ -20,6 +20,8 @@ import Invoice from '~/pages/Magager/Invoice';
 // Shop
 import Category from '~/pages/Shop/Category/index';
 import Product from '~/pages/Shop/Product/index';
+import CreateProduct from '~/pages/Shop/Product/create';
+import EditProduct from '~/pages/Shop/Product/edit';
 import Floors from '~/pages/Shop/Floors/index';
 import Shops from '~/pages/Shop/Shop/index';
 import CreateShops from '~/pages/Shop/Shop/create';
@@ -28,9 +30,15 @@ import EditShops from '~/pages/Shop/Shop/edit';
 //      Booking
 import Booking from '~/pages/Magager/Booking/index';
 
-// //      Movie
-// import Movie from '~/pages/Movie/index';
-// import CreateMovie from '~/pages/Movie/create';
+//      Movie
+import Movies from '~/pages/Movies/Movie/movie';
+import CreateMovies from '~/pages/Movies/Movie/create';
+import EditMovies from '~/pages/Movies/Movie/edit';
+
+import Genres from '~/pages/Movies/Genres/index';
+import Rooms from '~/pages/Movies/room';
+import Shows from '~/pages/Movies/show';
+
 
 // //      FeedBack
 // import Feedback from '~/pages/FeedBack/index';
@@ -62,6 +70,8 @@ export const publicRoutes = [
     // Shop
     { path: config.routes.category, component: Category, layout: AdminLayout },
     { path: config.routes.product, component: Product, layout: AdminLayout },
+    { path: config.routes.createProduct, component: CreateProduct, layout: AdminLayout },
+    { path: config.routes.editProduct, component: EditProduct, layout: AdminLayout },
     { path: config.routes.floors, component: Floors, layout: AdminLayout },
     { path: config.routes.shops, component: Shops, layout: AdminLayout },
     { path: config.routes.createShops, component: CreateShops, layout: AdminLayout },
@@ -71,9 +81,15 @@ export const publicRoutes = [
     { path: config.routes.booking, component: Booking, layout: AdminLayout },
     { path: config.routes.users, component: User, layout: AdminLayout },
 
-    // //      Movie
-    // { path: config.routes.movie, component: Movie, layout: AdminLayout },
-    // { path: config.routes.createMovie, component: CreateMovie, layout: AdminLayout },
+    //      Movie
+    { path: config.routes.movies, component: Movies, layout: AdminLayout },
+    { path: config.routes.createMovies, component: CreateMovies, layout: AdminLayout },
+    { path: config.routes.editMovies, component: EditMovies, layout: AdminLayout },
+
+    { path: config.routes.genres, component: Genres, layout: AdminLayout },
+    { path: config.routes.shows, component: Shows, layout: AdminLayout },
+    { path: config.routes.rooms, component: Rooms, layout: AdminLayout },
+
 
     // //      FeedBack
     // { path: config.routes.feedback, component: Feedback, layout: AdminLayout },

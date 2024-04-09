@@ -4,16 +4,20 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getFloorsData, createFloors, editFloorsData, updateFloors, deleteFloors } from '~/services/Shop/floorService';
+import { getRooms, createRooms, editRooms, updateRooms, deleteRooms } from '~/services/Movies/roomService';
 
-function Floors() {
+function Rooms() {
     const [loading, setLoading] = useState(true);
     const [editShow, setEditShow] = useState(false);
     const [deleteShow, setDeleteShow] = useState(false);
     const [createShow, setCreateShow] = useState(false);
-    const [number, setNumber] = useState('');
+    const [name, setName] = useState('');
+    const [rows, setRows] = useState('');
+    const [columns, setColumns] = useState('');
     const [editId, setEditId] = useState('');
-    const [editNumber, setEditNumber] = useState('');
+    const [editName, setEditName] = useState('');
+    const [editRows, setEditRows] = useState('');
+    const [editColumns, setEditColumns] = useState('');
     const [data, setData] = useState([]);
     const [deleteId, setDeleteId] = useState('');
 
@@ -21,7 +25,7 @@ function Floors() {
     const [search, setSearch] = useState('');
     const [searchedData, setSearchedData] = useState([]);
     useEffect(() => {
-        const filteredData = data.filter((item) => item.number.toString().toLowerCase().includes(search.toLowerCase()));
+        const filteredData = data.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()));
         setSearchedData(filteredData);
     }, [search, data]);
 
@@ -54,7 +58,7 @@ function Floors() {
     }, []);
 
     const getData = () => {
-        getFloorsData()
+        getRooms()
             .then((data) => {
                 setData(data);
                 setSearchedData(data);
@@ -71,38 +75,40 @@ function Floors() {
     };
 
     const handleSaveConfirm = () => {
-        createFloors(number)
+        createRooms(name, rows, columns)
             .then(() => {
                 getData();
                 clear();
                 handleClose();
-                toast.success('Floors has been created');
+                toast.success('Rooms has been created');
             })
             .catch((error) => {
-                toast.error('Failed to create Floors', error);
+                toast.error('Failed to create Rooms', error);
             });
     };
 
     const handleEdit = (id) => {
         handleEditShow();
-        editFloorsData(id)
+        editRooms(id)
             .then((data) => {
                 setEditId(id);
-                setEditNumber(data.number);
+                setEditName(data.name);
+                setEditRows(data.rows);
+                setEditColumns(data.columns);
             })
-            .catch((error) => console.error('Error fetching Floors data:', error));
+            .catch((error) => console.error('Error fetching Rooms data:', error));
     };
 
     const handleUpdate = () => {
-        updateFloors(editId, editNumber)
+        updateRooms(editId, editName, editRows, editColumns)
             .then(() => {
                 handleClose();
                 getData();
                 clear();
-                toast.success('Floors has been updated');
+                toast.success('Rooms has been updated');
             })
             .catch((error) => {
-                toast.error('Failed to update Floors', error);
+                toast.error('Failed to update Rooms', error);
             });
     };
 
@@ -112,21 +118,23 @@ function Floors() {
     };
 
     const handleDeleteConfirm = async () => {
-        deleteFloors(deleteId)
+        deleteRooms(deleteId)
             .then(() => {
-                toast.success('Floors has been deleted');
+                toast.success('Rooms has been deleted');
                 handleClose();
                 getData();
             })
             .catch((error) => {
-                toast.error('Failed to delete Floors', error);
+                toast.error('Failed to delete Rooms', error);
             });
     };
 
     const clear = () => {
-        setNumber('');
+        setName('');
+        setRows('');
         setEditId('');
-        setEditNumber('');
+        setEditName('');
+        setEditRows('');
     };
 
     const handleClose = () => {
@@ -142,15 +150,15 @@ function Floors() {
     return (
         <section className="section">
             <div className="section-header">
-                <h1>Floors</h1>
+                <h1>Categories</h1>
                 <div className="section-header-breadcrumb">
                     <div className="breadcrumb-item active">
                         <a href="#">Dashboard</a>
                     </div>
                     <div className="breadcrumb-item">
-                        <a href="#">Floors</a>
+                        <a href="#">Categories</a>
                     </div>
-                    <div className="breadcrumb-item">All Floors</div>
+                    <div className="breadcrumb-item">All Categories</div>
                 </div>
             </div>
             <div className="section-body">
@@ -158,7 +166,7 @@ function Floors() {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-header">
-                                <h4>All Floors</h4>
+                                <h4>All Categories</h4>
                                 <div className="section-header-button">
                                     <button className="btn btn-primary" onClick={() => handleSave()}>
                                         Create
@@ -184,6 +192,8 @@ function Floors() {
                                                     <tr>
                                                         <th>Id</th>
                                                         <th>Name</th>
+                                                        <th>Rows</th>
+                                                        <th>Columns</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -191,7 +201,9 @@ function Floors() {
                                                     {records.map((item, index) => (
                                                         <tr key={item.id}>
                                                             <td>{index + firstIndex + 1}</td>
-                                                            <td>{item.number}</td>
+                                                            <td>{item.name}</td>
+                                                            <td>{item.rows}</td>
+                                                            <td>{item.columns}</td>
                                                             <td colSpan={2}>
                                                                 <button
                                                                     className="btn btn-primary"
@@ -228,7 +240,7 @@ function Floors() {
             </div>
             <Modal show={createShow} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Create Floors</Modal.Title>
+                    <Modal.Title>Create Rooms</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Container>
@@ -238,8 +250,26 @@ function Floors() {
                                     type="text"
                                     className="form-control"
                                     placeholder="Enter Name"
-                                    value={number}
-                                    onChange={(e) => setNumber(e.target.value)}
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                />
+                            </Col>
+                            <Col>
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    placeholder="Enter Rows"
+                                    value={rows}
+                                    onChange={(e) => setRows(e.target.value)}
+                                />
+                            </Col>
+                            <Col>
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    placeholder="Enter Colums"
+                                    value={columns}
+                                    onChange={(e) => setColumns(e.target.value)}
                                 />
                             </Col>
                         </Row>
@@ -257,7 +287,7 @@ function Floors() {
 
             <Modal show={editShow} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Edit Floors</Modal.Title>
+                    <Modal.Title>Edit Rooms</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Container>
@@ -267,8 +297,26 @@ function Floors() {
                                     type="text"
                                     className="form-control"
                                     placeholder="Enter Name"
-                                    value={editNumber}
-                                    onChange={(e) => setEditNumber(e.target.value)}
+                                    value={editName}
+                                    onChange={(e) => setEditName(e.target.value)}
+                                />
+                            </Col>
+                            <Col>
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    placeholder="Enter Rows"
+                                    value={editRows}
+                                    onChange={(e) => setEditRows(e.target.value)}
+                                />
+                            </Col>
+                            <Col>
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    placeholder="Enter Colums"
+                                    value={editColumns}
+                                    onChange={(e) => setEditColumns(e.target.value)}
                                 />
                             </Col>
                         </Row>
@@ -288,7 +336,7 @@ function Floors() {
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure you want to delete this Floors?</Modal.Body>
+                <Modal.Body>Are you sure you want to delete this Rooms?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
@@ -304,4 +352,4 @@ function Floors() {
     );
 }
 
-export default Floors;
+export default Rooms;

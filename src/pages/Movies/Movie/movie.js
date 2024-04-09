@@ -4,9 +4,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getProductData, deleteProduct } from '~/services/Shop/productService';
+import { getMoviesData, deleteMovies } from '~/services/Movies/movieService';
 
-function Product() {
+function Movies() {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [deleteShow, setDeleteShow] = useState(false);
@@ -16,7 +16,7 @@ function Product() {
     const [search, setSearch] = useState('');
     const [searchedData, setSearchedData] = useState([]);
     useEffect(() => {
-        const filteredData = data.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()));
+        const filteredData = data.filter((item) => item.director.toLowerCase().includes(search.toLowerCase()));
         setSearchedData(filteredData);
     }, [search, data]);
 
@@ -49,7 +49,7 @@ function Product() {
     }, []);
 
     const getData = () => {
-        getProductData()
+        getMoviesData()
             .then((data) => {
                 setData(data);
                 setSearchedData(data);
@@ -67,14 +67,14 @@ function Product() {
     };
 
     const handleDeleteConfirm = async () => {
-        deleteProduct(deleteId)
+        deleteMovies(deleteId)
             .then(() => {
-                toast.success('Product has been deleted');
+                toast.success('Movies has been deleted');
                 handleClose();
                 getData();
             })
             .catch((error) => {
-                toast.error('Failed to delete Product', error);
+                toast.error('Failed to delete Movies', error);
             });
     };
 
@@ -87,9 +87,9 @@ function Product() {
     return (
         <section className="section">
             <div className="section-header">
-                <h1>Product</h1>
+                <h1>Movies</h1>
                 <div className="section-header-button">
-                    <a href="/create/product" className="btn btn-primary">
+                    <a href="/create/movies" className="btn btn-primary">
                         Add New
                     </a>
                 </div>
@@ -98,9 +98,9 @@ function Product() {
                         <a href="#">Dashboard</a>
                     </div>
                     <div className="breadcrumb-item">
-                        <a href="#">Product</a>
+                        <a href="#">Movies</a>
                     </div>
-                    <div className="breadcrumb-item">All Product</div>
+                    <div className="breadcrumb-item">All Movies</div>
                 </div>
             </div>
             <div className="section-body">
@@ -108,7 +108,7 @@ function Product() {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-header">
-                                <h4>All Product</h4>
+                                <h4>All Movies</h4>
                             </div>
 
                             <div className="card-body">
@@ -128,11 +128,17 @@ function Product() {
                                                 <thead>
                                                     <tr>
                                                         <th>Id</th>
-                                                        <th>Shops Id</th>
-                                                        <th>Name</th>
-                                                        <th>Img</th>
-                                                        <th>Price</th>
+                                                        <th>Title</th>
+                                                        <th>Actor</th>
+                                                        <th>Movie Image</th>
+                                                        <th>Cover Image</th>
                                                         <th>Description</th>
+                                                        <th>Duration</th>
+                                                        <th>Director</th>
+                                                        <th>Favorite Count</th>
+                                                        <th>Trailer</th>
+                                                        <th>GenreIds</th>
+                                                        <th>LanguageIds</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -140,21 +146,37 @@ function Product() {
                                                     {records.map((item, index) => (
                                                         <tr key={item.id}>
                                                             <td>{index + firstIndex + 1}</td>
-                                                            <td>{item.shop_Id}</td>
-                                                            <td>{item.name}</td>
+                                                            <td>{item.title}</td>
+                                                            <td>{item.actor}</td>
                                                             <td>
-                                                                {/* <img
-                                                                    src={'https://localhost:7168/api/v1/Product/'+item.image}
+                                                                <img
+                                                                    src={
+                                                                        'https://img3.thuthuatphanmem.vn/uploads/2019/10/10/anh-doremon-vui-ve_033147003.png'
+                                                                    }
                                                                     style={{ width: '100px', height: 'auto' }}
-                                                                    alt={item.name}
-                                                                /> */}
-                                                                {item.image}
+                                                                    alt={item.movie_Image}
+                                                                />
                                                             </td>
-                                                            <td>{item.price}</td>
+                                                            <td>
+                                                                <img
+                                                                    src={
+                                                                        'https://img3.thuthuatphanmem.vn/uploads/2019/10/10/anh-doremon-vui-ve_033147003.png'
+                                                                    }
+                                                                    style={{ width: '100px', height: 'auto' }}
+                                                                    alt={item.cover_Image}
+                                                                />
+                                                            </td>
                                                             <td>{item.description}</td>
+                                                            <td>{item.duration}</td>
+                                                            <td>{item.director}</td>
+                                                            <td>{item.favorite_Count}</td>
+                                                            <td>{item.trailer}</td>
+                                                            <td>{item.genreIds}</td>
+                                                            <td>{item.languageIds}</td>
+
                                                             <td colSpan={2}>
                                                                 <a
-                                                                    href={`/edit/product/${item.id}`}
+                                                                    href={`/Movies/edit/${item.id}`}
                                                                     className="btn btn-primary"
                                                                 >
                                                                     Edit
@@ -191,7 +213,7 @@ function Product() {
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure you want to delete this Product?</Modal.Body>
+                <Modal.Body>Are you sure you want to delete this Movies?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
@@ -207,4 +229,4 @@ function Product() {
     );
 }
 
-export default Product;
+export default Movies;

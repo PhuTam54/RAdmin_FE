@@ -2,9 +2,18 @@ import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import images from '~/assets/img/';
 import { NavDropdown, Nav } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import React, { useState, useEffect } from 'react';
 
 function HeaderAdmin() {
     const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+
+    useEffect(() => {
+        const storedEmail = localStorage.getItem('email');
+        if (storedEmail) {
+            setEmail(storedEmail);
+        }
+    }, []);
     const handleLogout = () => {
         localStorage.removeItem('token');
         navigate('/login');
@@ -127,7 +136,7 @@ function HeaderAdmin() {
                             className="nav-link dropdown-toggle nav-link-lg nav-link-user"
                         >
                             <img alt="image" src={images.avatar} className="rounded-circle mr-1" />
-                            <div className="d-sm-none d-lg-inline-block">Hi, Ujang Maman</div>
+                            <div className="d-sm-none d-lg-inline-block">Hi, {email}</div>
                         </a>
                         <div className="dropdown-menu dropdown-menu-right">
                             <div className="dropdown-title">Logged in 5 min ago</div>

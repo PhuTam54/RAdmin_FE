@@ -4,7 +4,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getCategoryData, createCategory, editCategoryData, updateCategory, deleteCategory } from '~/services/categoryService';
+import {
+    getCategoryData,
+    createCategory,
+    editCategoryData,
+    updateCategory,
+    deleteCategory,
+} from '~/services/Shop/categoryService';
 
 function Category() {
     const [loading, setLoading] = useState(true);
@@ -73,18 +79,16 @@ function Category() {
     };
 
     const handleSaveConfirm = () => {
-        if (name) {
-            createCategory(name, slug)
-                .then(() => {
-                    getData();
-                    clear();
-                    handleClose();
-                    toast.success('Category has been created');
-                })
-                .catch((error) => {
-                    toast.error('Failed to create category', error);
-                });
-        }
+        createCategory(name, slug)
+            .then(() => {
+                getData();
+                clear();
+                handleClose();
+                toast.success('Category has been created');
+            })
+            .catch((error) => {
+                toast.error('Failed to create category', error);
+            });
     };
 
     const handleEdit = (id) => {

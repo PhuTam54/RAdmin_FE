@@ -4,16 +4,23 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getFloorsData, createFloors, editFloorsData, updateFloors, deleteFloors } from '~/services/Shop/floorService';
+import { getShows, createShows, editShows, updateShows, deleteShows } from '~/services/Movies/showService';
 
-function Floors() {
+function Shows() {
     const [loading, setLoading] = useState(true);
     const [editShow, setEditShow] = useState(false);
     const [deleteShow, setDeleteShow] = useState(false);
     const [createShow, setCreateShow] = useState(false);
-    const [number, setNumber] = useState('');
+    const [show_Code, setShow_Code] = useState('');
+    const [start_Date, setStart_Date] = useState('');
+    const [movieId, setMovieId] = useState('');
+    const [roomId, setRoomId] = useState('');
     const [editId, setEditId] = useState('');
-    const [editNumber, setEditNumber] = useState('');
+    const [editShow_Code, setEditShow_Code] = useState('');
+    const [editStart_Date, setEditStart_Date] = useState('');
+    const [editMovieId, setEditMovieId] = useState('');
+    const [editRoomId, setEditRoomId] = useState('');
+
     const [data, setData] = useState([]);
     const [deleteId, setDeleteId] = useState('');
 
@@ -21,7 +28,7 @@ function Floors() {
     const [search, setSearch] = useState('');
     const [searchedData, setSearchedData] = useState([]);
     useEffect(() => {
-        const filteredData = data.filter((item) => item.number.toString().toLowerCase().includes(search.toLowerCase()));
+        const filteredData = data.filter((item) => item.show_Code.toLowerCase().includes(search.toLowerCase()));
         setSearchedData(filteredData);
     }, [search, data]);
 
@@ -54,7 +61,7 @@ function Floors() {
     }, []);
 
     const getData = () => {
-        getFloorsData()
+        getShows()
             .then((data) => {
                 setData(data);
                 setSearchedData(data);
@@ -71,38 +78,38 @@ function Floors() {
     };
 
     const handleSaveConfirm = () => {
-        createFloors(number)
+        createShows(show_Code, start_Date, movieId, roomId)
             .then(() => {
                 getData();
                 clear();
                 handleClose();
-                toast.success('Floors has been created');
+                toast.success('Shows has been created');
             })
             .catch((error) => {
-                toast.error('Failed to create Floors', error);
+                toast.error('Failed to create Shows', error);
             });
     };
 
     const handleEdit = (id) => {
         handleEditShow();
-        editFloorsData(id)
+        editShows(id)
             .then((data) => {
                 setEditId(id);
-                setEditNumber(data.number);
+                setEditShow_Code(data.show_Code);
             })
-            .catch((error) => console.error('Error fetching Floors data:', error));
+            .catch((error) => console.error('Error fetching Shows data:', error));
     };
 
     const handleUpdate = () => {
-        updateFloors(editId, editNumber)
+        updateShows(editId, editShow_Code, editStart_Date, editMovieId, editRoomId)
             .then(() => {
                 handleClose();
                 getData();
                 clear();
-                toast.success('Floors has been updated');
+                toast.success('Shows has been updated');
             })
             .catch((error) => {
-                toast.error('Failed to update Floors', error);
+                toast.error('Failed to update Shows', error);
             });
     };
 
@@ -112,21 +119,21 @@ function Floors() {
     };
 
     const handleDeleteConfirm = async () => {
-        deleteFloors(deleteId)
+        deleteShows(deleteId)
             .then(() => {
-                toast.success('Floors has been deleted');
+                toast.success('Shows has been deleted');
                 handleClose();
                 getData();
             })
             .catch((error) => {
-                toast.error('Failed to delete Floors', error);
+                toast.error('Failed to delete Shows', error);
             });
     };
 
     const clear = () => {
-        setNumber('');
+        setShow_Code('');
         setEditId('');
-        setEditNumber('');
+        setEditShow_Code('');
     };
 
     const handleClose = () => {
@@ -142,15 +149,15 @@ function Floors() {
     return (
         <section className="section">
             <div className="section-header">
-                <h1>Floors</h1>
+                <h1>Categories</h1>
                 <div className="section-header-breadcrumb">
                     <div className="breadcrumb-item active">
                         <a href="#">Dashboard</a>
                     </div>
                     <div className="breadcrumb-item">
-                        <a href="#">Floors</a>
+                        <a href="#">Categories</a>
                     </div>
-                    <div className="breadcrumb-item">All Floors</div>
+                    <div className="breadcrumb-item">All Categories</div>
                 </div>
             </div>
             <div className="section-body">
@@ -158,7 +165,7 @@ function Floors() {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-header">
-                                <h4>All Floors</h4>
+                                <h4>All Categories</h4>
                                 <div className="section-header-button">
                                     <button className="btn btn-primary" onClick={() => handleSave()}>
                                         Create
@@ -183,7 +190,10 @@ function Floors() {
                                                 <thead>
                                                     <tr>
                                                         <th>Id</th>
-                                                        <th>Name</th>
+                                                        <th>Show_Code</th>
+                                                        <th>Start_Date</th>
+                                                        <th>MovieId</th>
+                                                        <th>RoomId</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -191,7 +201,11 @@ function Floors() {
                                                     {records.map((item, index) => (
                                                         <tr key={item.id}>
                                                             <td>{index + firstIndex + 1}</td>
-                                                            <td>{item.number}</td>
+                                                            <td>{item.show_Code}</td>
+                                                            <td>{item.start_Date}</td>
+                                                            <td>{item.movieId}</td>
+                                                            <td>{item.roomId}</td>
+
                                                             <td colSpan={2}>
                                                                 <button
                                                                     className="btn btn-primary"
@@ -228,7 +242,7 @@ function Floors() {
             </div>
             <Modal show={createShow} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Create Floors</Modal.Title>
+                    <Modal.Title>Create Shows</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Container>
@@ -238,8 +252,35 @@ function Floors() {
                                     type="text"
                                     className="form-control"
                                     placeholder="Enter Name"
-                                    value={number}
-                                    onChange={(e) => setNumber(e.target.value)}
+                                    value={show_Code}
+                                    onChange={(e) => setShow_Code(e.target.value)}
+                                />
+                            </Col>
+                            <Col>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Name"
+                                    value={start_Date}
+                                    onChange={(e) => setStart_Date(e.target.value)}
+                                />
+                            </Col>
+                            <Col>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Name"
+                                    value={movieId}
+                                    onChange={(e) => setMovieId(e.target.value)}
+                                />
+                            </Col>
+                            <Col>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Name"
+                                    value={roomId}
+                                    onChange={(e) => setRoomId(e.target.value)}
                                 />
                             </Col>
                         </Row>
@@ -257,7 +298,7 @@ function Floors() {
 
             <Modal show={editShow} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Edit Floors</Modal.Title>
+                    <Modal.Title>Edit Shows</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Container>
@@ -267,8 +308,45 @@ function Floors() {
                                     type="text"
                                     className="form-control"
                                     placeholder="Enter Name"
-                                    value={editNumber}
-                                    onChange={(e) => setEditNumber(e.target.value)}
+                                    disabled
+                                    value={editId}
+                                    onChange={(e) => setEditId(e.target.value)}
+                                />
+                            </Col>
+                            <Col>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Name"
+                                    value={editShow_Code}
+                                    onChange={(e) => setEditShow_Code(e.target.value)}
+                                />
+                            </Col>
+                            <Col>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Name"
+                                    value={editStart_Date}
+                                    onChange={(e) => setEditStart_Date(e.target.value)}
+                                />
+                            </Col>
+                            <Col>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Name"
+                                    value={editMovieId}
+                                    onChange={(e) => setEditMovieId(e.target.value)}
+                                />
+                            </Col>
+                            <Col>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Name"
+                                    value={editRoomId}
+                                    onChange={(e) => setEditRoomId(e.target.value)}
                                 />
                             </Col>
                         </Row>
@@ -288,7 +366,7 @@ function Floors() {
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure you want to delete this Floors?</Modal.Body>
+                <Modal.Body>Are you sure you want to delete this Shows?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
@@ -304,4 +382,4 @@ function Floors() {
     );
 }
 
-export default Floors;
+export default Shows;
