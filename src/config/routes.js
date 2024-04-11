@@ -1,11 +1,10 @@
 const routes = {
-
     admin: '/',
     chart: '/chart',
 
     profile: '/profile/:id',
     error_404: '/error_404',
-    
+
     //      Account
     login: '/login',
     register: '/register',
@@ -35,18 +34,30 @@ const routes = {
 
     genres: '/genres',
     shows: '/shows',
-    createShows: 'shows/create', 
+    createShows: 'shows/create',
     editShows: 'shows/edit/:id',
     rooms: '/rooms',
 
-    //      Booking
-    feedback: '/feedback',
-    createFeedback: '/feedback/create',
+    //      Orders
+    foods: '/foods',
+    createFoods: '/foods/create',
+    editFoods: '/foods/edit/:id',
+
+    orders: '/orders',
+    orderCreate: '/orders/create',
+    orderEdit: '/orders/edit/:id',
+
+    orderFood: '/orderFood',
+    orderFoodCreate: '/orderFood/create',
+    orderFoodEdit: '/orderFood/edit/:id',
+
+    ticket: '/ticket',
+    ticketCreate: '/ticket/create',
+    ticketEdit: '/ticket/edit/:id',
 
     //      Users
     users: '/users',
     createUsers: '/users/create',
-
 };
 
 export default routes;

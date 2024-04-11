@@ -4,10 +4,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getShows, deleteShows } from '~/services/Movies/showService';
+import { getOrders, deleteOrders } from '~/services/Orders/orderService';
 
 
-function Shows() {
+function Orders() {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [deleteShow, setDeleteShow] = useState(false);
@@ -44,14 +44,13 @@ function Shows() {
         }
     }
 
-
     // Call Api
     useEffect(() => {
         getData();
     }, []);
 
     const getData = () => {
-        getShows()
+        getOrders()
             .then((data) => {
                 setData(data);
                 setSearchedData(data);
@@ -69,14 +68,14 @@ function Shows() {
     };
 
     const handleDeleteConfirm = async () => {
-        deleteShows(deleteId)
+        deleteOrders(deleteId)
             .then(() => {
-                toast.success('Shows has been deleted');
+                toast.success('Orders has been deleted');
                 handleClose();
                 getData();
             })
             .catch((error) => {
-                toast.error('Failed to delete Shows', error);
+                toast.error('Failed to delete Orders', error);
             });
     };
 
@@ -89,9 +88,9 @@ function Shows() {
     return (
         <section className="section">
             <div className="section-header">
-                <h1>Shows</h1>
+                <h1>Orders</h1>
                 <div className="section-header-button">
-                    <a href="/shows/create" className="btn btn-primary">
+                    <a href="/orders/create" className="btn btn-primary">
                         Add New
                     </a>
                 </div>
@@ -100,9 +99,9 @@ function Shows() {
                         <a href="#">Dashboard</a>
                     </div>
                     <div className="breadcrumb-item">
-                        <a href="#">Shows</a>
+                        <a href="#">Orders</a>
                     </div>
-                    <div className="breadcrumb-item">All Shows</div>
+                    <div className="breadcrumb-item">All Orders</div>
                 </div>
             </div>
             <div className="section-body">
@@ -110,7 +109,7 @@ function Shows() {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-header">
-                                <h4>All Shows</h4>
+                                <h4>All Orders</h4>
                             </div>
 
                             <div className="card-body">
@@ -130,10 +129,19 @@ function Shows() {
                                             <thead>
                                                     <tr>
                                                         <th>Id</th>
-                                                        <th>Show_Code</th>
-                                                        <th>Start_Date</th>
-                                                        <th>MovieId</th>
-                                                        <th>RoomId</th>
+                                                        <th>Order_Code</th>
+                                                        <th>Total</th>
+                                                        <th>Detailsiscount_Amount</th>
+                                                        <th>Discount_Code</th>
+                                                        <th>Final_Total</th>
+                                                        <th>Status</th>
+                                                        <th>Payment_Method</th>
+                                                        <th>Is_Paid</th>
+                                                        <th>QR Code</th>
+                                                        <th>User_Id</th>
+                                                        <th>Show_Id</th>
+                                                        <th>OrderFoods</th>
+                                                        <th>Tickets</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -141,14 +149,23 @@ function Shows() {
                                                     {records.map((item, index) => (
                                                         <tr key={item.id}>
                                                             <td>{index + firstIndex + 1}</td>
-                                                            <td>{item.show_Code}</td>
-                                                            <td>{item.start_Date}</td>
-                                                            <td>{item.movie_Id}</td>
-                                                            <td>{item.room_Id}</td>
+                                                            <td>{item.order_Code}</td>
+                                                            <td>{item.total}</td>
+                                                            <td>{item.discount_Amount}</td>
+                                                            <td>{item.discount_Code}</td>
+                                                            <td>{item.final_Total}</td>
+                                                            <td>{item.status}</td>
+                                                            <td>{item.payment_Method}</td>
+                                                            <td>{item.is_Paid}</td>
+                                                            <td>{item.qR_Code}</td>
+                                                            <td>{item.user_Id}</td>
+                                                            <td>{item.show_Id}</td>
+                                                            <td>{item.orderFoods}</td>
+                                                            <td>{item.tickets}</td>
 
                                                             <td colSpan={2}>
                                                             <a
-                                                                    href={`/shows/edit/${item.id}`}
+                                                                    href={`/Orders/edit/${item.id}`}
                                                                     className="btn btn-primary"
                                                                 >
                                                                     Edit
@@ -185,7 +202,7 @@ function Shows() {
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure you want to delete this Shows?</Modal.Body>
+                <Modal.Body>Are you sure you want to delete this Orders?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
@@ -201,4 +218,4 @@ function Shows() {
     );
 }
 
-export default Shows;
+export default Orders;

@@ -4,10 +4,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getShows, deleteShows } from '~/services/Movies/showService';
+import { getFoods, deleteFoods } from '~/services/Orders/foodService';
 
 
-function Shows() {
+function Foods() {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [deleteShow, setDeleteShow] = useState(false);
@@ -17,7 +17,7 @@ function Shows() {
     const [search, setSearch] = useState('');
     const [searchedData, setSearchedData] = useState([]);
     useEffect(() => {
-        const filteredData = data.filter((item) => item.show_Code.toLowerCase().includes(search.toLowerCase()));
+        const filteredData = data.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()));
         setSearchedData(filteredData);
     }, [search, data]);
 
@@ -44,14 +44,13 @@ function Shows() {
         }
     }
 
-
     // Call Api
     useEffect(() => {
         getData();
     }, []);
 
     const getData = () => {
-        getShows()
+        getFoods()
             .then((data) => {
                 setData(data);
                 setSearchedData(data);
@@ -69,14 +68,14 @@ function Shows() {
     };
 
     const handleDeleteConfirm = async () => {
-        deleteShows(deleteId)
+        deleteFoods(deleteId)
             .then(() => {
-                toast.success('Shows has been deleted');
+                toast.success('Foods has been deleted');
                 handleClose();
                 getData();
             })
             .catch((error) => {
-                toast.error('Failed to delete Shows', error);
+                toast.error('Failed to delete Foods', error);
             });
     };
 
@@ -89,9 +88,9 @@ function Shows() {
     return (
         <section className="section">
             <div className="section-header">
-                <h1>Shows</h1>
+                <h1>Foods</h1>
                 <div className="section-header-button">
-                    <a href="/shows/create" className="btn btn-primary">
+                    <a href="/foods/create" className="btn btn-primary">
                         Add New
                     </a>
                 </div>
@@ -100,9 +99,9 @@ function Shows() {
                         <a href="#">Dashboard</a>
                     </div>
                     <div className="breadcrumb-item">
-                        <a href="#">Shows</a>
+                        <a href="#">Foods</a>
                     </div>
-                    <div className="breadcrumb-item">All Shows</div>
+                    <div className="breadcrumb-item">All Foods</div>
                 </div>
             </div>
             <div className="section-body">
@@ -110,7 +109,7 @@ function Shows() {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-header">
-                                <h4>All Shows</h4>
+                                <h4>All Foods</h4>
                             </div>
 
                             <div className="card-body">
@@ -130,10 +129,10 @@ function Shows() {
                                             <thead>
                                                     <tr>
                                                         <th>Id</th>
-                                                        <th>Show_Code</th>
-                                                        <th>Start_Date</th>
-                                                        <th>MovieId</th>
-                                                        <th>RoomId</th>
+                                                        <th>Name</th>
+                                                        <th>Qty</th>
+                                                        <th>Price</th>
+                                                        <th>Description</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -141,14 +140,14 @@ function Shows() {
                                                     {records.map((item, index) => (
                                                         <tr key={item.id}>
                                                             <td>{index + firstIndex + 1}</td>
-                                                            <td>{item.show_Code}</td>
-                                                            <td>{item.start_Date}</td>
-                                                            <td>{item.movie_Id}</td>
-                                                            <td>{item.room_Id}</td>
+                                                            <td>{item.name}</td>
+                                                            <td>{item.qty}</td>
+                                                            <td>{item.price}</td>
+                                                            <td>{item.description}</td>
 
                                                             <td colSpan={2}>
                                                             <a
-                                                                    href={`/shows/edit/${item.id}`}
+                                                                    href={`/Foods/edit/${item.id}`}
                                                                     className="btn btn-primary"
                                                                 >
                                                                     Edit
@@ -185,7 +184,7 @@ function Shows() {
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure you want to delete this Shows?</Modal.Body>
+                <Modal.Body>Are you sure you want to delete this Foods?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
@@ -201,4 +200,4 @@ function Shows() {
     );
 }
 
-export default Shows;
+export default Foods;

@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { updateShows, editShows } from '~/services/Movies/showService';
+import { updateFoods, editFoods } from '~/services/Orders/foodService';
 import { useNavigate, useParams } from 'react-router-dom';
 
-function EditShows() {
+function EditFoods() {
     const [rooms, setRooms] = useState([]);
     const [movies, setMovies] = useState([]);
 
     const [data, setData] = useState({
-        editId: '',
-        editShow_Code: '',
-        editStart_Date: '',
-        editMovie_Id: '',
-        editRoom_Id: '',
+        id: '',
+        name: '',
+        qty: '',
+        price: '',
+        description: '',
     });
 
     const { id } = useParams();
@@ -22,24 +22,16 @@ function EditShows() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const showData = await editShows(id);
+                const FoodsData = await editFoods(id);
                 setData({
-                    editId: showData.id,
-                    editShow_Code: showData.show_Code,
-                    editStart_Date: showData.start_Date,
-                    editRoom_Id: showData.room_Id,
-                    editMovie_Id: showData.movie_Id,
+                    id: FoodsData.id,
+                    name: FoodsData.name,
+                    qty: FoodsData.qty,
+                    price: FoodsData.price,
+                    description: FoodsData.description,
                 });
-
-                const roomsData = await fetch('https://localhost:7168/api/v1/Rooms');
-                const roomsJson = await roomsData.json();
-                setRooms(roomsJson);
-
-                const moviesData = await fetch('https://localhost:7168/api/v1/Movies');
-                const moviesJson = await moviesData.json();
-                setMovies(moviesJson);
             } catch (error) {
-                console.error('Error fetching Show data:', error);
+                console.error('Error fetching Foods data:', error);
             }
         };
         fetchData();
@@ -48,48 +40,41 @@ function EditShows() {
     const handleUpdate = async (event) => {
         event.preventDefault();
         try {
-            await updateShows(
-                data.editId,
-                data.editShow_Code,
-                data.editStart_Date,
-                data.editRoom_Id,
-                data.editMovie_Id,
-            );
-            toast.success('Show updated successfully');
-            navigate('/shows');
+            await updateFoods(data.id, data.name, data.qty, data.price, data.description);
+            toast.success('Foods updated successfully');
+            navigate('/Foods');
         } catch (error) {
-            toast.error('Failed to update Show');
+            toast.error('Failed to update Foods');
         }
     };
-
 
     return (
         <section className="section">
             <div className="section-header">
                 <div className="section-header-back">
-                    <a href="/shows" className="btn btn-icon">
+                    <a href="/Foods" className="btn btn-icon">
                         <i className="fas fa-arrow-left" />
                     </a>
                 </div>
-                <h1>Edit Show</h1>
+                <h1>Edit Foods</h1>
                 <div className="section-header-breadcrumb">
                     <div className="breadcrumb-item active">
                         <a href="#">Dashboard</a>
                     </div>
                     <div className="breadcrumb-item">
-                        <a href="#">Shows</a>
+                        <a href="#">Foods</a>
                     </div>
-                    <div className="breadcrumb-item">Edit Show</div>
+                    <div className="breadcrumb-item">Edit Foods</div>
                 </div>
             </div>
             <div className="section-body">
-                <h2 className="section-title">Edit Show</h2>
-                <p className="section-lead">On this page you can edit Show details.</p>
+                <h2 className="section-title">Edit Foods</h2>
+                <p className="section-lead">On this page you can edit Foods details.</p>
                 <div className="row">
                     <div className="col-12">
                         <div className="card">
                             <div className="card-header">
-                                <h4>Edit Show Details</h4>
+                                <h4>Edit Foods Details</h4>
                             </div>
                             <div className="card-body">
                                 <form onSubmit={handleUpdate}>
@@ -101,83 +86,73 @@ function EditShows() {
                                             <input
                                                 type="text"
                                                 className="form-control"
-                                                placeholder="Show Id"
+                                                placeholder="Foods Id"
                                                 disabled
-                                                value={data.editId}
-                                                onChange={(e) => setData({ ...data, editId: e.target.value })}
+                                                value={data.id}
+                                                onChange={(e) => setData({ ...data, id: e.target.value })}
                                             />
                                         </div>
                                     </div>
                                     <div className="form-group row mb-4">
                                         <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Show Code
+                                            Name
                                         </label>
                                         <div className="col-sm-12 col-md-7">
                                             <input
                                                 type="text"
                                                 className="form-control"
-                                                placeholder="Enter Show Code"
-                                                value={data.editShow_Code}
-                                                onChange={(e) => setData({ ...data, editShow_Code: e.target.value })}
+                                                placeholder="Enter Name"
+                                                value={data.name}
+                                                onChange={(e) => setData({ ...data, name: e.target.value })}
                                             />
                                         </div>
                                     </div>
                                     <div className="form-group row mb-4">
                                         <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Start Date
+                                            Quantity
                                         </label>
                                         <div className="col-sm-12 col-md-7">
                                             <input
-                                                type="date"
+                                                type="number"
                                                 className="form-control"
-                                                placeholder="Enter Start Date"
-                                                value={data.editStart_Date}
-                                                onChange={(e) => setData({ ...data, editStart_Date: e.target.value })}
+                                                placeholder="Enter Quantity"
+                                                value={data.qty}
+                                                onChange={(e) => setData({ ...data, qty: e.target.value })}
                                             />
                                         </div>
                                     </div>
                                     <div className="form-group row mb-4">
                                         <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Room Id
+                                            Price
                                         </label>
                                         <div className="col-sm-12 col-md-7">
-                                            <select
-                                                className="form-control selectric"
-                                                value={data.editRoom_Id}
-                                                onChange={(e) => setData({ ...data, editRoom_Id: e.target.value })}
-                                            >
-                                                <option>Select Rooms</option>
-                                                {rooms.map((room) => (
-                                                    <option key={room.id} value={room.id}>
-                                                        {room.name}
-                                                    </option>
-                                                ))}
-                                            </select>
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                placeholder="Enter Price"
+                                                value={data.price}
+                                                onChange={(e) => setData({ ...data, price: e.target.value })}
+                                            />
                                         </div>
                                     </div>
                                     <div className="form-group row mb-4">
                                         <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Movie Id
+                                            Description
                                         </label>
                                         <div className="col-sm-12 col-md-7">
-                                            <select
-                                                className="form-control selectric"
-                                                value={data.editMovie_Id}
-                                                onChange={(e) => setData({ ...data, editMovie_Id: e.target.value })}
-                                            >
-                                                <option>Select Movie</option>
-                                                {movies.map((movie) => (
-                                                    <option key={movie.id} value={movie.id}>
-                                                        {movie.title}
-                                                    </option>
-                                                ))}
-                                            </select>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="Enter Description"
+                                                value={data.description}
+                                                onChange={(e) => setData({ ...data, description: e.target.value })}
+                                            />
                                         </div>
                                     </div>
                                     <div className="form-group row mb-4">
                                         <div className="col-sm-12 col-md-7 offset-md-3">
                                             <button className="btn btn-primary" type="submit">
-                                                Update Show
+                                                Update Foods
                                             </button>
                                         </div>
                                     </div>
@@ -192,4 +167,4 @@ function EditShows() {
     );
 }
 
-export default EditShows;
+export default EditFoods;

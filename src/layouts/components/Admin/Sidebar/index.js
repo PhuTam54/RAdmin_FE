@@ -72,31 +72,31 @@ function SidebarAdmin() {
                                         Show
                                     </a>
                                 </li>
-                                {/* <li>
-                                    <a className="nav-link" href="/shop">
-                                        Ticket
-                                    </a>
-                                </li> */}
                             </ul>
                         </li>
                         <li className="dropdown">
                             <a href="#" className="nav-link has-dropdown">
-                                <i className="fas fa-cart-plus"></i> <span>Order</span>
+                                <i className="fas fa-cart-plus"></i> <span>Orders</span>
                             </a>
                             <ul className="dropdown-menu">
                                 <li>
-                                    <a className="nav-link" href="/food">
-                                        Food
+                                    <a className="nav-link" href="/foods">
+                                        Foods
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="nav-link" href="/order">
-                                        Order
+                                    <a className="nav-link" href="/orders">
+                                        Orders
                                     </a>
                                 </li>
                                 <li>
                                     <a className="nav-link" href="/orderFood">
                                         OrderFood
+                                    </a>
+                                </li>
+                                <li>
+                                    <a className="nav-link" href="/ticket">
+                                        Ticket
                                     </a>
                                 </li>
                             </ul>
