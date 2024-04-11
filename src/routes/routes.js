@@ -31,16 +31,18 @@ import EditShops from '~/pages/Shop/Shop/edit';
 import Booking from '~/pages/Magager/Booking/index';
 
 //      Movie
-import Movies from '~/pages/Movies/movie';
-// import CreateMovie from '~/pages/Movie/create';
+import Movies from '~/pages/Movies/Movie/movie';
+import CreateMovies from '~/pages/Movies/Movie/create';
+import EditMovies from '~/pages/Movies/Movie/edit';
 
-// //      FeedBack
-// import Feedback from '~/pages/FeedBack/index';
-// import CreateFeedback from '~/pages/FeedBack/create';
+import Shows from '~/pages/Movies/Shows/index';
+import CreateShows from '~/pages/Movies/Shows/create';
+import EditShows from '~/pages/Movies/Shows/edit';
 
-// //      FeedBack
-// import Users from '~/pages/Users/index';
-// import CreateUsers from '~/pages/Users/create';
+import Genres from '~/pages/Movies/Genres/index';
+import Rooms from '~/pages/Movies/room';
+
+
 import User from '~/pages/Magager/Users/index';
 
 // Public routes
@@ -77,15 +79,16 @@ export const publicRoutes = [
 
     //      Movie
     { path: config.routes.movies, component: Movies, layout: AdminLayout },
-    // { path: config.routes.createMovie, component: CreateMovie, layout: AdminLayout },
+    { path: config.routes.createMovies, component: CreateMovies, layout: AdminLayout },
+    { path: config.routes.editMovies, component: EditMovies, layout: AdminLayout },
 
-    // //      FeedBack
-    // { path: config.routes.feedback, component: Feedback, layout: AdminLayout },
-    // { path: config.routes.createFeedback, component: CreateFeedback, layout: AdminLayout },
+    { path: config.routes.genres, component: Genres, layout: AdminLayout },
+    { path: config.routes.shows, component: Shows, layout: AdminLayout },
+    { path: config.routes.createShows, component: CreateShows, layout: AdminLayout },
+    { path: config.routes.editShows, component: EditShows, layout: AdminLayout },
 
-    //    //      Users
-    //    { path: config.routes.users, component: Users, layout: AdminLayout },
-    //    { path: config.routes.createUsers, component: CreateUsers, layout: AdminLayout },
+    { path: config.routes.rooms, component: Rooms, layout: AdminLayout },
+
 ];
 
 // Private routes

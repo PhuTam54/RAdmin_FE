@@ -38,31 +38,45 @@ function SidebarAdmin() {
                             </a>
                             <ul className="dropdown-menu">
                                 <li>
-                                    <a className="nav-link" href="/product">
+                                    <a className="nav-link" href="/genres">
+                                        Genres
+                                    </a>
+                                </li>
+                                {/* <li>
+                                    <a className="nav-link" href="/seats">
+                                        Seats
+                                    </a>
+                                </li>
+                                <li>
+                                    <a className="nav-link" href="/favorite">
                                         Favorite
                                     </a>
                                 </li>
+                                <li>
+                                    <a className="nav-link" href="/galleryMovie">
+                                        GalleryMovie
+                                    </a>
+                                </li> */}
                                 <li>
                                     <a className="nav-link" href="/movies">
                                         Movie
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="nav-link" href="/product">
+                                    <a className="nav-link" href="/rooms">
                                         Room
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="nav-link" href="/floors">
+                                    <a className="nav-link" href="/shows">
                                         Show
                                     </a>
                                 </li>
-
-                                <li>
+                                {/* <li>
                                     <a className="nav-link" href="/shop">
                                         Ticket
                                     </a>
-                                </li>
+                                </li> */}
                             </ul>
                         </li>
                         <li className="dropdown">
@@ -160,6 +174,18 @@ function SidebarAdmin() {
                                         Invoice
                                     </a>
                                 </li>
+                            </ul>
+                        </li>
+                        <li className="dropdown">
+                            <a href="#" className="nav-link has-dropdown">
+                                <i className="fas fa-tasks"></i> <span>User</span>
+                            </a>
+                            <ul className="dropdown-menu">
+                                <li>
+                                    <a className="nav-link" href="/invoice">
+                                        Tenant
+                                    </a>
+                                </li>
                                 <li>
                                     <a className="nav-link" href="/users">
                                         Users
@@ -193,22 +219,7 @@ function SidebarAdmin() {
                             <ul className="dropdown-menu">
                                 <li>
                                     <a className="nav-link" href="/error_404">
-                                        503
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="nav-link" href="admin/error_404">
-                                        403
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="nav-link" href="/error_404">
                                         404
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="nav-link" href="admin/error_404">
-                                        500
                                     </a>
                                 </li>
                             </ul>

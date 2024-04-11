@@ -4,19 +4,32 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getMoviesData, deleteMovies } from '~/services/movieService';
+import {
+    getGenres,
+    createGenres,
+    editGenres,
+    updateGenres,
+    deleteGenres,
+} from '~/services/Movies/genresService';
 
-function Movies() {
+function Genres() {
     const [loading, setLoading] = useState(true);
-    const [data, setData] = useState([]);
+    const [editShow, setEditShow] = useState(false);
     const [deleteShow, setDeleteShow] = useState(false);
+    const [createShow, setCreateShow] = useState(false);
+    const [name, setName] = useState('');
+    const [slug, setSlug] = useState('');
+    const [editId, setEditId] = useState('');
+    const [editName, setEditName] = useState('');
+    const [editSlug, setEditSlug] = useState('');
+    const [data, setData] = useState([]);
     const [deleteId, setDeleteId] = useState('');
 
     //search
     const [search, setSearch] = useState('');
     const [searchedData, setSearchedData] = useState([]);
     useEffect(() => {
-        const filteredData = data.filter((item) => item.director.toLowerCase().includes(search.toLowerCase()));
+        const filteredData = data.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()));
         setSearchedData(filteredData);
     }, [search, data]);
 
@@ -49,7 +62,7 @@ function Movies() {
     }, []);
 
     const getData = () => {
-        getMoviesData()
+        getGenres()
             .then((data) => {
                 setData(data);
                 setSearchedData(data);
@@ -61,46 +74,94 @@ function Movies() {
             });
     };
 
+    const handleSave = () => {
+        handleCreateShow();
+    };
+
+    const handleSaveConfirm = () => {
+        createGenres(name, slug)
+            .then(() => {
+                getData();
+                clear();
+                handleClose();
+                toast.success('Genres has been created');
+            })
+            .catch((error) => {
+                toast.error('Failed to create Genres', error);
+            });
+    };
+
+    const handleEdit = (id) => {
+        handleEditShow();
+        editGenres(id)
+            .then((data) => {
+                setEditId(id);
+                setEditName(data.name);
+                setEditSlug(data.slug);
+            })
+            .catch((error) => console.error('Error fetching Genres data:', error));
+    };
+
+    const handleUpdate = () => {
+        updateGenres(editId, editName, editSlug)
+            .then(() => {
+                handleClose();
+                getData();
+                clear();
+                toast.success('Genres has been updated');
+            })
+            .catch((error) => {
+                toast.error('Failed to update Genres', error);
+            });
+    };
+
     const handleDelete = (id) => {
         setDeleteId(id);
         handleDeleteShow();
     };
 
     const handleDeleteConfirm = async () => {
-        deleteMovies(deleteId)
+        deleteGenres(deleteId)
             .then(() => {
-                toast.success('Movies has been deleted');
+                toast.success('Genres has been deleted');
                 handleClose();
                 getData();
             })
             .catch((error) => {
-                toast.error('Failed to delete Movies', error);
+                toast.error('Failed to delete Genres', error);
             });
+    };
+
+    const clear = () => {
+        setName('');
+        setSlug('');
+        setEditId('');
+        setEditName('');
+        setEditSlug('');
     };
 
     const handleClose = () => {
         setDeleteShow(false);
+        setCreateShow(false);
+        setEditShow(false);
     };
 
+    const handleEditShow = () => setEditShow(true);
     const handleDeleteShow = () => setDeleteShow(true);
+    const handleCreateShow = () => setCreateShow(true);
 
     return (
         <section className="section">
             <div className="section-header">
-                <h1>Movies</h1>
-                <div className="section-header-button">
-                    <a href="/createMovies" className="btn btn-primary">
-                        Add New
-                    </a>
-                </div>
+                <h1>Genres</h1>
                 <div className="section-header-breadcrumb">
                     <div className="breadcrumb-item active">
                         <a href="#">Dashboard</a>
                     </div>
                     <div className="breadcrumb-item">
-                        <a href="#">Movies</a>
+                        <a href="#">Genres</a>
                     </div>
-                    <div className="breadcrumb-item">All Movies</div>
+                    <div className="breadcrumb-item">All Genres</div>
                 </div>
             </div>
             <div className="section-body">
@@ -108,7 +169,12 @@ function Movies() {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-header">
-                                <h4>All Movies</h4>
+                                <h4>All Genres</h4>
+                                <div className="section-header-button">
+                                    <button className="btn btn-primary" onClick={() => handleSave()}>
+                                        Create
+                                    </button>
+                                </div>
                             </div>
 
                             <div className="card-body">
@@ -128,17 +194,8 @@ function Movies() {
                                                 <thead>
                                                     <tr>
                                                         <th>Id</th>
-                                                        <th>Title</th>
-                                                        <th>Actor</th>
-                                                        <th>Movie Image</th>
-                                                        <th>Cover Image</th>
-                                                        <th>Description</th>
-                                                        <th>Duration</th>
-                                                        <th>Director</th>
-                                                        <th>Favorite Count</th>
-                                                        <th>Trailer</th>
-                                                        <th>GenreIds</th>
-                                                        <th>LanguageIds</th>
+                                                        <th>Name</th>
+                                                        <th>Slug</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -146,41 +203,15 @@ function Movies() {
                                                     {records.map((item, index) => (
                                                         <tr key={item.id}>
                                                             <td>{index + firstIndex + 1}</td>
-                                                            <td>{item.title}</td>
-                                                            <td>{item.actor}</td>
-                                                            <td>
-                                                                <img
-                                                                    src={
-                                                                        'https://img3.thuthuatphanmem.vn/uploads/2019/10/10/anh-doremon-vui-ve_033147003.png'
-                                                                    }
-                                                                    style={{ width: '100px', height: 'auto' }}
-                                                                    alt={item.movie_Image}
-                                                                />
-                                                            </td>
-                                                            <td>
-                                                                <img
-                                                                    src={
-                                                                        'https://img3.thuthuatphanmem.vn/uploads/2019/10/10/anh-doremon-vui-ve_033147003.png'
-                                                                    }
-                                                                    style={{ width: '100px', height: 'auto' }}
-                                                                    alt={item.cover_Image}
-                                                                />
-                                                            </td>
-                                                            <td>{item.description}</td>
-                                                            <td>{item.duration}</td>
-                                                            <td>{item.director}</td>
-                                                            <td>{item.favorite_Count}</td>
-                                                            <td>{item.trailer}</td>
-                                                            <td>{item.genreIds}</td>
-                                                            <td>{item.languageIds}</td>
-
+                                                            <td>{item.name}</td>
+                                                            <td>{item.slug}</td>
                                                             <td colSpan={2}>
-                                                                <a
-                                                                    href={`/Movies/edit/${item.id}`}
+                                                                <button
                                                                     className="btn btn-primary"
+                                                                    onClick={() => handleEdit(item.id)}
                                                                 >
                                                                     Edit
-                                                                </a>
+                                                                </button>
                                                                 &nbsp;
                                                                 <button
                                                                     className="btn btn-danger"
@@ -208,12 +239,69 @@ function Movies() {
                     </div>
                 </div>
             </div>
+            <Modal show={createShow} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Create Genres</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Container>
+                        <Row>
+                            <Col>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Name"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                />
+                            </Col>
+                        </Row>
+                    </Container>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleSaveConfirm}>
+                        Create
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal show={editShow} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Edit Genres</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Container>
+                        <Row>
+                            <Col>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Name"
+                                    value={editName}
+                                    onChange={(e) => setEditName(e.target.value)}
+                                />
+                            </Col>
+                        </Row>
+                    </Container>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleUpdate}>
+                        Update
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
             <Modal show={deleteShow} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure you want to delete this Movies?</Modal.Body>
+                <Modal.Body>Are you sure you want to delete this Genres?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
@@ -228,5 +316,4 @@ function Movies() {
         </section>
     );
 }
-
-export default Movies;
+export default Genres;
