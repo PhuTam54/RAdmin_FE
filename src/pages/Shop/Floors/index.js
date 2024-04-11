@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getFloorsData, createFloors, editFloorsData, updateFloors, deleteFloors } from '~/services/Shop/floorService';
+import { getFloorsData, createFloors, editFloorsData, updateFloors, deleteFloors } from '~/services/Shops/floorService';
 
 function Floors() {
     const [loading, setLoading] = useState(true);

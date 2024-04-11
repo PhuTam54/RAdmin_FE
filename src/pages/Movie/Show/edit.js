@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { updateShows, editShows } from '~/services/Movies/showService';
+import { updateShows, editShows } from '~/services/Movie/showService';
 import { useNavigate, useParams } from 'react-router-dom';
 
 function EditShows() {

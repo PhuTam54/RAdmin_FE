@@ -1,50 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { updateMovies, editMovies } from '~/services/Movies/movieService';
-import { useNavigate, useParams } from 'react-router-dom';
+import { createMovies } from '~/services/Movie/movieService';
+import { useNavigate } from 'react-router-dom';
 
-function EditMovies() {
+function CreateMovies() {
     const [genres, setGenres] = useState([]);
     const [languages, setLanguages] = useState([]);
 
     const [data, setData] = useState({
-        editId: '',
-        editTitle: '',
-        editActor: '',
-        editMovieImg: '',
-        editCoverImg: '',
-        editDescription: '',
-        editDuration: '',
-        editDirector: '',
-        editFavoriteCount: '',
-        editTrailer: '',
-        editGenresId: '',
-        editLanguesIs: '',
+        title: '',
+        actor: '',
+        movie_Image: '',
+        cover_Image: '',
+        description: '',
+        duration: '',
+        director: '',
+        favorite_Count: '',
+        trailer: '',
+        genreIds: '0',
+        languageIds: '0',
     });
 
-    const { id } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const movieData = await editMovies(id);
-                setData({
-                    editId: movieData.id,
-                    editTitle: movieData.title,
-                    editActor: movieData.actor,
-                    editMovieImg: movieData.movie_Image,
-                    editCoverImg: movieData.cover_Image,
-                    editDescription: movieData.description,
-                    editDuration: movieData.duration,
-                    editDirector: movieData.director,
-                    editFavoriteCount: movieData.favorite_Count,
-                    editTrailer: movieData.trailer,
-                    editGenresId: movieData.genreIds,
-                    editLanguesIs: movieData.languageIds,
-                });
-
                 const genresData = await fetch('https://localhost:7168/api/v1/Genres');
                 const genresJson = await genresData.json();
                 setGenres(genresJson);
@@ -58,30 +40,22 @@ function EditMovies() {
         };
 
         fetchData();
-    }, [id]);
+    }, []);
 
-    const handleUpdate = async (event) => {
+    const handleCreate = async (event) => {
         event.preventDefault();
         try {
-            await updateMovies(
-                data.editId,
-                data.editTitle,
-                data.editActor,
-                data.editMovieImg,
-                data.editCoverImg,
-                data.editDescription,
-                data.editDirector,
-                data.editDuration,
-                data.editFavoriteCount,
-                data.editTrailer,
-                data.editGenresId,
-                data.editLanguesIs,
-            );
-            toast.success('Shop updated successfully');
-            navigate('/Movies');
+            await createMovies(data);
+            toast.success('Shop created successfully');
+            navigate('/movies');
         } catch (error) {
-            toast.error('Failed to update Shop');
+            toast.error('Failed to create Shop');
         }
+    };
+
+    const handleImageChange = (event) => {
+        const image = event.target.files[0];
+        setData({ ...data, image: image });
     };
 
     return (
@@ -92,36 +66,28 @@ function EditMovies() {
                         <i className="fas fa-arrow-left" />
                     </a>
                 </div>
-                <h1>Edit Movie</h1>
+                <h1>Create Movies</h1>
                 <div className="section-header-breadcrumb">
                     <div className="breadcrumb-item active">
                         <a href="#">Dashboard</a>
                     </div>
                     <div className="breadcrumb-item">
-                        <a href="#">Movies</a>
+                        <a href="#">Moviess</a>
                     </div>
-                    <div className="breadcrumb-item">Edit Movie</div>
+                    <div className="breadcrumb-item">Create Movies</div>
                 </div>
             </div>
             <div className="section-body">
-                <h2 className="section-title">Edit Movie</h2>
-                <p className="section-lead">On this page you can edit Movie details.</p>
+                <h2 className="section-title">Create Movies</h2>
+                <p className="section-lead">On this page you can create a new Movies and fill in all fields.</p>
                 <div className="row">
                     <div className="col-12">
                         <div className="card">
                             <div className="card-header">
-                                <h4>Edit Movie Details</h4>
+                                <h4>Write Your Movies</h4>
                             </div>
                             <div className="card-body">
-                                <form onSubmit={handleUpdate}>
-                                    <div className="form-group row mb-4">
-                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Id
-                                        </label>
-                                        <div className="col-sm-12 col-md-7">
-                                            <input type="text" className="form-control" value={data.editId} disabled />
-                                        </div>
-                                    </div>
+                                <form onSubmit={handleCreate}>
                                     <div className="form-group row mb-4">
                                         <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
                                             Title
@@ -130,8 +96,8 @@ function EditMovies() {
                                             <input
                                                 type="text"
                                                 className="form-control"
-                                                value={data.editTitle}
-                                                onChange={(e) => setData({ ...data, editTitle: e.target.value })}
+                                                value={data.title}
+                                                onChange={(e) => setData({ ...data, title: e.target.value })}
                                             />
                                         </div>
                                     </div>
@@ -143,34 +109,52 @@ function EditMovies() {
                                             <input
                                                 type="text"
                                                 className="form-control"
-                                                value={data.editActor}
-                                                onChange={(e) => setData({ ...data, editActor: e.target.value })}
+                                                value={data.actor}
+                                                onChange={(e) => setData({ ...data, actor: e.target.value })}
                                             />
                                         </div>
                                     </div>
+                                    {/* <div className="form-group row mb-4">
+                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
+                                            Thumbnail
+                                        </label>
+                                        <div className="col-sm-12 col-md-7">
+                                            <div id="image-preview" className="image-preview">
+                                                <label htmlFor="image-upload" id="image-label">
+                                                    Choose File
+                                                </label>
+                                                <input
+                                                    type="file"
+                                                    name="image"
+                                                    id="image-upload"
+                                                    onChange={handleImageChange}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div> */}
                                     <div className="form-group row mb-4">
                                         <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Movie Image
+                                            Movie_Image
                                         </label>
                                         <div className="col-sm-12 col-md-7">
                                             <input
                                                 type="text"
                                                 className="form-control"
-                                                value={data.editMovieImg}
-                                                onChange={(e) => setData({ ...data, editMovieImg: e.target.value })}
+                                                value={data.movie_Image}
+                                                onChange={(e) => setData({ ...data, movie_Image: e.target.value })}
                                             />
                                         </div>
                                     </div>
                                     <div className="form-group row mb-4">
                                         <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Cover Image
+                                            Cover_Image
                                         </label>
                                         <div className="col-sm-12 col-md-7">
                                             <input
                                                 type="text"
                                                 className="form-control"
-                                                value={data.editCoverImg}
-                                                onChange={(e) => setData({ ...data, editCoverImg: e.target.value })}
+                                                value={data.cover_Image}
+                                                onChange={(e) => setData({ ...data, cover_Image: e.target.value })}
                                             />
                                         </div>
                                     </div>
@@ -182,8 +166,8 @@ function EditMovies() {
                                             <input
                                                 type="text"
                                                 className="form-control"
-                                                value={data.editDescription}
-                                                onChange={(e) => setData({ ...data, editDescription: e.target.value })}
+                                                value={data.description}
+                                                onChange={(e) => setData({ ...data, description: e.target.value })}
                                             />
                                         </div>
                                     </div>
@@ -195,8 +179,8 @@ function EditMovies() {
                                             <input
                                                 type="text"
                                                 className="form-control"
-                                                value={data.editDuration}
-                                                onChange={(e) => setData({ ...data, editDuration: e.target.value })}
+                                                value={data.duration}
+                                                onChange={(e) => setData({ ...data, duration: e.target.value })}
                                             />
                                         </div>
                                     </div>
@@ -208,8 +192,8 @@ function EditMovies() {
                                             <input
                                                 type="text"
                                                 className="form-control"
-                                                value={data.editDirector}
-                                                onChange={(e) => setData({ ...data, editDirector: e.target.value })}
+                                                value={data.director}
+                                                onChange={(e) => setData({ ...data, director: e.target.value })}
                                             />
                                         </div>
                                     </div>
@@ -221,10 +205,8 @@ function EditMovies() {
                                             <input
                                                 type="number"
                                                 className="form-control"
-                                                value={data.editFavoriteCount}
-                                                onChange={(e) =>
-                                                    setData({ ...data, editFavoriteCount: e.target.value })
-                                                }
+                                                value={data.favorite_Count}
+                                                onChange={(e) => setData({ ...data, favorite_Count: e.target.value })}
                                             />
                                         </div>
                                     </div>
@@ -236,28 +218,9 @@ function EditMovies() {
                                             <input
                                                 type="text"
                                                 className="form-control"
-                                                value={data.editTrailer}
-                                                onChange={(e) => setData({ ...data, editTrailer: e.target.value })}
+                                                value={data.trailer}
+                                                onChange={(e) => setData({ ...data, trailer: e.target.value })}
                                             />
-                                        </div>
-                                    </div>
-                                    <div className="form-group row mb-4">
-                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Genres Id
-                                        </label>
-                                        <div className="col-sm-12 col-md-7">
-                                            <select
-                                                className="form-control selectric"
-                                                value={data.editGenresId}
-                                                onChange={(e) => setData({ ...data, editGenresId: e.target.value })}
-                                            >
-                                                <option>Select genre</option>
-                                                {genres.map((genre) => (
-                                                    <option key={genre.id} value={genre.id}>
-                                                        {genre.name}
-                                                    </option>
-                                                ))}
-                                            </select>
                                         </div>
                                     </div>
                                     <div className="form-group row mb-4">
@@ -267,13 +230,32 @@ function EditMovies() {
                                         <div className="col-sm-12 col-md-7">
                                             <select
                                                 className="form-control selectric"
-                                                value={data.editLanguesIs}
-                                                onChange={(e) => setData({ ...data, editLanguesIs: e.target.value })}
+                                                value={data.languageIds}
+                                                onChange={(e) => setData({ ...data, languageIds: e.target.value })}
                                             >
-                                                <option>Select language</option>
-                                                {languages.map((language) => (
-                                                    <option key={language.id} value={language.id}>
-                                                        {language.name}
+                                                <option>Select Languages</option>
+                                                {languages.map((lg) => (
+                                                    <option key={lg.id} value={lg.id}>
+                                                        {lg.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-4">
+                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
+                                            Genres Id
+                                        </label>
+                                        <div className="col-sm-12 col-md-7">
+                                            <select
+                                                className="form-control selectric"
+                                                value={data.genreIds}
+                                                onChange={(e) => setData({ ...data, genreIds: e.target.value })}
+                                            >
+                                                <option>Select category</option>
+                                                {genres.map((genres) => (
+                                                    <option key={genres.id} value={genres.id}>
+                                                        {genres.name}
                                                     </option>
                                                 ))}
                                             </select>
@@ -282,7 +264,7 @@ function EditMovies() {
                                     <div className="form-group row mb-4">
                                         <div className="col-sm-12 col-md-7 offset-md-3">
                                             <button className="btn btn-primary" type="submit">
-                                                Update Movie
+                                                Create Movies
                                             </button>
                                         </div>
                                     </div>
@@ -297,4 +279,4 @@ function EditMovies() {
     );
 }
 
-export default EditMovies;
+export default CreateMovies;

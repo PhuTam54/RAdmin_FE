@@ -4,9 +4,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getShops, deleteShops } from '~/services/Shop/shopService';
+import { getShows, deleteShows } from '~/services/Movie/showService';
 
-function Shops() {
+
+function Shows() {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [deleteShow, setDeleteShow] = useState(false);
@@ -16,7 +17,7 @@ function Shops() {
     const [search, setSearch] = useState('');
     const [searchedData, setSearchedData] = useState([]);
     useEffect(() => {
-        const filteredData = data.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()));
+        const filteredData = data.filter((item) => item.show_Code.toLowerCase().includes(search.toLowerCase()));
         setSearchedData(filteredData);
     }, [search, data]);
 
@@ -43,13 +44,14 @@ function Shops() {
         }
     }
 
+
     // Call Api
     useEffect(() => {
         getData();
     }, []);
 
     const getData = () => {
-        getShops()
+        getShows()
             .then((data) => {
                 setData(data);
                 setSearchedData(data);
@@ -67,14 +69,14 @@ function Shops() {
     };
 
     const handleDeleteConfirm = async () => {
-        deleteShops(deleteId)
+        deleteShows(deleteId)
             .then(() => {
-                toast.success('Shops has been deleted');
+                toast.success('Shows has been deleted');
                 handleClose();
                 getData();
             })
             .catch((error) => {
-                toast.error('Failed to delete Shops', error);
+                toast.error('Failed to delete Shows', error);
             });
     };
 
@@ -87,9 +89,9 @@ function Shops() {
     return (
         <section className="section">
             <div className="section-header">
-                <h1>Shops</h1>
+                <h1>Shows</h1>
                 <div className="section-header-button">
-                    <a href="/shops/create" className="btn btn-primary">
+                    <a href="/shows/create" className="btn btn-primary">
                         Add New
                     </a>
                 </div>
@@ -98,9 +100,9 @@ function Shops() {
                         <a href="#">Dashboard</a>
                     </div>
                     <div className="breadcrumb-item">
-                        <a href="#">Shops</a>
+                        <a href="#">Shows</a>
                     </div>
-                    <div className="breadcrumb-item">All Shops</div>
+                    <div className="breadcrumb-item">All Shows</div>
                 </div>
             </div>
             <div className="section-body">
@@ -108,7 +110,7 @@ function Shops() {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-header">
-                                <h4>All Shops</h4>
+                                <h4>All Shows</h4>
                             </div>
 
                             <div className="card-body">
@@ -125,16 +127,13 @@ function Shops() {
                                         <div className="clearfix mb-3" />
                                         <div className="table-responsive">
                                             <table className="table table-striped">
-                                                <thead>
+                                            <thead>
                                                     <tr>
                                                         <th>Id</th>
-                                                        <th>Floors Id</th>
-                                                        <th>Category Id</th>
-                                                        <th>Name</th>
-                                                        <th>Img</th>
-                                                        <th>Phone</th>
-                                                        <th>Address</th>
-                                                        <th>Description</th>
+                                                        <th>Show_Code</th>
+                                                        <th>Start_Date</th>
+                                                        <th>MovieId</th>
+                                                        <th>RoomId</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -142,22 +141,14 @@ function Shops() {
                                                     {records.map((item, index) => (
                                                         <tr key={item.id}>
                                                             <td>{index + firstIndex + 1}</td>
-                                                            <td>{item.floor_Id}</td>
-                                                            <td>{item.category_Id}</td>
-                                                            <td>{item.name}</td>
-                                                            <td>
-                                                                <img
-                                                                    src={'https://localhost:7168/api/v1/Shops/'+item.image}
-                                                                    style={{ width: '100px', height: 'auto' }}
-                                                                    alt={item.image}
-                                                                />
-                                                            </td>
-                                                            <td>{item.phone_Number}</td>
-                                                            <td>{item.address}</td>
-                                                            <td>{item.description}</td>
+                                                            <td>{item.show_Code}</td>
+                                                            <td>{item.start_Date}</td>
+                                                            <td>{item.movie_Id}</td>
+                                                            <td>{item.room_Id}</td>
+
                                                             <td colSpan={2}>
-                                                                <a
-                                                                    href={`/shops/edit/${item.id}`}
+                                                            <a
+                                                                    href={`/shows/edit/${item.id}`}
                                                                     className="btn btn-primary"
                                                                 >
                                                                     Edit
@@ -194,7 +185,7 @@ function Shops() {
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure you want to delete this Shops?</Modal.Body>
+                <Modal.Body>Are you sure you want to delete this Shows?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
@@ -210,4 +201,4 @@ function Shops() {
     );
 }
 
-export default Shops;
+export default Shows;

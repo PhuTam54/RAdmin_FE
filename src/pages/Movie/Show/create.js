@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { createShows } from '~/services/Movies/showService';
+import { createShows } from '~/services/Movie/showService';
 import { useNavigate } from 'react-router-dom';
 
 function CreateShows() {

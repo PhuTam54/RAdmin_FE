@@ -4,24 +4,22 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import {
-    getGenres,
-    createGenres,
-    editGenres,
-    updateGenres,
-    deleteGenres,
-} from '~/services/Movies/genresService';
+import { getRooms, createRooms, editRooms, updateRooms, deleteRooms } from '~/services/Movie/roomService';
 
-function Genres() {
+function Rooms() {
     const [loading, setLoading] = useState(true);
     const [editShow, setEditShow] = useState(false);
     const [deleteShow, setDeleteShow] = useState(false);
     const [createShow, setCreateShow] = useState(false);
     const [name, setName] = useState('');
     const [slug, setSlug] = useState('');
+    const [rows, setRows] = useState('');
+    const [columns, setColumns] = useState('');
     const [editId, setEditId] = useState('');
     const [editName, setEditName] = useState('');
     const [editSlug, setEditSlug] = useState('');
+    const [editRows, setEditRows] = useState('');
+    const [editColumns, setEditColumns] = useState('');
     const [data, setData] = useState([]);
     const [deleteId, setDeleteId] = useState('');
 
@@ -62,7 +60,7 @@ function Genres() {
     }, []);
 
     const getData = () => {
-        getGenres()
+        getRooms()
             .then((data) => {
                 setData(data);
                 setSearchedData(data);
@@ -79,39 +77,41 @@ function Genres() {
     };
 
     const handleSaveConfirm = () => {
-        createGenres(name, slug)
+        createRooms(name, slug, rows, columns)
             .then(() => {
                 getData();
                 clear();
                 handleClose();
-                toast.success('Genres has been created');
+                toast.success('Rooms has been created');
             })
             .catch((error) => {
-                toast.error('Failed to create Genres', error);
+                toast.error('Failed to create Rooms', error);
             });
     };
 
     const handleEdit = (id) => {
         handleEditShow();
-        editGenres(id)
+        editRooms(id)
             .then((data) => {
                 setEditId(id);
                 setEditName(data.name);
                 setEditSlug(data.slug);
+                setEditRows(data.rows);
+                setEditColumns(data.columns);
             })
-            .catch((error) => console.error('Error fetching Genres data:', error));
+            .catch((error) => console.error('Error fetching Rooms data:', error));
     };
 
     const handleUpdate = () => {
-        updateGenres(editId, editName, editSlug)
+        updateRooms(editId, editName, editSlug, editRows, editColumns)
             .then(() => {
                 handleClose();
                 getData();
                 clear();
-                toast.success('Genres has been updated');
+                toast.success('Rooms has been updated');
             })
             .catch((error) => {
-                toast.error('Failed to update Genres', error);
+                toast.error('Failed to update Rooms', error);
             });
     };
 
@@ -121,23 +121,26 @@ function Genres() {
     };
 
     const handleDeleteConfirm = async () => {
-        deleteGenres(deleteId)
+        deleteRooms(deleteId)
             .then(() => {
-                toast.success('Genres has been deleted');
+                toast.success('Rooms has been deleted');
                 handleClose();
                 getData();
             })
             .catch((error) => {
-                toast.error('Failed to delete Genres', error);
+                toast.error('Failed to delete Rooms', error);
             });
     };
 
     const clear = () => {
         setName('');
         setSlug('');
+        setRows('');
+        setColumns('');
         setEditId('');
         setEditName('');
-        setEditSlug('');
+        setEditRows('');
+        setEditColumns('');
     };
 
     const handleClose = () => {
@@ -153,15 +156,15 @@ function Genres() {
     return (
         <section className="section">
             <div className="section-header">
-                <h1>Genres</h1>
+                <h1>Rooms</h1>
                 <div className="section-header-breadcrumb">
                     <div className="breadcrumb-item active">
                         <a href="#">Dashboard</a>
                     </div>
                     <div className="breadcrumb-item">
-                        <a href="#">Genres</a>
+                        <a href="#">Rooms</a>
                     </div>
-                    <div className="breadcrumb-item">All Genres</div>
+                    <div className="breadcrumb-item">All Rooms</div>
                 </div>
             </div>
             <div className="section-body">
@@ -169,7 +172,7 @@ function Genres() {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-header">
-                                <h4>All Genres</h4>
+                                <h4>All Rooms</h4>
                                 <div className="section-header-button">
                                     <button className="btn btn-primary" onClick={() => handleSave()}>
                                         Create
@@ -196,6 +199,8 @@ function Genres() {
                                                         <th>Id</th>
                                                         <th>Name</th>
                                                         <th>Slug</th>
+                                                        <th>Rows</th>
+                                                        <th>Columns</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -205,6 +210,8 @@ function Genres() {
                                                             <td>{index + firstIndex + 1}</td>
                                                             <td>{item.name}</td>
                                                             <td>{item.slug}</td>
+                                                            <td>{item.rows}</td>
+                                                            <td>{item.columns}</td>
                                                             <td colSpan={2}>
                                                                 <button
                                                                     className="btn btn-primary"
@@ -241,7 +248,7 @@ function Genres() {
             </div>
             <Modal show={createShow} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Create Genres</Modal.Title>
+                    <Modal.Title>Create Rooms</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Container>
@@ -253,6 +260,24 @@ function Genres() {
                                     placeholder="Enter Name"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
+                                />
+                            </Col>
+                            <Col>
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    placeholder="Enter Rows"
+                                    value={rows}
+                                    onChange={(e) => setRows(e.target.value)}
+                                />
+                            </Col>
+                            <Col>
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    placeholder="Enter Colums"
+                                    value={columns}
+                                    onChange={(e) => setColumns(e.target.value)}
                                 />
                             </Col>
                         </Row>
@@ -270,7 +295,7 @@ function Genres() {
 
             <Modal show={editShow} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Edit Genres</Modal.Title>
+                    <Modal.Title>Edit Rooms</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Container>
@@ -282,6 +307,24 @@ function Genres() {
                                     placeholder="Enter Name"
                                     value={editName}
                                     onChange={(e) => setEditName(e.target.value)}
+                                />
+                            </Col>
+                            <Col>
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    placeholder="Enter Rows"
+                                    value={editRows}
+                                    onChange={(e) => setEditRows(e.target.value)}
+                                />
+                            </Col>
+                            <Col>
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    placeholder="Enter Colums"
+                                    value={editColumns}
+                                    onChange={(e) => setEditColumns(e.target.value)}
                                 />
                             </Col>
                         </Row>
@@ -301,7 +344,7 @@ function Genres() {
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure you want to delete this Genres?</Modal.Body>
+                <Modal.Body>Are you sure you want to delete this Rooms?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
@@ -316,4 +359,5 @@ function Genres() {
         </section>
     );
 }
-export default Genres;
+
+export default Rooms;

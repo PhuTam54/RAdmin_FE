@@ -4,22 +4,24 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getRooms, createRooms, editRooms, updateRooms, deleteRooms } from '~/services/Movies/roomService';
+import {
+    getGenres,
+    createGenres,
+    editGenres,
+    updateGenres,
+    deleteGenres,
+} from '~/services/Movie/genresService';
 
-function Rooms() {
+function Genres() {
     const [loading, setLoading] = useState(true);
     const [editShow, setEditShow] = useState(false);
     const [deleteShow, setDeleteShow] = useState(false);
     const [createShow, setCreateShow] = useState(false);
     const [name, setName] = useState('');
     const [slug, setSlug] = useState('');
-    const [rows, setRows] = useState('');
-    const [columns, setColumns] = useState('');
     const [editId, setEditId] = useState('');
     const [editName, setEditName] = useState('');
     const [editSlug, setEditSlug] = useState('');
-    const [editRows, setEditRows] = useState('');
-    const [editColumns, setEditColumns] = useState('');
     const [data, setData] = useState([]);
     const [deleteId, setDeleteId] = useState('');
 
@@ -60,7 +62,7 @@ function Rooms() {
     }, []);
 
     const getData = () => {
-        getRooms()
+        getGenres()
             .then((data) => {
                 setData(data);
                 setSearchedData(data);
@@ -77,41 +79,39 @@ function Rooms() {
     };
 
     const handleSaveConfirm = () => {
-        createRooms(name, slug, rows, columns)
+        createGenres(name, slug)
             .then(() => {
                 getData();
                 clear();
                 handleClose();
-                toast.success('Rooms has been created');
+                toast.success('Genres has been created');
             })
             .catch((error) => {
-                toast.error('Failed to create Rooms', error);
+                toast.error('Failed to create Genres', error);
             });
     };
 
     const handleEdit = (id) => {
         handleEditShow();
-        editRooms(id)
+        editGenres(id)
             .then((data) => {
                 setEditId(id);
                 setEditName(data.name);
                 setEditSlug(data.slug);
-                setEditRows(data.rows);
-                setEditColumns(data.columns);
             })
-            .catch((error) => console.error('Error fetching Rooms data:', error));
+            .catch((error) => console.error('Error fetching Genres data:', error));
     };
 
     const handleUpdate = () => {
-        updateRooms(editId, editName, editSlug, editRows, editColumns)
+        updateGenres(editId, editName, editSlug)
             .then(() => {
                 handleClose();
                 getData();
                 clear();
-                toast.success('Rooms has been updated');
+                toast.success('Genres has been updated');
             })
             .catch((error) => {
-                toast.error('Failed to update Rooms', error);
+                toast.error('Failed to update Genres', error);
             });
     };
 
@@ -121,26 +121,23 @@ function Rooms() {
     };
 
     const handleDeleteConfirm = async () => {
-        deleteRooms(deleteId)
+        deleteGenres(deleteId)
             .then(() => {
-                toast.success('Rooms has been deleted');
+                toast.success('Genres has been deleted');
                 handleClose();
                 getData();
             })
             .catch((error) => {
-                toast.error('Failed to delete Rooms', error);
+                toast.error('Failed to delete Genres', error);
             });
     };
 
     const clear = () => {
         setName('');
         setSlug('');
-        setRows('');
-        setColumns('');
         setEditId('');
         setEditName('');
-        setEditRows('');
-        setEditColumns('');
+        setEditSlug('');
     };
 
     const handleClose = () => {
@@ -156,15 +153,15 @@ function Rooms() {
     return (
         <section className="section">
             <div className="section-header">
-                <h1>Rooms</h1>
+                <h1>Genres</h1>
                 <div className="section-header-breadcrumb">
                     <div className="breadcrumb-item active">
                         <a href="#">Dashboard</a>
                     </div>
                     <div className="breadcrumb-item">
-                        <a href="#">Rooms</a>
+                        <a href="#">Genres</a>
                     </div>
-                    <div className="breadcrumb-item">All Rooms</div>
+                    <div className="breadcrumb-item">All Genres</div>
                 </div>
             </div>
             <div className="section-body">
@@ -172,7 +169,7 @@ function Rooms() {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-header">
-                                <h4>All Rooms</h4>
+                                <h4>All Genres</h4>
                                 <div className="section-header-button">
                                     <button className="btn btn-primary" onClick={() => handleSave()}>
                                         Create
@@ -199,8 +196,6 @@ function Rooms() {
                                                         <th>Id</th>
                                                         <th>Name</th>
                                                         <th>Slug</th>
-                                                        <th>Rows</th>
-                                                        <th>Columns</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -210,8 +205,6 @@ function Rooms() {
                                                             <td>{index + firstIndex + 1}</td>
                                                             <td>{item.name}</td>
                                                             <td>{item.slug}</td>
-                                                            <td>{item.rows}</td>
-                                                            <td>{item.columns}</td>
                                                             <td colSpan={2}>
                                                                 <button
                                                                     className="btn btn-primary"
@@ -248,7 +241,7 @@ function Rooms() {
             </div>
             <Modal show={createShow} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Create Rooms</Modal.Title>
+                    <Modal.Title>Create Genres</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Container>
@@ -260,24 +253,6 @@ function Rooms() {
                                     placeholder="Enter Name"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                />
-                            </Col>
-                            <Col>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    placeholder="Enter Rows"
-                                    value={rows}
-                                    onChange={(e) => setRows(e.target.value)}
-                                />
-                            </Col>
-                            <Col>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    placeholder="Enter Colums"
-                                    value={columns}
-                                    onChange={(e) => setColumns(e.target.value)}
                                 />
                             </Col>
                         </Row>
@@ -295,7 +270,7 @@ function Rooms() {
 
             <Modal show={editShow} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Edit Rooms</Modal.Title>
+                    <Modal.Title>Edit Genres</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Container>
@@ -307,24 +282,6 @@ function Rooms() {
                                     placeholder="Enter Name"
                                     value={editName}
                                     onChange={(e) => setEditName(e.target.value)}
-                                />
-                            </Col>
-                            <Col>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    placeholder="Enter Rows"
-                                    value={editRows}
-                                    onChange={(e) => setEditRows(e.target.value)}
-                                />
-                            </Col>
-                            <Col>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    placeholder="Enter Colums"
-                                    value={editColumns}
-                                    onChange={(e) => setEditColumns(e.target.value)}
                                 />
                             </Col>
                         </Row>
@@ -344,7 +301,7 @@ function Rooms() {
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure you want to delete this Rooms?</Modal.Body>
+                <Modal.Body>Are you sure you want to delete this Genres?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
@@ -359,5 +316,4 @@ function Rooms() {
         </section>
     );
 }
-
-export default Rooms;
+export default Genres;

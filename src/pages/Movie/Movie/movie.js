@@ -4,10 +4,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getShows, deleteShows } from '~/services/Movies/showService';
+import { getMoviesData, deleteMovies } from '~/services/Movie/movieService';
 
-
-function Shows() {
+function Movies() {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [deleteShow, setDeleteShow] = useState(false);
@@ -17,7 +16,7 @@ function Shows() {
     const [search, setSearch] = useState('');
     const [searchedData, setSearchedData] = useState([]);
     useEffect(() => {
-        const filteredData = data.filter((item) => item.show_Code.toLowerCase().includes(search.toLowerCase()));
+        const filteredData = data.filter((item) => item.director.toLowerCase().includes(search.toLowerCase()));
         setSearchedData(filteredData);
     }, [search, data]);
 
@@ -44,14 +43,13 @@ function Shows() {
         }
     }
 
-
     // Call Api
     useEffect(() => {
         getData();
     }, []);
 
     const getData = () => {
-        getShows()
+        getMoviesData()
             .then((data) => {
                 setData(data);
                 setSearchedData(data);
@@ -69,14 +67,14 @@ function Shows() {
     };
 
     const handleDeleteConfirm = async () => {
-        deleteShows(deleteId)
+        deleteMovies(deleteId)
             .then(() => {
-                toast.success('Shows has been deleted');
+                toast.success('Movies has been deleted');
                 handleClose();
                 getData();
             })
             .catch((error) => {
-                toast.error('Failed to delete Shows', error);
+                toast.error('Failed to delete Movies', error);
             });
     };
 
@@ -89,9 +87,9 @@ function Shows() {
     return (
         <section className="section">
             <div className="section-header">
-                <h1>Shows</h1>
+                <h1>Movies</h1>
                 <div className="section-header-button">
-                    <a href="/shows/create" className="btn btn-primary">
+                    <a href="/movies/create" className="btn btn-primary">
                         Add New
                     </a>
                 </div>
@@ -100,9 +98,9 @@ function Shows() {
                         <a href="#">Dashboard</a>
                     </div>
                     <div className="breadcrumb-item">
-                        <a href="#">Shows</a>
+                        <a href="#">Movies</a>
                     </div>
-                    <div className="breadcrumb-item">All Shows</div>
+                    <div className="breadcrumb-item">All Movies</div>
                 </div>
             </div>
             <div className="section-body">
@@ -110,7 +108,7 @@ function Shows() {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-header">
-                                <h4>All Shows</h4>
+                                <h4>All Movies</h4>
                             </div>
 
                             <div className="card-body">
@@ -127,13 +125,20 @@ function Shows() {
                                         <div className="clearfix mb-3" />
                                         <div className="table-responsive">
                                             <table className="table table-striped">
-                                            <thead>
+                                                <thead>
                                                     <tr>
                                                         <th>Id</th>
-                                                        <th>Show_Code</th>
-                                                        <th>Start_Date</th>
-                                                        <th>MovieId</th>
-                                                        <th>RoomId</th>
+                                                        <th>Title</th>
+                                                        <th>Actor</th>
+                                                        <th>Movie Image</th>
+                                                        <th>Cover Image</th>
+                                                        <th>Description</th>
+                                                        <th>Duration</th>
+                                                        <th>Director</th>
+                                                        <th>Favorite Count</th>
+                                                        <th>Trailer</th>
+                                                        <th>GenreIds</th>
+                                                        <th>LanguageIds</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -141,14 +146,37 @@ function Shows() {
                                                     {records.map((item, index) => (
                                                         <tr key={item.id}>
                                                             <td>{index + firstIndex + 1}</td>
-                                                            <td>{item.show_Code}</td>
-                                                            <td>{item.start_Date}</td>
-                                                            <td>{item.movie_Id}</td>
-                                                            <td>{item.room_Id}</td>
+                                                            <td>{item.title}</td>
+                                                            <td>{item.actor}</td>
+                                                            <td>
+                                                                <img
+                                                                    src={
+                                                                        'https://img3.thuthuatphanmem.vn/uploads/2019/10/10/anh-doremon-vui-ve_033147003.png'
+                                                                    }
+                                                                    style={{ width: '100px', height: 'auto' }}
+                                                                    alt={item.movie_Image}
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <img
+                                                                    src={
+                                                                        'https://img3.thuthuatphanmem.vn/uploads/2019/10/10/anh-doremon-vui-ve_033147003.png'
+                                                                    }
+                                                                    style={{ width: '100px', height: 'auto' }}
+                                                                    alt={item.cover_Image}
+                                                                />
+                                                            </td>
+                                                            <td>{item.description}</td>
+                                                            <td>{item.duration}</td>
+                                                            <td>{item.director}</td>
+                                                            <td>{item.favorite_Count}</td>
+                                                            <td>{item.trailer}</td>
+                                                            <td>{item.genreIds}</td>
+                                                            <td>{item.languageIds}</td>
 
                                                             <td colSpan={2}>
-                                                            <a
-                                                                    href={`/shows/edit/${item.id}`}
+                                                                <a
+                                                                    href={`/Movies/edit/${item.id}`}
                                                                     className="btn btn-primary"
                                                                 >
                                                                     Edit
@@ -185,7 +213,7 @@ function Shows() {
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure you want to delete this Shows?</Modal.Body>
+                <Modal.Body>Are you sure you want to delete this Movies?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
@@ -201,4 +229,4 @@ function Shows() {
     );
 }
 
-export default Shows;
+export default Movies;

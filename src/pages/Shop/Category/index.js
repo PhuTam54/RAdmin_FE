@@ -10,7 +10,7 @@ import {
     editCategoryData,
     updateCategory,
     deleteCategory,
-} from '~/services/Shop/categoryService';
+} from '~/services/Shops/categoryService';
 
 function Category() {
     const [loading, setLoading] = useState(true);
