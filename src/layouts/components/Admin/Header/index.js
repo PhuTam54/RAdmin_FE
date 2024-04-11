@@ -12,13 +12,10 @@ function HeaderAdmin() {
         const storedEmail = localStorage.getItem('email');
         if (storedEmail) {
             setEmail(storedEmail);
-        } else {
-            navigate('/login');
         }
     }, []);
     const handleLogout = () => {
         localStorage.removeItem('token');
-        localStorage.removeItem('email');
         navigate('/login');
         toast.success('Logout Success');
     };
@@ -63,7 +60,7 @@ function HeaderAdmin() {
                     </div>
                 </form>
                 <ul className="navbar-nav navbar-right">
-                    {/* <li className="dropdown dropdown-list-toggle">
+                    <li className="dropdown dropdown-list-toggle">
                         <a href="#" data-toggle="dropdown" className="nav-link nav-link-lg message-toggle beep">
                             <i className="far fa-envelope" />
                         </a>
@@ -93,8 +90,8 @@ function HeaderAdmin() {
                                 </a>
                             </div>
                         </div>
-                    </li> */}
-                    {/* <li className="dropdown dropdown-list-toggle">
+                    </li>
+                    <li className="dropdown dropdown-list-toggle">
                         <a href="#" data-toggle="dropdown" className="nav-link notification-toggle nav-link-lg beep">
                             <i className="far fa-bell" />
                         </a>
@@ -131,7 +128,7 @@ function HeaderAdmin() {
                                 </a>
                             </div>
                         </div>
-                    </li> */}
+                    </li>
                     <li className="dropdown">
                         <a
                             href="#"

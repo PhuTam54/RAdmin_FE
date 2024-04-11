@@ -1,53 +1,57 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import images from '~/assets/img/';
-import { httpRequest } from '~/utils/httpRequest';
+
+const axiosInstance = axios.create();
+
+axiosInstance.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    },
+);
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
-    useEffect(() => {
-        sessionStorage.clear();
-    });
     const handleLogin = async (event) => {
         event.preventDefault();
-        if (validate()) {
-            try {
-                const response = await httpRequest.post('https://localhost:7168/api/v1/LoginRegister/Login', {
-                    email: email,
-                    password: password,
-                });
+        if (!email || !password) {
+            toast.error('Email/Password is required!');
+            return;
+        }
 
-                if (response && response.data && response.data.token) {
-                    localStorage.setItem('token', response.data.token);
-                    localStorage.setItem('email', email);
-                    sessionStorage.setItem('email', email);
-                    toast.success('Login successful!');
-                    navigate('/');
-                    toast.success('Login successful!');
-                } else {
-                    toast.error('Invalid response from server');
-                }
-            } catch (error) {
-                toast.error('Failed to login. Please try again.');
+        try {
+            const response = await axiosInstance.post('https://localhost:7168/api/v1/LoginRegister/Login', {
+                email: email,
+                password: password,
+            });
+
+            if (response && response.data && response.data.token) {
+                localStorage.setItem('token', response.data.token);
+                navigate('/');
+                toast.success('Login successful!');
+            } else {
+                toast.error('Invalid response from server');
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 400) {
+                toast.error(error.response.data.error);
+            } else {
+                toast.error('An error occurred while logging in. Please try again later.');
             }
         }
-    };
-
-    const validate = () => {
-        if (!email.trim()) {
-            toast.warning('Please enter email.');
-            return false;
-        }
-        if (!password.trim()) {
-            toast.warning('Please enter password.');
-            return false;
-        }
-        return true;
     };
 
     return (
@@ -70,8 +74,10 @@ function Login() {
                                             type="email"
                                             className="form-control"
                                             name="email"
+                                            tabIndex={1}
                                             value={email}
                                             onChange={(event) => setEmail(event.target.value)}
+                                            required
                                         />
                                         <div className="invalid-feedback">Please fill in your email</div>
                                     </div>
@@ -81,8 +87,10 @@ function Login() {
                                             type="password"
                                             className="form-control"
                                             name="password"
+                                            tabIndex={2}
                                             value={password}
                                             onChange={(event) => setPassword(event.target.value)}
+                                            required
                                         />
                                         <div className="invalid-feedback">please fill in your password</div>
                                         <div className="float-right">

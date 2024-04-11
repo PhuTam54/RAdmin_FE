@@ -38,45 +38,31 @@ function SidebarAdmin() {
                             </a>
                             <ul className="dropdown-menu">
                                 <li>
-                                    <a className="nav-link" href="/genres">
-                                        Genres
-                                    </a>
-                                </li>
-                                {/* <li>
-                                    <a className="nav-link" href="/seats">
-                                        Seats
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="nav-link" href="/favorite">
+                                    <a className="nav-link" href="/product">
                                         Favorite
                                     </a>
                                 </li>
-                                <li>
-                                    <a className="nav-link" href="/galleryMovie">
-                                        GalleryMovie
-                                    </a>
-                                </li> */}
                                 <li>
                                     <a className="nav-link" href="/movies">
                                         Movie
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="nav-link" href="/rooms">
+                                    <a className="nav-link" href="/product">
                                         Room
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="nav-link" href="/shows">
+                                    <a className="nav-link" href="/floors">
                                         Show
                                     </a>
                                 </li>
-                                {/* <li>
+
+                                <li>
                                     <a className="nav-link" href="/shop">
                                         Ticket
                                     </a>
-                                </li> */}
+                                </li>
                             </ul>
                         </li>
                         <li className="dropdown">
@@ -172,18 +158,6 @@ function SidebarAdmin() {
                                 <li>
                                     <a className="nav-link" href="/invoice">
                                         Invoice
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li className="dropdown">
-                            <a href="#" className="nav-link has-dropdown">
-                                <i className="fas fa-tasks"></i> <span>User</span>
-                            </a>
-                            <ul className="dropdown-menu">
-                                <li>
-                                    <a className="nav-link" href="/invoice">
-                                        Tenant
                                     </a>
                                 </li>
                                 <li>

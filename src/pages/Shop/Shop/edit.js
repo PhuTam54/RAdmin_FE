@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { updateShops, editShops } from '~/services/Shop/shopService';
+import { updateShops, editShopsData } from '~/services/shopService';
 import { useNavigate, useParams } from 'react-router-dom';
 
 function EditShops() {
@@ -25,7 +25,7 @@ function EditShops() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const shopData = await editShops(id);
+                const shopData = await editShopsData(id);
                 setData({
                     editId: shopData.id,
                     editFloorsId: shopData.floor_Id,
