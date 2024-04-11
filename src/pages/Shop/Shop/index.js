@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getShopsData, deleteShops } from '~/services/Shop/shopService';
+import { getShops, deleteShops } from '~/services/Shop/shopService';
 
 function Shops() {
     const [loading, setLoading] = useState(true);
@@ -49,7 +49,7 @@ function Shops() {
     }, []);
 
     const getData = () => {
-        getShopsData()
+        getShops()
             .then((data) => {
                 setData(data);
                 setSearchedData(data);
@@ -89,7 +89,7 @@ function Shops() {
             <div className="section-header">
                 <h1>Shops</h1>
                 <div className="section-header-button">
-                    <a href="/createshops" className="btn btn-primary">
+                    <a href="/shops/create" className="btn btn-primary">
                         Add New
                     </a>
                 </div>

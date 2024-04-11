@@ -1,6 +1,6 @@
 import { get, post, put, del } from '~/utils/httpRequest';
 
-export const getShopsData = async () => {
+export const getShops = async () => {
     try {
         const response = await get('/v1/Shops/');
         return response;
@@ -20,7 +20,7 @@ export const createShops = async (category_Id , floor_Id ,name, image, address, 
     }
 };
 
-export const editShopsData = async (id) => {
+export const editShops = async (id) => {
     try {
         const response = await get(`/v1/Shops/id?id=${id}`);
         return response;

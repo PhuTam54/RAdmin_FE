@@ -42,7 +42,7 @@ function SidebarAdmin() {
                                         Genres
                                     </a>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <a className="nav-link" href="/seats">
                                         Seats
                                     </a>
@@ -56,7 +56,7 @@ function SidebarAdmin() {
                                     <a className="nav-link" href="/galleryMovie">
                                         GalleryMovie
                                     </a>
-                                </li>
+                                </li> */}
                                 <li>
                                     <a className="nav-link" href="/movies">
                                         Movie
@@ -72,31 +72,31 @@ function SidebarAdmin() {
                                         Show
                                     </a>
                                 </li>
-                                <li>
-                                    <a className="nav-link" href="/shop">
-                                        Ticket
-                                    </a>
-                                </li>
                             </ul>
                         </li>
                         <li className="dropdown">
                             <a href="#" className="nav-link has-dropdown">
-                                <i className="fas fa-cart-plus"></i> <span>Order</span>
+                                <i className="fas fa-cart-plus"></i> <span>Orders</span>
                             </a>
                             <ul className="dropdown-menu">
                                 <li>
-                                    <a className="nav-link" href="/food">
-                                        Food
+                                    <a className="nav-link" href="/foods">
+                                        Foods
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="nav-link" href="/order">
-                                        Order
+                                    <a className="nav-link" href="/orders">
+                                        Orders
                                     </a>
                                 </li>
                                 <li>
                                     <a className="nav-link" href="/orderFood">
                                         OrderFood
+                                    </a>
+                                </li>
+                                <li>
+                                    <a className="nav-link" href="/ticket">
+                                        Ticket
                                     </a>
                                 </li>
                             </ul>
@@ -219,22 +219,7 @@ function SidebarAdmin() {
                             <ul className="dropdown-menu">
                                 <li>
                                     <a className="nav-link" href="/error_404">
-                                        503
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="nav-link" href="admin/error_404">
-                                        403
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="nav-link" href="/error_404">
                                         404
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="nav-link" href="admin/error_404">
-                                        500
                                     </a>
                                 </li>
                             </ul>

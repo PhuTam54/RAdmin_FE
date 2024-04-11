@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,29 +10,44 @@ function Login() {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
+    useEffect(() => {
+        sessionStorage.clear();
+    });
     const handleLogin = async (event) => {
         event.preventDefault();
-        if (!email || !password) {
-            toast.error('Email/Password is required!');
-            return;
-        }
+        if (validate()) {
+            try {
+                const response = await httpRequest.post('https://localhost:7168/api/v1/LoginRegister/Login', {
+                    email: email,
+                    password: password,
+                });
 
-        try {
-            const response = await httpRequest.post('https://localhost:7168/api/v1/LoginRegister/Login', {
-                email: email,
-                password: password,
-            });
-
-            if (response && response.data && response.data.token) {
-                localStorage.setItem('token', response.data.token);
-                navigate('/');
-                toast.success('Login successful!');
-            } else {
-                toast.error('Invalid response from server');
+                if (response && response.data && response.data.token) {
+                    localStorage.setItem('token', response.data.token);
+                    localStorage.setItem('email', email);
+                    sessionStorage.setItem('email', email);
+                    toast.success('Login successful!');
+                    navigate('/');
+                    toast.success('Login successful!');
+                } else {
+                    toast.error('Invalid response from server');
+                }
+            } catch (error) {
+                toast.error('Failed to login. Please try again.');
             }
-        } catch (error) {
-            toast.error('Email/Password is required.');
         }
+    };
+
+    const validate = () => {
+        if (!email.trim()) {
+            toast.warning('Please enter email.');
+            return false;
+        }
+        if (!password.trim()) {
+            toast.warning('Please enter password.');
+            return false;
+        }
+        return true;
     };
 
     return (
@@ -55,10 +70,8 @@ function Login() {
                                             type="email"
                                             className="form-control"
                                             name="email"
-                                            tabIndex={1}
                                             value={email}
                                             onChange={(event) => setEmail(event.target.value)}
-                                            required
                                         />
                                         <div className="invalid-feedback">Please fill in your email</div>
                                     </div>
@@ -68,10 +81,8 @@ function Login() {
                                             type="password"
                                             className="form-control"
                                             name="password"
-                                            tabIndex={2}
                                             value={password}
                                             onChange={(event) => setPassword(event.target.value)}
-                                            required
                                         />
                                         <div className="invalid-feedback">please fill in your password</div>
                                         <div className="float-right">

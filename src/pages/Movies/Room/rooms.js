@@ -4,23 +4,22 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getShows, createShows, editShows, updateShows, deleteShows } from '~/services/Movies/showService';
+import { getRooms, createRooms, editRooms, updateRooms, deleteRooms } from '~/services/Movie/roomService';
 
-function Shows() {
+function Rooms() {
     const [loading, setLoading] = useState(true);
     const [editShow, setEditShow] = useState(false);
     const [deleteShow, setDeleteShow] = useState(false);
     const [createShow, setCreateShow] = useState(false);
-    const [show_Code, setShow_Code] = useState('');
-    const [start_Date, setStart_Date] = useState('');
-    const [movieId, setMovieId] = useState('');
-    const [roomId, setRoomId] = useState('');
+    const [name, setName] = useState('');
+    const [slug, setSlug] = useState('');
+    const [rows, setRows] = useState('');
+    const [columns, setColumns] = useState('');
     const [editId, setEditId] = useState('');
-    const [editShow_Code, setEditShow_Code] = useState('');
-    const [editStart_Date, setEditStart_Date] = useState('');
-    const [editMovieId, setEditMovieId] = useState('');
-    const [editRoomId, setEditRoomId] = useState('');
-
+    const [editName, setEditName] = useState('');
+    const [editSlug, setEditSlug] = useState('');
+    const [editRows, setEditRows] = useState('');
+    const [editColumns, setEditColumns] = useState('');
     const [data, setData] = useState([]);
     const [deleteId, setDeleteId] = useState('');
 
@@ -28,7 +27,7 @@ function Shows() {
     const [search, setSearch] = useState('');
     const [searchedData, setSearchedData] = useState([]);
     useEffect(() => {
-        const filteredData = data.filter((item) => item.show_Code.toLowerCase().includes(search.toLowerCase()));
+        const filteredData = data.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()));
         setSearchedData(filteredData);
     }, [search, data]);
 
@@ -61,7 +60,7 @@ function Shows() {
     }, []);
 
     const getData = () => {
-        getShows()
+        getRooms()
             .then((data) => {
                 setData(data);
                 setSearchedData(data);
@@ -78,38 +77,41 @@ function Shows() {
     };
 
     const handleSaveConfirm = () => {
-        createShows(show_Code, start_Date, movieId, roomId)
+        createRooms(name, slug, rows, columns)
             .then(() => {
                 getData();
                 clear();
                 handleClose();
-                toast.success('Shows has been created');
+                toast.success('Rooms has been created');
             })
             .catch((error) => {
-                toast.error('Failed to create Shows', error);
+                toast.error('Failed to create Rooms', error);
             });
     };
 
     const handleEdit = (id) => {
         handleEditShow();
-        editShows(id)
+        editRooms(id)
             .then((data) => {
                 setEditId(id);
-                setEditShow_Code(data.show_Code);
+                setEditName(data.name);
+                setEditSlug(data.slug);
+                setEditRows(data.rows);
+                setEditColumns(data.columns);
             })
-            .catch((error) => console.error('Error fetching Shows data:', error));
+            .catch((error) => console.error('Error fetching Rooms data:', error));
     };
 
     const handleUpdate = () => {
-        updateShows(editId, editShow_Code, editStart_Date, editMovieId, editRoomId)
+        updateRooms(editId, editName, editSlug, editRows, editColumns)
             .then(() => {
                 handleClose();
                 getData();
                 clear();
-                toast.success('Shows has been updated');
+                toast.success('Rooms has been updated');
             })
             .catch((error) => {
-                toast.error('Failed to update Shows', error);
+                toast.error('Failed to update Rooms', error);
             });
     };
 
@@ -119,21 +121,26 @@ function Shows() {
     };
 
     const handleDeleteConfirm = async () => {
-        deleteShows(deleteId)
+        deleteRooms(deleteId)
             .then(() => {
-                toast.success('Shows has been deleted');
+                toast.success('Rooms has been deleted');
                 handleClose();
                 getData();
             })
             .catch((error) => {
-                toast.error('Failed to delete Shows', error);
+                toast.error('Failed to delete Rooms', error);
             });
     };
 
     const clear = () => {
-        setShow_Code('');
+        setName('');
+        setSlug('');
+        setRows('');
+        setColumns('');
         setEditId('');
-        setEditShow_Code('');
+        setEditName('');
+        setEditRows('');
+        setEditColumns('');
     };
 
     const handleClose = () => {
@@ -149,15 +156,15 @@ function Shows() {
     return (
         <section className="section">
             <div className="section-header">
-                <h1>Categories</h1>
+                <h1>Rooms</h1>
                 <div className="section-header-breadcrumb">
                     <div className="breadcrumb-item active">
                         <a href="#">Dashboard</a>
                     </div>
                     <div className="breadcrumb-item">
-                        <a href="#">Categories</a>
+                        <a href="#">Rooms</a>
                     </div>
-                    <div className="breadcrumb-item">All Categories</div>
+                    <div className="breadcrumb-item">All Rooms</div>
                 </div>
             </div>
             <div className="section-body">
@@ -165,7 +172,7 @@ function Shows() {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-header">
-                                <h4>All Categories</h4>
+                                <h4>All Rooms</h4>
                                 <div className="section-header-button">
                                     <button className="btn btn-primary" onClick={() => handleSave()}>
                                         Create
@@ -190,10 +197,10 @@ function Shows() {
                                                 <thead>
                                                     <tr>
                                                         <th>Id</th>
-                                                        <th>Show_Code</th>
-                                                        <th>Start_Date</th>
-                                                        <th>MovieId</th>
-                                                        <th>RoomId</th>
+                                                        <th>Name</th>
+                                                        <th>Slug</th>
+                                                        <th>Rows</th>
+                                                        <th>Columns</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -201,11 +208,10 @@ function Shows() {
                                                     {records.map((item, index) => (
                                                         <tr key={item.id}>
                                                             <td>{index + firstIndex + 1}</td>
-                                                            <td>{item.show_Code}</td>
-                                                            <td>{item.start_Date}</td>
-                                                            <td>{item.movieId}</td>
-                                                            <td>{item.roomId}</td>
-
+                                                            <td>{item.name}</td>
+                                                            <td>{item.slug}</td>
+                                                            <td>{item.rows}</td>
+                                                            <td>{item.columns}</td>
                                                             <td colSpan={2}>
                                                                 <button
                                                                     className="btn btn-primary"
@@ -242,7 +248,7 @@ function Shows() {
             </div>
             <Modal show={createShow} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Create Shows</Modal.Title>
+                    <Modal.Title>Create Rooms</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Container>
@@ -252,35 +258,26 @@ function Shows() {
                                     type="text"
                                     className="form-control"
                                     placeholder="Enter Name"
-                                    value={show_Code}
-                                    onChange={(e) => setShow_Code(e.target.value)}
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
                                 />
                             </Col>
                             <Col>
                                 <input
-                                    type="text"
+                                    type="number"
                                     className="form-control"
-                                    placeholder="Enter Name"
-                                    value={start_Date}
-                                    onChange={(e) => setStart_Date(e.target.value)}
+                                    placeholder="Enter Rows"
+                                    value={rows}
+                                    onChange={(e) => setRows(e.target.value)}
                                 />
                             </Col>
                             <Col>
                                 <input
-                                    type="text"
+                                    type="number"
                                     className="form-control"
-                                    placeholder="Enter Name"
-                                    value={movieId}
-                                    onChange={(e) => setMovieId(e.target.value)}
-                                />
-                            </Col>
-                            <Col>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter Name"
-                                    value={roomId}
-                                    onChange={(e) => setRoomId(e.target.value)}
+                                    placeholder="Enter Colums"
+                                    value={columns}
+                                    onChange={(e) => setColumns(e.target.value)}
                                 />
                             </Col>
                         </Row>
@@ -298,7 +295,7 @@ function Shows() {
 
             <Modal show={editShow} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Edit Shows</Modal.Title>
+                    <Modal.Title>Edit Rooms</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Container>
@@ -308,45 +305,26 @@ function Shows() {
                                     type="text"
                                     className="form-control"
                                     placeholder="Enter Name"
-                                    disabled
-                                    value={editId}
-                                    onChange={(e) => setEditId(e.target.value)}
+                                    value={editName}
+                                    onChange={(e) => setEditName(e.target.value)}
                                 />
                             </Col>
                             <Col>
                                 <input
-                                    type="text"
+                                    type="number"
                                     className="form-control"
-                                    placeholder="Enter Name"
-                                    value={editShow_Code}
-                                    onChange={(e) => setEditShow_Code(e.target.value)}
+                                    placeholder="Enter Rows"
+                                    value={editRows}
+                                    onChange={(e) => setEditRows(e.target.value)}
                                 />
                             </Col>
                             <Col>
                                 <input
-                                    type="text"
+                                    type="number"
                                     className="form-control"
-                                    placeholder="Enter Name"
-                                    value={editStart_Date}
-                                    onChange={(e) => setEditStart_Date(e.target.value)}
-                                />
-                            </Col>
-                            <Col>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter Name"
-                                    value={editMovieId}
-                                    onChange={(e) => setEditMovieId(e.target.value)}
-                                />
-                            </Col>
-                            <Col>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter Name"
-                                    value={editRoomId}
-                                    onChange={(e) => setEditRoomId(e.target.value)}
+                                    placeholder="Enter Colums"
+                                    value={editColumns}
+                                    onChange={(e) => setEditColumns(e.target.value)}
                                 />
                             </Col>
                         </Row>
@@ -366,7 +344,7 @@ function Shows() {
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure you want to delete this Shows?</Modal.Body>
+                <Modal.Body>Are you sure you want to delete this Rooms?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
@@ -382,4 +360,4 @@ function Shows() {
     );
 }
 
-export default Shows;
+export default Rooms;

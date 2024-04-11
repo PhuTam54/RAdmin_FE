@@ -1,11 +1,10 @@
 const routes = {
-
     admin: '/',
     chart: '/chart',
 
-    profile: '/profile',
+    profile: '/profile/:id',
     error_404: '/error_404',
-    
+
     //      Account
     login: '/login',
     register: '/register',
@@ -17,12 +16,12 @@ const routes = {
     //      Shop
     category: '/category',
     product: '/product',
-    createProduct: '/create/product',
-    editProduct: '/edit/product/:id',
+    createProduct: '/product/create',
+    editProduct: '/product/edit/:id',
     floors: '/floors',
     shops: '/shops',
-    createShops: '/create/shops',
-    editShops: `edit/shops/:id`,
+    createShops: '/shops/create',
+    editShops: `shops/edit/:id`,
 
     //      Booking
     booking: '/booking',
@@ -30,21 +29,35 @@ const routes = {
 
     //      Movie
     movies: '/movies',
-    createMovies: '/create/movies',
-    editMovies: '/edit/movies/:id',
+    createMovies: '/movies/create',
+    editMovies: '/movies/edit/:id',
 
     genres: '/genres',
     shows: '/shows',
+    createShows: 'shows/create',
+    editShows: 'shows/edit/:id',
     rooms: '/rooms',
 
-    //      Booking
-    feedback: '/feedback',
-    createFeedback: '/feedback/create',
+    //      Orders
+    foods: '/foods',
+    createFoods: '/foods/create',
+    editFoods: '/foods/edit/:id',
+
+    orders: '/orders',
+    orderCreate: '/orders/create',
+    orderEdit: '/orders/edit/:id',
+
+    orderFood: '/orderFood',
+    orderFoodCreate: '/orderFood/create',
+    orderFoodEdit: '/orderFood/edit/:id',
+
+    ticket: '/ticket',
+    ticketCreate: '/ticket/create',
+    ticketEdit: '/ticket/edit/:id',
 
     //      Users
     users: '/users',
     createUsers: '/users/create',
-
 };
 
 export default routes;

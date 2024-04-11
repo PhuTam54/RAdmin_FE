@@ -4,25 +4,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import {
-    getGenres,
-    createGenres,
-    editGenres,
-    updateGenres,
-    deleteGenres,
-} from '~/services/Movie/genresService';
+import { getFoods, deleteFoods } from '~/services/Orders/foodService';
 
-function Genres() {
+
+function Foods() {
     const [loading, setLoading] = useState(true);
-    const [editShow, setEditShow] = useState(false);
-    const [deleteShow, setDeleteShow] = useState(false);
-    const [createShow, setCreateShow] = useState(false);
-    const [name, setName] = useState('');
-    const [slug, setSlug] = useState('');
-    const [editId, setEditId] = useState('');
-    const [editName, setEditName] = useState('');
-    const [editSlug, setEditSlug] = useState('');
     const [data, setData] = useState([]);
+    const [deleteShow, setDeleteShow] = useState(false);
     const [deleteId, setDeleteId] = useState('');
 
     //search
@@ -62,7 +50,7 @@ function Genres() {
     }, []);
 
     const getData = () => {
-        getGenres()
+        getFoods()
             .then((data) => {
                 setData(data);
                 setSearchedData(data);
@@ -74,94 +62,46 @@ function Genres() {
             });
     };
 
-    const handleSave = () => {
-        handleCreateShow();
-    };
-
-    const handleSaveConfirm = () => {
-        createGenres(name, slug)
-            .then(() => {
-                getData();
-                clear();
-                handleClose();
-                toast.success('Genres has been created');
-            })
-            .catch((error) => {
-                toast.error('Failed to create Genres', error);
-            });
-    };
-
-    const handleEdit = (id) => {
-        handleEditShow();
-        editGenres(id)
-            .then((data) => {
-                setEditId(id);
-                setEditName(data.name);
-                setEditSlug(data.slug);
-            })
-            .catch((error) => console.error('Error fetching Genres data:', error));
-    };
-
-    const handleUpdate = () => {
-        updateGenres(editId, editName, editSlug)
-            .then(() => {
-                handleClose();
-                getData();
-                clear();
-                toast.success('Genres has been updated');
-            })
-            .catch((error) => {
-                toast.error('Failed to update Genres', error);
-            });
-    };
-
     const handleDelete = (id) => {
         setDeleteId(id);
         handleDeleteShow();
     };
 
     const handleDeleteConfirm = async () => {
-        deleteGenres(deleteId)
+        deleteFoods(deleteId)
             .then(() => {
-                toast.success('Genres has been deleted');
+                toast.success('Foods has been deleted');
                 handleClose();
                 getData();
             })
             .catch((error) => {
-                toast.error('Failed to delete Genres', error);
+                toast.error('Failed to delete Foods', error);
             });
-    };
-
-    const clear = () => {
-        setName('');
-        setSlug('');
-        setEditId('');
-        setEditName('');
-        setEditSlug('');
     };
 
     const handleClose = () => {
         setDeleteShow(false);
-        setCreateShow(false);
-        setEditShow(false);
     };
 
-    const handleEditShow = () => setEditShow(true);
     const handleDeleteShow = () => setDeleteShow(true);
-    const handleCreateShow = () => setCreateShow(true);
 
     return (
         <section className="section">
             <div className="section-header">
-                <h1>Genres</h1>
+                <h1>Foods</h1>
+                <div className="section-header-button">
+                    <a href="/foods/create" className="btn btn-primary">
+                        Add New
+                    </a>
+                </div>
                 <div className="section-header-breadcrumb">
                     <div className="breadcrumb-item active">
                         <a href="#">Dashboard</a>
                     </div>
                     <div className="breadcrumb-item">
-                        <a href="#">Genres</a>
+                        <a href="#">Foods</a>
                     </div>
-                    <div className="breadcrumb-item">All Genres</div>
+                    <div className="breadcrumb-item">All Foods</div>
                 </div>
             </div>
             <div className="section-body">
@@ -169,12 +109,7 @@ function Genres() {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-header">
-                                <h4>All Genres</h4>
-                                <div className="section-header-button">
-                                    <button className="btn btn-primary" onClick={() => handleSave()}>
-                                        Create
-                                    </button>
-                                </div>
+                                <h4>All Foods</h4>
                             </div>
 
                             <div className="card-body">
@@ -191,11 +126,13 @@ function Genres() {
                                         <div className="clearfix mb-3" />
                                         <div className="table-responsive">
                                             <table className="table table-striped">
-                                                <thead>
+                                            <thead>
                                                     <tr>
                                                         <th>Id</th>
                                                         <th>Name</th>
-                                                        <th>Slug</th>
+                                                        <th>Qty</th>
+                                                        <th>Price</th>
+                                                        <th>Description</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -204,14 +141,17 @@ function Genres() {
                                                         <tr key={item.id}>
                                                             <td>{index + firstIndex + 1}</td>
                                                             <td>{item.name}</td>
-                                                            <td>{item.slug}</td>
+                                                            <td>{item.qty}</td>
+                                                            <td>{item.price}</td>
+                                                            <td>{item.description}</td>
+
                                                             <td colSpan={2}>
-                                                                <button
+                                                            <a
+                                                                    href={`/Foods/edit/${item.id}`}
                                                                     className="btn btn-primary"
-                                                                    onClick={() => handleEdit(item.id)}
                                                                 >
                                                                     Edit
-                                                                </button>
+                                                                </a>
                                                                 &nbsp;
                                                                 <button
                                                                     className="btn btn-danger"
@@ -239,69 +179,12 @@ function Genres() {
                     </div>
                 </div>
             </div>
-            <Modal show={createShow} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Create Genres</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Container>
-                        <Row>
-                            <Col>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter Name"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                />
-                            </Col>
-                        </Row>
-                    </Container>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleSaveConfirm}>
-                        Create
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-
-            <Modal show={editShow} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Edit Genres</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Container>
-                        <Row>
-                            <Col>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter Name"
-                                    value={editName}
-                                    onChange={(e) => setEditName(e.target.value)}
-                                />
-                            </Col>
-                        </Row>
-                    </Container>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleUpdate}>
-                        Update
-                    </Button>
-                </Modal.Footer>
-            </Modal>
 
             <Modal show={deleteShow} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure you want to delete this Genres?</Modal.Body>
+                <Modal.Body>Are you sure you want to delete this Foods?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
@@ -316,4 +199,5 @@ function Genres() {
         </section>
     );
 }
-export default Genres;
+
+export default Foods;
