@@ -39,13 +39,11 @@ function EditProduct() {
                 console.error('Error fetching Shop data:', error);
             }
         };
-
         fetchData();
     }, [id]);
 
     const handleUpdate = async (event) => {
         event.preventDefault();
-
         try {
             await updateProduct(
                 data.editId,

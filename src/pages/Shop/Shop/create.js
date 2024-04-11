@@ -146,6 +146,19 @@ function CreateShops() {
                                     </div>
                                     <div className="form-group row mb-4">
                                         <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
+                                            Img
+                                        </label>
+                                        <div className="col-sm-12 col-md-7">
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                value={data.image}
+                                                onChange={(e) => setData({ ...data, image: e.target.value })}
+                                            />
+                                        </div>
+                                    </div>
+                                    {/* <div className="form-group row mb-4">
+                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
                                             Thumbnail
                                         </label>
                                         <div className="col-sm-12 col-md-7">
@@ -161,7 +174,7 @@ function CreateShops() {
                                                 />
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                     <div className="form-group row mb-4">
                                         <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
                                             Phone

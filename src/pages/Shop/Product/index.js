@@ -89,7 +89,7 @@ function Product() {
             <div className="section-header">
                 <h1>Product</h1>
                 <div className="section-header-button">
-                    <a href="/create/product" className="btn btn-primary">
+                    <a href="/product/create" className="btn btn-primary">
                         Add New
                     </a>
                 </div>
@@ -154,7 +154,7 @@ function Product() {
                                                             <td>{item.description}</td>
                                                             <td colSpan={2}>
                                                                 <a
-                                                                    href={`/edit/product/${item.id}`}
+                                                                    href={`/product/edit/${item.id}`}
                                                                     className="btn btn-primary"
                                                                 >
                                                                     Edit
