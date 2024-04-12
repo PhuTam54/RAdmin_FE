@@ -4,13 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import {
-    getGenres,
-    createGenres,
-    editGenres,
-    updateGenres,
-    deleteGenres,
-} from '~/services/Movie/genresService';
+import { getGenres, createGenres, editGenres, updateGenres, deleteGenres } from '~/services/Movie/genresService';
 
 function Genres() {
     const [loading, setLoading] = useState(true);
@@ -209,15 +203,17 @@ function Genres() {
                                                                 <button
                                                                     className="btn btn-primary"
                                                                     onClick={() => handleEdit(item.id)}
+                                                                    title="Edit"
                                                                 >
-                                                                    Edit
+                                                                    <i class="fas fa-pencil-alt"></i>
                                                                 </button>
                                                                 &nbsp;
                                                                 <button
                                                                     className="btn btn-danger"
                                                                     onClick={() => handleDelete(item.id)}
+                                                                    title="Delete"
                                                                 >
-                                                                    Delete
+                                                                    <i class="fas fa-trash"></i>
                                                                 </button>
                                                             </td>
                                                         </tr>

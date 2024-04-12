@@ -156,15 +156,17 @@ function Product() {
                                                                 <a
                                                                     href={`/product/edit/${item.id}`}
                                                                     className="btn btn-primary"
+                                                                    title="Edit"
                                                                 >
-                                                                    Edit
+                                                                    <i class="fas fa-pencil-alt"></i>
                                                                 </a>
                                                                 &nbsp;
                                                                 <button
                                                                     className="btn btn-danger"
                                                                     onClick={() => handleDelete(item.id)}
+                                                                    title="Delete"
                                                                 >
-                                                                    Delete
+                                                                    <i class="fas fa-trash"></i>
                                                                 </button>
                                                             </td>
                                                         </tr>

@@ -6,7 +6,6 @@ import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
 import { getOrderTicket, deleteOrderTicket } from '~/services/Orders/ticketService';
 
-
 function OrderTicket() {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
@@ -43,7 +42,6 @@ function OrderTicket() {
             setCurrentPage(currentPage + 1);
         }
     }
-
 
     // Call Api
     useEffect(() => {
@@ -127,7 +125,7 @@ function OrderTicket() {
                                         <div className="clearfix mb-3" />
                                         <div className="table-responsive">
                                             <table className="table table-striped">
-                                            <thead>
+                                                <thead>
                                                     <tr>
                                                         <th>Id</th>
                                                         <th>Code</th>
@@ -149,18 +147,20 @@ function OrderTicket() {
                                                             <td>{item.seat_Id}</td>
 
                                                             <td colSpan={2}>
-                                                            <a
+                                                                <a
                                                                     href={`/OrderTicket/edit/${item.id}`}
                                                                     className="btn btn-primary"
+                                                                    title="Edit"
                                                                 >
-                                                                    Edit
+                                                                    <i class="fas fa-pencil-alt"></i>
                                                                 </a>
                                                                 &nbsp;
                                                                 <button
                                                                     className="btn btn-danger"
                                                                     onClick={() => handleDelete(item.id)}
+                                                                    title="Delete"
                                                                 >
-                                                                    Delete
+                                                                    <i class="fas fa-trash"></i>
                                                                 </button>
                                                             </td>
                                                         </tr>

@@ -18,14 +18,19 @@ function SidebarAdmin() {
                                 <i className="fas fa-fire"></i> <span>Dashboard</span>
                             </a>
                             <ul className="dropdown-menu">
-                                <li className="active">
+                                <li>
                                     <a className="nav-link" href="/">
                                         Ecommerce Dashboard
                                     </a>
                                 </li>
-                                <li class="active">
+                                <li>
                                     <a className="nav-link" href="/chart">
-                                        Chart Dashboard
+                                        Chart
+                                    </a>
+                                </li>
+                                <li>
+                                    <a className="nav-link" href="/barChart">
+                                        Bar Chart
                                     </a>
                                 </li>
                             </ul>

@@ -20,8 +20,8 @@ export const createMovies = async (
     director,
     favorite_Count,
     trailer,
-    genreIds,
-    languageIds,
+    // genreIds,
+    // languageIds,
 ) => {
     try {
         const createData = {
@@ -34,8 +34,8 @@ export const createMovies = async (
             director,
             favorite_Count,
             trailer,
-            genreIds,
-            languageIds,
+            // genreIds,
+            // languageIds,
         };
         await post(`v1/Movies`, createData);
     } catch (error) {
@@ -65,8 +65,8 @@ export const updateMovies = async (
     director,
     favorite_Count,
     trailer,
-    genreIds,
-    languageIds,
+    // genreIds,
+    // languageIds,
 ) => {
     try {
         const updatedData = {
@@ -80,8 +80,8 @@ export const updateMovies = async (
             director,
             favorite_Count,
             trailer,
-            genreIds,
-            languageIds,
+            // genreIds,
+            // languageIds,
         };
         await put(`/v1/Movies/id?id=${id}`, updatedData);
     } catch (error) {
