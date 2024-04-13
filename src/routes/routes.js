@@ -5,7 +5,8 @@ import AdminLayout from '~/layouts/AdminLayouts/AdminLayout';
 
 // Pages
 import HomeAdmin from '~/pages/Home';
-import Chart from '~/pages/Home/chart';
+// import Chart from '~/pages/Home/chart';
+import BarChart from '~/pages/Home/barChart';
 
 import Error_404 from '~/pages/Error';
 
@@ -59,7 +60,8 @@ import User from '~/pages/Magager/Users/index';
 export const publicRoutes = [
     //      Home
     { path: config.routes.admin, component: HomeAdmin, layout: AdminLayout },
-    { path: config.routes.chart, component: Chart, layout: AdminLayout },
+    // { path: config.routes.chart, component: Chart, layout: AdminLayout },
+    { path: config.routes.barChart, component: BarChart, layout: AdminLayout },
 
     //      Movie
     { path: config.routes.movies, component: Movies, layout: AdminLayout },

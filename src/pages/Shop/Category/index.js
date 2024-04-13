@@ -209,15 +209,17 @@ function Category() {
                                                                 <button
                                                                     className="btn btn-primary"
                                                                     onClick={() => handleEdit(item.id)}
-                                                                >
-                                                                    Edit
-                                                                </button>
-                                                                &nbsp;
-                                                                <button
-                                                                    className="btn btn-danger"
-                                                                    onClick={() => handleDelete(item.id)}
-                                                                >
-                                                                    Delete
+                                                                    title="Edit"
+                                                                    >
+                                                                        <i class="fas fa-pencil-alt"></i>
+                                                                    </button>
+                                                                    &nbsp;
+                                                                    <button
+                                                                        className="btn btn-danger"
+                                                                        onClick={() => handleDelete(item.id)}
+                                                                        title="Delete"
+                                                                    >
+                                                                        <i class="fas fa-trash"></i>
                                                                 </button>
                                                             </td>
                                                         </tr>

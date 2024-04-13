@@ -6,7 +6,6 @@ import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
 import { getOrders, deleteOrders } from '~/services/Orders/orderService';
 
-
 function Orders() {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
@@ -126,7 +125,7 @@ function Orders() {
                                         <div className="clearfix mb-3" />
                                         <div className="table-responsive">
                                             <table className="table table-striped">
-                                            <thead>
+                                                <thead>
                                                     <tr>
                                                         <th>Id</th>
                                                         <th>Order_Code</th>
@@ -164,18 +163,20 @@ function Orders() {
                                                             <td>{item.tickets}</td>
 
                                                             <td colSpan={2}>
-                                                            <a
+                                                                <a
                                                                     href={`/Orders/edit/${item.id}`}
                                                                     className="btn btn-primary"
+                                                                    title="Edit"
                                                                 >
-                                                                    Edit
+                                                                    <i class="fas fa-pencil-alt"></i>
                                                                 </a>
                                                                 &nbsp;
                                                                 <button
                                                                     className="btn btn-danger"
                                                                     onClick={() => handleDelete(item.id)}
+                                                                    title="Delete"
                                                                 >
-                                                                    Delete
+                                                                    <i class="fas fa-trash"></i>
                                                                 </button>
                                                             </td>
                                                         </tr>

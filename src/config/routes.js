@@ -1,6 +1,6 @@
 const routes = {
     admin: '/',
-    chart: '/chart',
+    barChart: '/barChart',
 
     profile: '/profile/:id',
     error_404: '/error_404',

@@ -18,8 +18,8 @@ function CreateMovies() {
         director: '',
         favorite_Count: '',
         trailer: '',
-        genreIds: '0',
-        languageIds: '0',
+        // genreIds: '0',
+        // languageIds: '0',
     });
 
     const navigate = useNavigate();
@@ -223,7 +223,7 @@ function CreateMovies() {
                                             />
                                         </div>
                                     </div>
-                                    <div className="form-group row mb-4">
+                                    {/* <div className="form-group row mb-4">
                                         <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
                                             Languages Id
                                         </label>
@@ -241,8 +241,8 @@ function CreateMovies() {
                                                 ))}
                                             </select>
                                         </div>
-                                    </div>
-                                    <div className="form-group row mb-4">
+                                    </div> */}
+                                    {/* <div className="form-group row mb-4">
                                         <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
                                             Genres Id
                                         </label>
@@ -260,7 +260,7 @@ function CreateMovies() {
                                                 ))}
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> */}
                                     <div className="form-group row mb-4">
                                         <div className="col-sm-12 col-md-7 offset-md-3">
                                             <button className="btn btn-primary" type="submit">

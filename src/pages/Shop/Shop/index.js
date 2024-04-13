@@ -147,7 +147,10 @@ function Shops() {
                                                             <td>{item.name}</td>
                                                             <td>
                                                                 <img
-                                                                    src={'https://localhost:7168/api/v1/Shops/'+item.image}
+                                                                    src={
+                                                                        'https://localhost:7168/api/v1/Shops/' +
+                                                                        item.image
+                                                                    }
                                                                     style={{ width: '100px', height: 'auto' }}
                                                                     alt={item.image}
                                                                 />
@@ -159,15 +162,17 @@ function Shops() {
                                                                 <a
                                                                     href={`/shops/edit/${item.id}`}
                                                                     className="btn btn-primary"
+                                                                    title="Edit"
                                                                 >
-                                                                    Edit
+                                                                    <i class="fas fa-pencil-alt"></i>
                                                                 </a>
                                                                 &nbsp;
                                                                 <button
                                                                     className="btn btn-danger"
                                                                     onClick={() => handleDelete(item.id)}
+                                                                    title="Delete"
                                                                 >
-                                                                    Delete
+                                                                    <i class="fas fa-trash"></i>
                                                                 </button>
                                                             </td>
                                                         </tr>
