@@ -2,7 +2,7 @@ import { get, post, put, del } from '~/utils/httpRequest';
 
 export const getFloorsData = async () => {
     try {
-        const response = await get('/v1/Floors/');
+        const response = await get('/Floors/');
         return response;
     } catch (error) {
         console.error('Error fetching Floors data:', error);
@@ -13,7 +13,7 @@ export const getFloorsData = async () => {
 export const createFloors = async (number) => {
     try {
         const newData = { number };
-        await post('/v1/Floors', newData);
+        await post('/Floors', newData);
     } catch (error) {
         console.error('Failed to create Floors', error);
         throw error;
@@ -22,7 +22,7 @@ export const createFloors = async (number) => {
 
 export const editFloorsData = async (id) => {
     try {
-        const response = await get(`/v1/Floors/id?id=${id}`);
+        const response = await get(`/Floors/id?id=${id}`);
         return response;
     } catch (error) {
         console.error('Error fetching Floors data:', error);
@@ -33,7 +33,7 @@ export const editFloorsData = async (id) => {
 export const updateFloors = async (id, number) => {
     try {
         const updatedData = { id, number };
-        await put(`/v1/Floors/id?id=${id}`, updatedData);
+        await put(`/Floors/id?id=${id}`, updatedData);
     } catch (error) {
         console.error('Failed to update Floors', error);
         throw error;
@@ -42,8 +42,7 @@ export const updateFloors = async (id, number) => {
 
 export const deleteFloors = async (id) => {
     try {
-       
-        await del(`/v1/Floors/id?id=${id}`);
+        await del(`/Floors/id?id=${id}`);
         return true;
     } catch (error) {
         console.error('Failed to delete Floors', error);

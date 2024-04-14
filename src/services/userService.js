@@ -16,6 +16,9 @@ const getSuggested = async ({ page = 1, perPage = 5 }) => {
 };
 
 const loginApi = (email, password) => {
-    return axios.post('https://localhost:7168/api/v1/LoginRegister/Login', { email, password });
+    return axios.post('https://rmallbe20240413154509.azurewebsites.net/api/v1/LoginRegister/Login', {
+        email,
+        password,
+    });
 };
 export { getSuggested, loginApi };

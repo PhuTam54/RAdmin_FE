@@ -27,11 +27,11 @@ function CreateMovies() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const genresData = await fetch('https://localhost:7168/api/v1/Genres');
+                const genresData = await fetch('https://rmallbe20240413154509.azurewebsites.net/api/v1/Genres');
                 const genresJson = await genresData.json();
                 setGenres(genresJson);
 
-                const languagesData = await fetch('https://localhost:7168/api/v1/Languages');
+                const languagesData = await fetch('https://rmallbe20240413154509.azurewebsites.net/api/v1/Languages');
                 const languagesJson = await languagesData.json();
                 setLanguages(languagesJson);
             } catch (error) {

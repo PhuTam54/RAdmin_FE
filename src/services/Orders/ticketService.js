@@ -2,7 +2,7 @@ import { get, post, put, del } from '~/utils/httpRequest';
 
 export const getOrderTicket = async () => {
     try {
-        const response = await get('/v1/OrderTicket/');
+        const response = await get('/OrderTicket/');
         return response;
     } catch (error) {
         console.error('Error fetching OrderTicket data:', error);
@@ -13,7 +13,7 @@ export const getOrderTicket = async () => {
 export const createOrderTicket = async (code, price, is_Used, order_Id, seat_Id) => {
     try {
         const newData = { code, price, is_Used, order_Id, seat_Id };
-        await post(`/v1/OrderTicket`, newData);
+        await post(`/OrderTicket`, newData);
     } catch (error) {
         console.error('Failed to create OrderTicket', error);
         throw error;
@@ -22,7 +22,7 @@ export const createOrderTicket = async (code, price, is_Used, order_Id, seat_Id)
 
 export const editOrderTicket = async (id) => {
     try {
-        const response = await get(`/v1/OrderTicket/id?id=${id}`);
+        const response = await get(`/OrderTicket/id?id=${id}`);
         return response;
     } catch (error) {
         console.error('Error fetching OrderTicket data:', error);
@@ -33,7 +33,7 @@ export const editOrderTicket = async (id) => {
 export const updateOrderTicket = async (id, code, price, is_Used, order_Id, seat_Id) => {
     try {
         const updatedData = { id, code, price, is_Used, order_Id, seat_Id };
-        await put(`/v1/OrderTicket/id?id=${id}`, updatedData);
+        await put(`/OrderTicket/id?id=${id}`, updatedData);
     } catch (error) {
         console.error('Failed to update OrderTicket', error);
         throw error;
@@ -42,7 +42,7 @@ export const updateOrderTicket = async (id, code, price, is_Used, order_Id, seat
 
 export const deleteOrderTicket = async (id) => {
     try {
-        await del(`/v1/OrderTicket/id?id=${id}`);
+        await del(`/OrderTicket/id?id=${id}`);
         return true;
     } catch (error) {
         console.error('Failed to delete OrderTicket', error);

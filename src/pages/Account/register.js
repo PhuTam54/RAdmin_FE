@@ -14,7 +14,7 @@ function Register() {
     const handleSave = (e) => {
         e.preventDefault();
         if (user && email && password && confirmPassword) {
-            const url = 'https://localhost:7168/api/v1/LoginRegister/Register';
+            const url = 'https://rmallbe20240413154509.azurewebsites.net/api/v1/LoginRegister/Register';
             const newData = {
                 userName: user,
                 email: email,

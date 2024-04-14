@@ -2,7 +2,7 @@ import { get, post, put, del } from '~/utils/httpRequest';
 
 export const getOrders = async () => {
     try {
-        const response = await get('/v1/Orders/');
+        const response = await get('/Orders/');
         return response;
     } catch (error) {
         console.error('Error fetching Orders data:', error);
@@ -41,7 +41,7 @@ export const createOrders = async (
             orderFoods,
             tickets,
         };
-        await post(`/v1/Orders`, newData);
+        await post(`/Orders`, newData);
     } catch (error) {
         console.error('Failed to create Orders', error);
         throw error;
@@ -50,7 +50,7 @@ export const createOrders = async (
 
 export const editOrders = async (id) => {
     try {
-        const response = await get(`/v1/Orders/id?id=${id}`);
+        const response = await get(`/Orders/id?id=${id}`);
         return response;
     } catch (error) {
         console.error('Error fetching Orders data:', error);
@@ -91,7 +91,7 @@ export const updateOrders = async (
             orderFoods,
             tickets,
         };
-        await put(`/v1/Orders/id?id=${id}`, updatedData);
+        await put(`/Orders/id?id=${id}`, updatedData);
     } catch (error) {
         console.error('Failed to update Orders', error);
         throw error;
@@ -100,7 +100,7 @@ export const updateOrders = async (
 
 export const deleteOrders = async (id) => {
     try {
-        await del(`/v1/Orders/id?id=${id}`);
+        await del(`/Orders/id?id=${id}`);
         return true;
     } catch (error) {
         console.error('Failed to delete Orders', error);

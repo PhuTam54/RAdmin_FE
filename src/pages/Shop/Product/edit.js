@@ -32,7 +32,7 @@ function EditProduct() {
                     editDescription: productData.description,
                 });
 
-                const shopsData = await fetch('https://localhost:7168/api/v1/Shops');
+                const shopsData = await fetch('https://rmallbe20240413154509.azurewebsites.net/api/v1/Shops');
                 const shopJson = await shopsData.json();
                 setShops(shopJson);
             } catch (error) {
