@@ -17,7 +17,7 @@ function Login() {
         event.preventDefault();
         if (validate()) {
             try {
-                const response = await httpRequest.post('https://localhost:7168/api/v1/LoginRegister/Login', {
+                const response = await httpRequest.post('https://rmallbe20240413154509.azurewebsites.net/api/v1/LoginRegister/Login', {
                     email: email,
                     password: password,
                 });

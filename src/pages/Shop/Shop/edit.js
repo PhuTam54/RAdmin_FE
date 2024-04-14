@@ -37,11 +37,11 @@ function EditShops() {
                     editDescription: shopData.description,
                 });
     
-                const categoriesData = await fetch('https://localhost:7168/api/v1/Categories');
+                const categoriesData = await fetch('https://rmallbe20240413154509.azurewebsites.net/api/v1/Categories');
                 const categoriesJson = await categoriesData.json();
                 setCategories(categoriesJson);
     
-                const floorsData = await fetch('https://localhost:7168/api/v1/Floors');
+                const floorsData = await fetch('https://rmallbe20240413154509.azurewebsites.net/api/v1/Floors');
                 const floorsJson = await floorsData.json();
                 setFloors(floorsJson);
     

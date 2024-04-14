@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { updateShows, editShows } from '~/services/Movie/showService';
+import { updateSeats, editSeats } from '~/services/Movie/Seats/seatService';
 import { useNavigate, useParams } from 'react-router-dom';
 
-function EditShows() {
+function EditSeats() {
     const [rooms, setRooms] = useState([]);
     const [movies, setMovies] = useState([]);
 
     const [data, setData] = useState({
         editId: '',
-        editShow_Code: '',
-        editStart_Date: '',
-        editMovie_Id: '',
+        row_Number: '',
+        seat_Number: '',
+        seatType: '',
         editRoom_Id: '',
     });
 
@@ -22,20 +22,20 @@ function EditShows() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const showData = await editShows(id);
+                const showData = await editSeats(id);
                 setData({
                     editId: showData.id,
-                    editShow_Code: showData.show_Code,
-                    editStart_Date: showData.start_Date,
+                    row_Number: showData.show_Code,
+                    seat_Number: showData.start_Date,
                     editRoom_Id: showData.room_Id,
-                    editMovie_Id: showData.movie_Id,
+                    seatType: showData.movie_Id,
                 });
 
-                const roomsData = await fetch('https://rmallbe20240413154509.azurewebsites.net/api/v1/Rooms');
+                const roomsData = await fetch('https://localhost:7168/api/v1/Rooms');
                 const roomsJson = await roomsData.json();
                 setRooms(roomsJson);
 
-                const moviesData = await fetch('https://rmallbe20240413154509.azurewebsites.net/api/v1/Movies');
+                const moviesData = await fetch('https://localhost:7168/api/v1/Movies');
                 const moviesJson = await moviesData.json();
                 setMovies(moviesJson);
             } catch (error) {
@@ -48,15 +48,15 @@ function EditShows() {
     const handleUpdate = async (event) => {
         event.preventDefault();
         try {
-            await updateShows(
+            await updateSeats(
                 data.editId,
-                data.editShow_Code,
-                data.editStart_Date,
+                data.row_Number,
+                data.seat_Number,
                 data.editRoom_Id,
-                data.editMovie_Id,
+                data.seatType,
             );
             toast.success('Show updated successfully');
-            navigate('/shows');
+            navigate('/Seats');
         } catch (error) {
             toast.error('Failed to update Show');
         }
@@ -67,7 +67,7 @@ function EditShows() {
         <section className="section">
             <div className="section-header">
                 <div className="section-header-back">
-                    <a href="/shows" className="btn btn-icon">
+                    <a href="/Seats" className="btn btn-icon">
                         <i className="fas fa-arrow-left" />
                     </a>
                 </div>
@@ -77,7 +77,7 @@ function EditShows() {
                         <a href="#">Dashboard</a>
                     </div>
                     <div className="breadcrumb-item">
-                        <a href="#">Shows</a>
+                        <a href="#">Seats</a>
                     </div>
                     <div className="breadcrumb-item">Edit Show</div>
                 </div>
@@ -117,8 +117,8 @@ function EditShows() {
                                                 type="text"
                                                 className="form-control"
                                                 placeholder="Enter Show Code"
-                                                value={data.editShow_Code}
-                                                onChange={(e) => setData({ ...data, editShow_Code: e.target.value })}
+                                                value={data.row_Number}
+                                                onChange={(e) => setData({ ...data, row_Number: e.target.value })}
                                             />
                                         </div>
                                     </div>
@@ -131,8 +131,8 @@ function EditShows() {
                                                 type="date"
                                                 className="form-control"
                                                 placeholder="Enter Start Date"
-                                                value={data.editStart_Date}
-                                                onChange={(e) => setData({ ...data, editStart_Date: e.target.value })}
+                                                value={data.seat_Number}
+                                                onChange={(e) => setData({ ...data, seat_Number: e.target.value })}
                                             />
                                         </div>
                                     </div>
@@ -162,8 +162,8 @@ function EditShows() {
                                         <div className="col-sm-12 col-md-7">
                                             <select
                                                 className="form-control selectric"
-                                                value={data.editMovie_Id}
-                                                onChange={(e) => setData({ ...data, editMovie_Id: e.target.value })}
+                                                value={data.seatType}
+                                                onChange={(e) => setData({ ...data, seatType: e.target.value })}
                                             >
                                                 <option>Select Movie</option>
                                                 {movies.map((movie) => (
@@ -192,4 +192,4 @@ function EditShows() {
     );
 }
 
-export default EditShows;
+export default EditSeats;

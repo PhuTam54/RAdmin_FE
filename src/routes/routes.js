@@ -28,6 +28,14 @@ import EditShows from '~/pages/Movies/Shows/edit';
 import Genres from '~/pages/Movies/Genres/index';
 import Rooms from '~/pages/Movies/Room/rooms';
 
+//      Seats
+import Seats from '~/pages/Movies/Seats/Seat/index'
+import CreateSeats from '~/pages/Movies/Seats/Seat/create'
+import EditSeats from '~/pages/Movies/Seats/Seat/edit'
+
+import SeatPricings from '~/pages/Movies/Seats/SeatPricing/index';
+import SeatReservations from '~/pages/Movies/Seats/SeatReservation/index'
+import SeatTypes from '~/pages/Movies/Seats/SeatType/index'
 
 //      Order
 import Foods from '~/pages/Orders/Food/index';
@@ -74,6 +82,15 @@ export const publicRoutes = [
     { path: config.routes.editShows, component: EditShows, layout: AdminLayout },
 
     { path: config.routes.rooms, component: Rooms, layout: AdminLayout },
+
+    //      Seats
+    { path: config.routes.seats, component: Seats, layout: AdminLayout },
+    { path: config.routes.createSeats, component: CreateSeats, layout: AdminLayout },
+    { path: config.routes.editSeats, component: EditSeats, layout: AdminLayout },
+
+    { path: config.routes.seatPricings, component: SeatPricings, layout: AdminLayout },
+    { path: config.routes.seatReservations, component: SeatReservations, layout: AdminLayout },
+    { path: config.routes.seatTypes, component: SeatTypes, layout: AdminLayout },
 
     //      Orders
     { path: config.routes.foods, component: Foods, layout: AdminLayout },
