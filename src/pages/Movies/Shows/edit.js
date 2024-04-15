@@ -62,7 +62,6 @@ function EditShows() {
         }
     };
 
-
     return (
         <section className="section">
             <div className="section-header">

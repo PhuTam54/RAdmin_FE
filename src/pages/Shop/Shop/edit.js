@@ -13,7 +13,7 @@ function EditShops() {
         editCategoryId: '',
         editFloorsId: '',
         editName: '',
-        editImg: '', 
+        editImg: '',
         editAddress: '',
         editPhone: '',
         editDescription: '',
@@ -36,23 +36,20 @@ function EditShops() {
                     editPhone: shopData.phone_Number,
                     editDescription: shopData.description,
                 });
-    
                 const categoriesData = await fetch('https://rmallbe20240413154509.azurewebsites.net/api/v1/Categories');
                 const categoriesJson = await categoriesData.json();
                 setCategories(categoriesJson);
-    
+
                 const floorsData = await fetch('https://rmallbe20240413154509.azurewebsites.net/api/v1/Floors');
                 const floorsJson = await floorsData.json();
                 setFloors(floorsJson);
-    
             } catch (error) {
                 console.error('Error fetching Shop data:', error);
             }
         };
-    
+
         fetchData();
     }, [id]);
-    
 
     const handleUpdate = async (event) => {
         event.preventDefault();

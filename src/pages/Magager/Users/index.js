@@ -24,8 +24,7 @@ function Users() {
     useEffect(() => {
         const filteredData = data.filter((item) => item.email.toLowerCase().includes(search.toLowerCase()));
         setSearchedData(filteredData);
-    }, [search, data])
-    
+    }, [search, data]);
 
     //Page
     const [currentPage, setCurrentPage] = useState(1);
@@ -57,7 +56,7 @@ function Users() {
 
     const getData = () => {
         axios
-            .get(`https://localhost:7168/api/v1/Customers`)
+            .get(`https://rmallbe20240413154509.azurewebsites.net/api/v1/Customers`)
             .then((response) => {
                 setData(response.data);
                 setSearchedData(response.data);
@@ -72,7 +71,7 @@ function Users() {
     const handleEdit = (id) => {
         handleEditShow();
         axios
-            .get(`https://localhost:7168/api/v1/Customers/${id}`)
+            .get(`https://rmallbe20240413154509.azurewebsites.net/api/v1/Customers/${id}`)
             .then(({ data }) => {
                 setEditId(id);
                 setEditUser(data.user);
@@ -83,7 +82,7 @@ function Users() {
     };
 
     const handleUpdate = () => {
-        const url = `https://localhost:7168/api/v1/Customers/${editId}`;
+        const url = `https://rmallbe20240413154509.azurewebsites.net/api/v1/Customers/${editId}`;
         const updatedData = {
             userName: user,
             email: email,
@@ -108,7 +107,7 @@ function Users() {
 
     const handleDeleteConfirm = (id) => {
         axios
-            .delete(`https://localhost:7168/api/v1/Customers/${id}`)
+            .delete(`https://rmallbe20240413154509.azurewebsites.net/api/v1/Customers/${id}`)
             .then((response) => {
                 if (response.status === 200) {
                     toast.success('Customers has been deleted');
@@ -127,7 +126,7 @@ function Users() {
     };
     const handleSaveConfirm = () => {
         if (user && email && password) {
-            const url = 'https://localhost:7168/api/v1/Customers';
+            const url = 'https://rmallbe20240413154509.azurewebsites.net/api/v1/Customers';
             const newData = {
                 userName: user,
                 email: email,

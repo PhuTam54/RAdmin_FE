@@ -20,11 +20,11 @@ function CreateShows() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const roomsData = await fetch('https://localhost:7168/api/v1/Rooms');
+                const roomsData = await fetch('https://rmallbe20240413154509.azurewebsites.net/api/v1/Rooms');
                 const roomsJson = await roomsData.json();
                 setRooms(roomsJson);
 
-                const moviesData = await fetch('https://localhost:7168/api/v1/Movies');
+                const moviesData = await fetch('https://rmallbe20240413154509.azurewebsites.net/api/v1/Movies');
                 const moviesJson = await moviesData.json();
                 setMovies(moviesJson);
             } catch (error) {

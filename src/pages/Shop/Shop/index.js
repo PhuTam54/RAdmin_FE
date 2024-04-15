@@ -148,7 +148,7 @@ function Shops() {
                                                             <td>
                                                                 <img
                                                                     src={
-                                                                        'https://localhost:7168/api/v1/Shops/' +
+                                                                        'https://rmallbe20240413154509.azurewebsites.net/api/v1/Shops/' +
                                                                         item.image
                                                                     }
                                                                     style={{ width: '100px', height: 'auto' }}

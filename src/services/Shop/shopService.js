@@ -2,7 +2,7 @@ import { get, post, put, del } from '~/utils/httpRequest';
 
 export const getShops = async () => {
     try {
-        const response = await get('/v1/Shops/');
+        const response = await get('/Shops/');
         return response;
     } catch (error) {
         console.error('Error fetching Shops data:', error);
@@ -10,9 +10,9 @@ export const getShops = async () => {
     }
 };
 
-export const createShops = async (category_Id , floor_Id ,name, image, address, phone_Number, description) => {
+export const createShops = async (category_Id, floor_Id, name, image, address, phone_Number, description) => {
     try {
-        const createData = { category_Id , floor_Id ,name, image, address, phone_Number, description};
+        const createData = { category_Id, floor_Id, name, image, address, phone_Number, description };
         await post(`v1/Shops?categoryId=${category_Id}&floorId=${floor_Id}`, createData);
     } catch (error) {
         console.error('Failed to create Shops', error);
@@ -22,7 +22,7 @@ export const createShops = async (category_Id , floor_Id ,name, image, address, 
 
 export const editShops = async (id) => {
     try {
-        const response = await get(`/v1/Shops/id?id=${id}`);
+        const response = await get(`/Shops/id?id=${id}`);
         return response;
     } catch (error) {
         console.error('Error fetching Shops data:', error);
@@ -30,10 +30,10 @@ export const editShops = async (id) => {
     }
 };
 
-export const updateShops = async (id, floor_Id , category_Id, name, image, address, phone_Number, description) => {
+export const updateShops = async (id, floor_Id, category_Id, name, image, address, phone_Number, description) => {
     try {
-        const updatedData = { id, floor_Id , category_Id, name, image, address, phone_Number, description };
-        await put(`/v1/Shops/id?id=${id}`, updatedData);
+        const updatedData = { id, floor_Id, category_Id, name, image, address, phone_Number, description };
+        await put(`/Shops/id?id=${id}`, updatedData);
     } catch (error) {
         console.error('Failed to update Shops', error);
         throw error;
@@ -42,8 +42,7 @@ export const updateShops = async (id, floor_Id , category_Id, name, image, addre
 
 export const deleteShops = async (id) => {
     try {
-       
-        await del(`/v1/Shops/id?id=${id}`);
+        await del(`/Shops/id?id=${id}`);
         return true;
     } catch (error) {
         console.error('Failed to delete Shops', error);

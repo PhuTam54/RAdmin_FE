@@ -144,7 +144,7 @@ function Product() {
                                                             <td>{item.name}</td>
                                                             <td>
                                                                 {/* <img
-                                                                    src={'https://localhost:7168/api/v1/Product/'+item.image}
+                                                                    src={'https://rmallbe20240413154509.azurewebsites.net/api/v1/Product/'+item.image}
                                                                     style={{ width: '100px', height: 'auto' }}
                                                                     alt={item.name}
                                                                 /> */}

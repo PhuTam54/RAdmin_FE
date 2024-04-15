@@ -47,7 +47,7 @@ function Booking() {
 
     const getData = () => {
         axios
-            .get(`https://localhost:7168/api/v1/Categories`)
+            .get(`https://rmallbe20240413154509.azurewebsites.net/api/v1/Categories`)
             .then((response) => {
                 setData(response.data);
                 setSearchedData(response.data);
@@ -60,16 +60,14 @@ function Booking() {
     };
 
     useEffect(() => {
-        const filteredData = data.filter(item =>
-            item.name.toLowerCase().includes(search.toLowerCase())
-        );
+        const filteredData = data.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()));
         setSearchedData(filteredData);
     }, [search, data]);
 
     const handleEdit = (id) => {
         handleEditShow();
         axios
-            .get(`https://localhost:7168/api/v1/Categories/${id}`)
+            .get(`https://rmallbe20240413154509.azurewebsites.net/api/v1/Categories/${id}`)
             .then(({ data }) => {
                 setEditId(id);
                 setEditName(data.name);
@@ -79,7 +77,7 @@ function Booking() {
     };
 
     const handleUpdate = () => {
-        const url = `https://localhost:7168/api/v1/Categories/${editId}`;
+        const url = `https://rmallbe20240413154509.azurewebsites.net/api/v1/Categories/${editId}`;
         const updatedData = {
             name: editName,
             slug: editSlug,
@@ -103,7 +101,7 @@ function Booking() {
 
     const handleDeleteConfirm = (id) => {
         axios
-            .delete(`https://localhost:7168/api/v1/Categories/${id}`)
+            .delete(`https://rmallbe20240413154509.azurewebsites.net/api/v1/Categories/${id}`)
             .then((response) => {
                 if (response.status === 200) {
                     toast.success('Category has been deleted');
@@ -120,7 +118,7 @@ function Booking() {
     const handleSave = () => {
         handleCreateShow();
         if (name) {
-            const url = 'https://localhost:7168/api/v1/Categories';
+            const url = 'https://rmallbe20240413154509.azurewebsites.net/api/v1/Categories';
             const newData = {
                 name: name,
                 slug: slug,
