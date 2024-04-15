@@ -73,7 +73,7 @@ function SeatTypes() {
     };
 
     const handleSaveConfirm = () => {
-        createSeatTypes(name, slug, SeatPricings, columns)
+        createSeatTypes(name, SeatPricings)
             .then(() => {
                 getData();
                 clear();
@@ -91,15 +91,13 @@ function SeatTypes() {
             .then((data) => {
                 setEditId(id);
                 setEditName(data.name);
-                setEditSlug(data.slug);
                 setEditSeatPricings(data.SeatPricings);
-                setEditColumns(data.columns);
             })
             .catch((error) => console.error('Error fetching SeatTypes data:', error));
     };
 
     const handleUpdate = () => {
-        updateSeatTypes(editId, editName, editSlug, editSeatPricings, editColumns)
+        updateSeatTypes(editId, editName, editSeatPricings)
             .then(() => {
                 handleClose();
                 getData();
@@ -130,13 +128,10 @@ function SeatTypes() {
 
     const clear = () => {
         setName('');
-        setSlug('');
         setSeatPricings('');
-        setColumns('');
         setEditId('');
         setEditName('');
         setEditSeatPricings('');
-        setEditColumns('');
     };
 
     const handleClose = () => {
