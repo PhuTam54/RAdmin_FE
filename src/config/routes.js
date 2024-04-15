@@ -38,6 +38,15 @@ const routes = {
     editShows: 'shows/edit/:id',
     rooms: '/rooms',
 
+    //      Seats
+    seats: '/seats',
+    createSeats: '/seats/create',
+    editSeats: '/seats/edit/:id',
+
+    seatPricings: '/seatPricings',
+    seatReservations: '/seatReservations',
+    seatTypes: '/seatTypes',
+
     //      Orders
     foods: '/foods',
     createFoods: '/foods/create',

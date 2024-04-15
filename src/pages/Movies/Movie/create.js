@@ -18,8 +18,8 @@ function CreateMovies() {
         director: '',
         favorite_Count: '',
         trailer: '',
-        // genreIds: '0',
-        // languageIds: '0',
+        genreIds: '0',
+        languageIds: '0',
     });
 
     const navigate = useNavigate();
@@ -88,11 +88,9 @@ function CreateMovies() {
                             </div>
                             <div className="card-body">
                                 <form onSubmit={handleCreate}>
-                                    <div className="form-group row mb-4">
-                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Title
-                                        </label>
-                                        <div className="col-sm-12 col-md-7">
+                                    <div className="row mb-4">
+                                        <div className="col-md-6">
+                                            <label className="col-form-label text-md-right">Title</label>
                                             <input
                                                 type="text"
                                                 className="form-control"
@@ -100,12 +98,8 @@ function CreateMovies() {
                                                 onChange={(e) => setData({ ...data, title: e.target.value })}
                                             />
                                         </div>
-                                    </div>
-                                    <div className="form-group row mb-4">
-                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Actor
-                                        </label>
-                                        <div className="col-sm-12 col-md-7">
+                                        <div className="col-md-6">
+                                            <label className="col-form-label text-md-right">Actor</label>
                                             <input
                                                 type="text"
                                                 className="form-control"
@@ -114,29 +108,9 @@ function CreateMovies() {
                                             />
                                         </div>
                                     </div>
-                                    {/* <div className="form-group row mb-4">
-                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Thumbnail
-                                        </label>
-                                        <div className="col-sm-12 col-md-7">
-                                            <div id="image-preview" className="image-preview">
-                                                <label htmlFor="image-upload" id="image-label">
-                                                    Choose File
-                                                </label>
-                                                <input
-                                                    type="file"
-                                                    name="image"
-                                                    id="image-upload"
-                                                    onChange={handleImageChange}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div> */}
-                                    <div className="form-group row mb-4">
-                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Movie_Image
-                                        </label>
-                                        <div className="col-sm-12 col-md-7">
+                                    <div className="row mb-4">
+                                        <div className="col-md-6">
+                                            <label className="col-form-label text-md-right">Movie_Image</label>
                                             <input
                                                 type="text"
                                                 className="form-control"
@@ -144,12 +118,8 @@ function CreateMovies() {
                                                 onChange={(e) => setData({ ...data, movie_Image: e.target.value })}
                                             />
                                         </div>
-                                    </div>
-                                    <div className="form-group row mb-4">
-                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Cover_Image
-                                        </label>
-                                        <div className="col-sm-12 col-md-7">
+                                        <div className="col-md-6">
+                                            <label className="col-form-label text-md-right">Cover_Image</label>
                                             <input
                                                 type="text"
                                                 className="form-control"
@@ -158,11 +128,9 @@ function CreateMovies() {
                                             />
                                         </div>
                                     </div>
-                                    <div className="form-group row mb-4">
-                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Description
-                                        </label>
-                                        <div className="col-sm-12 col-md-7">
+                                    <div className="row mb-4">
+                                        <div className="col-md-6">
+                                            <label className="col-form-label text-md-right">Description</label>
                                             <input
                                                 type="text"
                                                 className="form-control"
@@ -170,12 +138,8 @@ function CreateMovies() {
                                                 onChange={(e) => setData({ ...data, description: e.target.value })}
                                             />
                                         </div>
-                                    </div>
-                                    <div className="form-group row mb-4">
-                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Duration
-                                        </label>
-                                        <div className="col-sm-12 col-md-7">
+                                        <div className="col-md-6">
+                                            <label className="col-form-label text-md-right">Duration</label>
                                             <input
                                                 type="text"
                                                 className="form-control"
@@ -184,11 +148,9 @@ function CreateMovies() {
                                             />
                                         </div>
                                     </div>
-                                    <div className="form-group row mb-4">
-                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Director
-                                        </label>
-                                        <div className="col-sm-12 col-md-7">
+                                    <div className="row mb-4">
+                                        <div className="col-md-6">
+                                            <label className="col-form-label text-md-right">Director</label>
                                             <input
                                                 type="text"
                                                 className="form-control"
@@ -196,12 +158,8 @@ function CreateMovies() {
                                                 onChange={(e) => setData({ ...data, director: e.target.value })}
                                             />
                                         </div>
-                                    </div>
-                                    <div className="form-group row mb-4">
-                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Favorite Count
-                                        </label>
-                                        <div className="col-sm-12 col-md-7">
+                                        <div className="col-md-6">
+                                            <label className="col-form-label text-md-right">Favorite Count</label>
                                             <input
                                                 type="number"
                                                 className="form-control"
@@ -210,11 +168,9 @@ function CreateMovies() {
                                             />
                                         </div>
                                     </div>
-                                    <div className="form-group row mb-4">
-                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Trailer
-                                        </label>
-                                        <div className="col-sm-12 col-md-7">
+                                    <div className="row mb-4">
+                                        <div className="col-md-6">
+                                            <label className="col-form-label text-md-right">Trailer</label>
                                             <input
                                                 type="text"
                                                 className="form-control"
@@ -222,12 +178,8 @@ function CreateMovies() {
                                                 onChange={(e) => setData({ ...data, trailer: e.target.value })}
                                             />
                                         </div>
-                                    </div>
-                                    {/* <div className="form-group row mb-4">
-                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Languages Id
-                                        </label>
-                                        <div className="col-sm-12 col-md-7">
+                                        <div className="col-md-6">
+                                            <label className="col-form-label text-md-right">Languages Id</label>
                                             <select
                                                 className="form-control selectric"
                                                 value={data.languageIds}
@@ -241,29 +193,27 @@ function CreateMovies() {
                                                 ))}
                                             </select>
                                         </div>
-                                    </div> */}
-                                    {/* <div className="form-group row mb-4">
-                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Genres Id
-                                        </label>
-                                        <div className="col-sm-12 col-md-7">
+                                    </div>
+                                    <div className="row mb-4">
+                                        <div className="col-md-6">
+                                            <label className="col-form-label text-md-right">Genres Id</label>
                                             <select
                                                 className="form-control selectric"
                                                 value={data.genreIds}
                                                 onChange={(e) => setData({ ...data, genreIds: e.target.value })}
                                             >
-                                                <option>Select category</option>
-                                                {genres.map((genres) => (
-                                                    <option key={genres.id} value={genres.id}>
-                                                        {genres.name}
+                                                <option>Select Genres</option>
+                                                {genres.map((genre) => (
+                                                    <option key={genre.id} value={genre.id}>
+                                                        {genre.name}
                                                     </option>
                                                 ))}
                                             </select>
                                         </div>
-                                    </div> */}
-                                    <div className="form-group row mb-4">
-                                        <div className="col-sm-12 col-md-7 offset-md-3">
-                                            <button className="btn btn-primary" type="submit">
+                                    </div>
+                                    <div className="row mb-4">
+                                        <div className="col-md-6 offset-md-3">
+                                            <button className="btn btn-primary btn-block" type="submit">
                                                 Create Movies
                                             </button>
                                         </div>

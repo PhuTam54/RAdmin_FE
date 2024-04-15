@@ -16,7 +16,7 @@ function OrderTicket() {
     const [search, setSearch] = useState('');
     const [searchedData, setSearchedData] = useState([]);
     useEffect(() => {
-        const filteredData = data.filter((item) => item.show_Code.toLowerCase().includes(search.toLowerCase()));
+        const filteredData = data.filter((item) => item.code.toLowerCase().includes(search.toLowerCase()));
         setSearchedData(filteredData);
     }, [search, data]);
 

@@ -81,6 +81,33 @@ function SidebarAdmin() {
                         </li>
                         <li className="dropdown">
                             <a href="#" className="nav-link has-dropdown">
+                                <i className="fas fa-video"></i> <span>Seats</span>
+                            </a>
+                            <ul className="dropdown-menu">
+                                <li>
+                                    <a className="nav-link" href="/seats">
+                                        Seats
+                                    </a>
+                                </li>
+                                <li>
+                                    <a className="nav-link" href="/seatPricings">
+                                        SeatPricings
+                                    </a>
+                                </li>
+                                <li>
+                                    <a className="nav-link" href="/seatReservations">
+                                        SeatReservations
+                                    </a>
+                                </li>
+                                <li>
+                                    <a className="nav-link" href="/SeatTypes">
+                                        SeatTypes
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li className="dropdown">
+                            <a href="#" className="nav-link has-dropdown">
                                 <i className="fas fa-cart-plus"></i> <span>Orders</span>
                             </a>
                             <ul className="dropdown-menu">
@@ -146,22 +173,12 @@ function SidebarAdmin() {
                                 </li>
                                 <li>
                                     <a className="nav-link" href="/booking">
-                                        Booking
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="nav-link" href="/booking">
                                         ContactInfo
                                     </a>
                                 </li>
                                 <li>
                                     <a className="nav-link" href="/feedback">
                                         Feedback
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="nav-link" href="/feedback">
-                                        LoginModel
                                     </a>
                                 </li>
                                 <li>
@@ -183,7 +200,7 @@ function SidebarAdmin() {
                         </li>
                         <li className="dropdown">
                             <a href="#" className="nav-link has-dropdown">
-                                <i className="fas fa-tasks"></i> <span>User</span>
+                                <i className="far fa-user"></i> <span>User</span>
                             </a>
                             <ul className="dropdown-menu">
                                 <li>
@@ -198,25 +215,7 @@ function SidebarAdmin() {
                                 </li>
                             </ul>
                         </li>
-                        <li className="dropdown">
-                            <a href="#" className="nav-link has-dropdown">
-                                <i className="far fa-user"></i> <span>Auth</span>
-                            </a>
-                            <ul className="dropdown-menu">
-                                <li>
-                                    <a href="/forgotpassword">Forgot Password</a>
-                                </li>
-                                <li>
-                                    <a href="/login">Login</a>
-                                </li>
-                                <li>
-                                    <a href="/register">Register</a>
-                                </li>
-                                <li>
-                                    <a href="/resetpassword">Reset Password</a>
-                                </li>
-                            </ul>
-                        </li>
+
                         <li className="dropdown">
                             <a href="#" className="nav-link has-dropdown">
                                 <i className="fas fa-exclamation"></i> <span>Errors</span>

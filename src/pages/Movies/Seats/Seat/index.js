@@ -4,9 +4,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getOrders, deleteOrders } from '~/services/Orders/orderService';
+import { getSeats, deleteSeats } from '~/services/Movie/Seats/seatService';
 
-function Orders() {
+function Seats() {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [deleteShow, setDeleteShow] = useState(false);
@@ -16,7 +16,7 @@ function Orders() {
     const [search, setSearch] = useState('');
     const [searchedData, setSearchedData] = useState([]);
     useEffect(() => {
-        const filteredData = data.filter((item) => item.total.toString().toLowerCase().includes(search.toLowerCase()));
+        const filteredData = data.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()));
         setSearchedData(filteredData);
     }, [search, data]);
 
@@ -49,7 +49,7 @@ function Orders() {
     }, []);
 
     const getData = () => {
-        getOrders()
+        getSeats()
             .then((data) => {
                 setData(data);
                 setSearchedData(data);
@@ -67,14 +67,14 @@ function Orders() {
     };
 
     const handleDeleteConfirm = async () => {
-        deleteOrders(deleteId)
+        deleteSeats(deleteId)
             .then(() => {
-                toast.success('Orders has been deleted');
+                toast.success('Seats has been deleted');
                 handleClose();
                 getData();
             })
             .catch((error) => {
-                toast.error('Failed to delete Orders', error);
+                toast.error('Failed to delete Seats', error);
             });
     };
 
@@ -87,9 +87,9 @@ function Orders() {
     return (
         <section className="section">
             <div className="section-header">
-                <h1>Orders</h1>
+                <h1>Seats</h1>
                 <div className="section-header-button">
-                    <a href="/orders/create" className="btn btn-primary">
+                    <a href="/Seats/create" className="btn btn-primary">
                         Add New
                     </a>
                 </div>
@@ -98,9 +98,9 @@ function Orders() {
                         <a href="#">Dashboard</a>
                     </div>
                     <div className="breadcrumb-item">
-                        <a href="#">Orders</a>
+                        <a href="#">Seats</a>
                     </div>
-                    <div className="breadcrumb-item">All Orders</div>
+                    <div className="breadcrumb-item">All Seats</div>
                 </div>
             </div>
             <div className="section-body">
@@ -108,7 +108,7 @@ function Orders() {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-header">
-                                <h4>All Orders</h4>
+                                <h4>All Seats</h4>
                             </div>
 
                             <div className="card-body">
@@ -128,19 +128,10 @@ function Orders() {
                                                 <thead>
                                                     <tr>
                                                         <th>Id</th>
-                                                        <th>Order_Code</th>
-                                                        <th>Total</th>
-                                                        <th>Detailsiscount_Amount</th>
-                                                        <th>Discount_Code</th>
-                                                        <th>Final_Total</th>
-                                                        <th>Status</th>
-                                                        <th>Payment_Method</th>
-                                                        <th>Is_Paid</th>
-                                                        <th>QR Code</th>
-                                                        <th>User_Id</th>
-                                                        <th>Show_Id</th>
-                                                        <th>OrderFoods</th>
-                                                        <th>Tickets</th>
+                                                        <th>Row_Number</th>
+                                                        <th>Seat_Number</th>
+                                                        <th>SeatType</th>
+                                                        <th>RoomId</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -148,23 +139,13 @@ function Orders() {
                                                     {records.map((item, index) => (
                                                         <tr key={item.id}>
                                                             <td>{index + firstIndex + 1}</td>
-                                                            <td>{item.order_Code}</td>
-                                                            <td>{item.total}</td>
-                                                            <td>{item.discount_Amount}</td>
-                                                            <td>{item.discount_Code}</td>
-                                                            <td>{item.final_Total}</td>
-                                                            <td>{item.status}</td>
-                                                            <td>{item.payment_Method}</td>
-                                                            <td>{item.is_Paid}</td>
-                                                            <td>{item.qR_Code}</td>
-                                                            <td>{item.user_Id}</td>
-                                                            <td>{item.show_Id}</td>
-                                                            <td>{item.orderFoods}</td>
-                                                            <td>{item.tickets}</td>
-
+                                                            <td>{item.row_Number}</td>
+                                                            <td>{item.seat_Number}</td>
+                                                            <td>{item.seatType}</td>
+                                                            <td>{item.room_Id}</td>
                                                             <td colSpan={2}>
                                                                 <a
-                                                                    href={`/Orders/edit/${item.id}`}
+                                                                    href={`/Seats/edit/${item.id}`}
                                                                     className="btn btn-primary"
                                                                     title="Edit"
                                                                 >
@@ -203,7 +184,7 @@ function Orders() {
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure you want to delete this Orders?</Modal.Body>
+                <Modal.Body>Are you sure you want to delete this Seats?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
@@ -219,4 +200,4 @@ function Orders() {
     );
 }
 
-export default Orders;
+export default Seats;
