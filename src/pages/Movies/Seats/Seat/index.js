@@ -16,7 +16,9 @@ function Seats() {
     const [search, setSearch] = useState('');
     const [searchedData, setSearchedData] = useState([]);
     useEffect(() => {
-        const filteredData = data.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()));
+        const filteredData = data.filter((item) =>
+            item.row_Number.toString().toLowerCase().includes(search.toLowerCase()),
+        );
         setSearchedData(filteredData);
     }, [search, data]);
 
@@ -51,6 +53,8 @@ function Seats() {
     const getData = () => {
         getSeats()
             .then((data) => {
+                console.log(data);
+
                 setData(data);
                 setSearchedData(data);
                 setLoading(false);
@@ -141,7 +145,7 @@ function Seats() {
                                                             <td>{index + firstIndex + 1}</td>
                                                             <td>{item.row_Number}</td>
                                                             <td>{item.seat_Number}</td>
-                                                            <td>{item.seatType}</td>
+                                                            <td>{item.seatType.id}</td>
                                                             <td>{item.room_Id}</td>
                                                             <td colSpan={2}>
                                                                 <a

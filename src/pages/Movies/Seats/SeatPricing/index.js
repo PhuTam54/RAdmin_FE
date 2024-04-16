@@ -211,7 +211,7 @@ function SeatPricings() {
                                                             <td>{index + firstIndex + 1}</td>
                                                             <td>{item.price}</td>
                                                             <td>{item.show_Id}</td>
-                                                            <td>{item.seatType_Id}</td>
+                                                            <td>{item.seat_Type_Id}</td>
                                                             <td colSpan={2}>
                                                                 <button
                                                                     className="btn btn-primary"

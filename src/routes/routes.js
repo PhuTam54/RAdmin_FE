@@ -26,16 +26,20 @@ import CreateShows from '~/pages/Movies/Shows/create';
 import EditShows from '~/pages/Movies/Shows/edit';
 
 import Genres from '~/pages/Movies/Genres/index';
-import Rooms from '~/pages/Movies/Room/rooms';
+import Rooms from '~/pages/Movies/Room/index';
+import CreateRooms from '~/pages/Movies/Room/create';
+import EditRooms from '~/pages/Movies/Room/edit';
+import DetailRooms from '~/pages/Movies/Room/detail';
+
 
 //      Seats
-import Seats from '~/pages/Movies/Seats/Seat/index'
-import CreateSeats from '~/pages/Movies/Seats/Seat/create'
-import EditSeats from '~/pages/Movies/Seats/Seat/edit'
+import Seats from '~/pages/Movies/Seats/Seat/index';
+import CreateSeats from '~/pages/Movies/Seats/Seat/create';
+import EditSeats from '~/pages/Movies/Seats/Seat/edit';
 
 import SeatPricings from '~/pages/Movies/Seats/SeatPricing/index';
-import SeatReservations from '~/pages/Movies/Seats/SeatReservation/index'
-import SeatTypes from '~/pages/Movies/Seats/SeatType/index'
+import SeatReservations from '~/pages/Movies/Seats/SeatReservation/index';
+import SeatTypes from '~/pages/Movies/Seats/SeatType/index';
 
 //      Order
 import Foods from '~/pages/Orders/Food/index';
@@ -62,7 +66,13 @@ import Profile from '~/pages/Magager/Profile';
 import Invoice from '~/pages/Magager/Invoice';
 
 //      Users
-import User from '~/pages/Magager/Users/index';
+import Customers from '~/pages/Users/Customer/index';
+import CreateCustomers from '~/pages/Users/Customer/create';
+import EditCustomers from '~/pages/Users/Customer/edit';
+
+import Admin from '~/pages/Users/Admin/index';
+import CreateAdmin from '~/pages/Users/Admin/create';
+import EditAdmin from '~/pages/Users/Admin/edit';
 
 // Public routes
 export const publicRoutes = [
@@ -82,6 +92,10 @@ export const publicRoutes = [
     { path: config.routes.editShows, component: EditShows, layout: AdminLayout },
 
     { path: config.routes.rooms, component: Rooms, layout: AdminLayout },
+    { path: config.routes.createRooms, component: CreateRooms, layout: AdminLayout },
+    { path: config.routes.editRooms, component: EditRooms, layout: AdminLayout },
+    { path: config.routes.detailRooms, component: DetailRooms, layout: AdminLayout },
+
 
     //      Seats
     { path: config.routes.seats, component: Seats, layout: AdminLayout },
@@ -113,7 +127,6 @@ export const publicRoutes = [
 
     //      Manager
     { path: config.routes.booking, component: Booking, layout: AdminLayout },
-    { path: config.routes.users, component: User, layout: AdminLayout },
 
     //      Account
     { path: config.routes.login, component: Login, layout: null },
@@ -123,9 +136,17 @@ export const publicRoutes = [
 
     //      Error
     { path: config.routes.error_404, component: Error_404, layout: null },
-
     { path: config.routes.profile, component: Profile, layout: AdminLayout },
     { path: config.routes.invoice, component: Invoice, layout: AdminLayout },
+
+    //      Users
+    { path: config.routes.customers, component: Customers, layout: AdminLayout },
+    { path: config.routes.createCustomers, component: CreateCustomers, layout: AdminLayout },
+    { path: config.routes.editCustomers, component: EditCustomers, layout: AdminLayout },
+
+    { path: config.routes.admins, component: Admin, layout: AdminLayout },
+    { path: config.routes.createAdmins, component: CreateAdmin, layout: AdminLayout },
+    { path: config.routes.editAdmins, component: EditAdmin, layout: AdminLayout },
 ];
 
 // Private routes

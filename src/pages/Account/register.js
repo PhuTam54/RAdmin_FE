@@ -9,7 +9,7 @@ function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const navigate = useNavigate(); // Sử dụng hook useNavigate để chuyển hướng
+    const navigate = useNavigate(); 
 
     const handleSave = (e) => {
         e.preventDefault();

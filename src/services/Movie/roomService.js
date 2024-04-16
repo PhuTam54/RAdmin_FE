@@ -1,5 +1,15 @@
 import { get, post, put, del } from '~/utils/httpRequest';
 
+export const getDetail = async (id) => {
+    try {
+        const response = await get(`/Rooms/id?id=${id}`);
+        return response;
+    } catch (error) {
+        console.error('Error fetching Rooms data:', error);
+        throw error;
+    }
+};
+
 export const getRooms = async () => {
     try {
         const response = await get('/Rooms/');

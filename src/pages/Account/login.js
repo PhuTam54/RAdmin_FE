@@ -27,9 +27,10 @@ function Login() {
                 if (response && response.data && response.data.token) {
                     localStorage.setItem('token', response.data.token);
                     localStorage.setItem('email', email);
-                    sessionStorage.setItem('email', email);
+                    // sessionStorage.setItem('email', email);
                     toast.success('Login successful!');
                     navigate('/');
+                    window.location.reload();
                     toast.success('Login successful!');
                 } else {
                     toast.error('Invalid response from server');

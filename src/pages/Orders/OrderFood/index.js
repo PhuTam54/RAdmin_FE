@@ -22,7 +22,7 @@ function OrderFood() {
 
     //Page
     const [currentPage, setCurrentPage] = useState(1);
-    const recordsPerPage = 7;
+    const recordsPerPage = 15;
     const lastindex = currentPage * recordsPerPage;
     const firstIndex = lastindex - recordsPerPage;
     const records = searchedData.slice(firstIndex, lastindex);

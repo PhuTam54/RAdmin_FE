@@ -13,7 +13,7 @@ export const getShops = async () => {
 export const createShops = async (category_Id, floor_Id, name, image, address, phone_Number, description) => {
     try {
         const createData = { category_Id, floor_Id, name, image, address, phone_Number, description };
-        await post(`v1/Shops?categoryId=${category_Id}&floorId=${floor_Id}`, createData);
+        await post(`/Shops?categoryId=${category_Id}&floorId=${floor_Id}`, createData);
     } catch (error) {
         console.error('Failed to create Shops', error);
         throw error;
