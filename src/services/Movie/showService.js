@@ -10,6 +10,18 @@ export const getShows = async () => {
     }
 };
 
+export const getShowings = async () => {
+    const timeNow = new Date();
+    const isoString = timeNow.toISOString();
+    try {
+        const response = await get(`/Shows/timeNow?timeNow=${isoString}`);
+        return response;
+    } catch (error) {
+        console.error('Error fetching Shows data:', error);
+        throw error;
+    }
+};
+
 export const createShows = async (show_Code, start_Date, movie_Id, room_Id) => {
     try {
         const newData = { show_Code, start_Date, movie_Id, room_Id };

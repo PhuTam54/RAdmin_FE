@@ -37,9 +37,10 @@ function CreateShows() {
 
     const handleCreate = async (event) => {
         event.preventDefault();
-
+        const timeNow = new Date();
+        const isoString = new Date(data.start_Date).toISOString();
         try {
-            await createShows(data.show_Code, data.start_Date, data.movie_Id, data.room_Id);
+            await createShows(data.show_Code, isoString, data.movie_Id, data.room_Id);
             toast.success('Show created successfully');
             navigate('/Shows');
         } catch (error) {
@@ -97,7 +98,7 @@ function CreateShows() {
                                         </label>
                                         <div className="col-sm-12 col-md-7">
                                             <input
-                                                type="date"
+                                                type="datetime-local"
                                                 className="form-control"
                                                 placeholder="Enter Start Date"
                                                 value={data.start_Date}

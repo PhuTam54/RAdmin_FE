@@ -2,6 +2,9 @@ import BarChart from './barChart';
 import LineChart from './lineChart';
 import PieChart from './pieChart';
 import DoughnutChart from './doughnutChart';
+import Showing from './Showing';
+import Order from './Order';
+
 function HomeAdmin() {
     return (
         <section className="section">
@@ -225,6 +228,8 @@ function HomeAdmin() {
                     </div>
                 </div>
             </div>
+            <Showing />
+            <Order />
             <div className="row">
                 <div className="col-md-8">
                     <div className="card">

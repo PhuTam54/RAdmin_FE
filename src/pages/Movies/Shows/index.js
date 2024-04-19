@@ -4,14 +4,15 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getShows, deleteShows } from '~/services/Movie/showService';
+import { getShows, getShowings, deleteShows } from '~/services/Movie/showService';
 
 function Shows() {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [deleteShow, setDeleteShow] = useState(false);
     const [deleteId, setDeleteId] = useState('');
-
+    const [selectedOption, setSelectedOption] = useState('');
+    
     //search
     const [search, setSearch] = useState('');
     const [searchedData, setSearchedData] = useState([]);
@@ -60,6 +61,41 @@ function Shows() {
                 setLoading(false);
             });
     };
+
+    const handleShowing = (event) => {
+        const optionValue = event.target.value;
+        setSelectedOption(optionValue);
+        if (optionValue === "showing") {
+            setLoading(true);
+            setData([]);
+            
+            getShowings()
+                .then((data) => {
+                    setData(data);
+                    setSearchedData(data);
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    console.error('Error fetching data:', error);
+                    setLoading(false);
+                });
+        }else if(optionValue === "shows") {
+            setLoading(true);
+            setData([]);
+            getShows()
+                .then((data) => {
+                    setData(data);
+                    setSearchedData(data);
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    console.error('Error fetching data:', error);
+                    setLoading(false);
+                });
+        }
+    };
+
+
 
     const handleDelete = (id) => {
         setDeleteId(id);
@@ -117,9 +153,10 @@ function Shows() {
                                 ) : (
                                     <>
                                         <div className="float-left">
-                                            <select className="form-control selectric">
-                                                <option>Action For Selected</option>
-                                            </select>
+                                        <select className="form-control selectric" onChange={handleShowing} value={selectedOption}>
+                                            <option value="shows">Action For Selected</option>
+                                            <option value="showing">Showing</option>
+                                        </select>
                                         </div>
                                         <Search setSearch={setSearch} />
                                         <div className="clearfix mb-3" />
