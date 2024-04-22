@@ -4,24 +4,19 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getSeatTypes, createSeatTypes, editSeatTypes, updateSeatTypes, deleteSeatTypes } from '~/services/Movie/Seats/seatTypeService';
+import { getCustomers, deleteCustomers } from '~/services/Users/customerService';
 
-function SeatTypes() {
+function Customers() {
     const [loading, setLoading] = useState(true);
-    const [editShow, setEditShow] = useState(false);
-    const [deleteShow, setDeleteShow] = useState(false);
-    const [createShow, setCreateShow] = useState(false);
-    const [name, setName] = useState('');
-    const [editId, setEditId] = useState('');
-    const [editName, setEditName] = useState('');
     const [data, setData] = useState([]);
+    const [deleteShow, setDeleteShow] = useState(false);
     const [deleteId, setDeleteId] = useState('');
 
     //search
     const [search, setSearch] = useState('');
     const [searchedData, setSearchedData] = useState([]);
     useEffect(() => {
-        const filteredData = data.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()));
+        const filteredData = data.filter((item) => item.username.toLowerCase().includes(search.toLowerCase()));
         setSearchedData(filteredData);
     }, [search, data]);
 
@@ -54,7 +49,7 @@ function SeatTypes() {
     }, []);
 
     const getData = () => {
-        getSeatTypes()
+        getCustomers()
             .then((data) => {
                 setData(data);
                 setSearchedData(data);
@@ -66,91 +61,46 @@ function SeatTypes() {
             });
     };
 
-    const handleSave = () => {
-        handleCreateShow();
-    };
-
-    const handleSaveConfirm = () => {
-        createSeatTypes(name)
-            .then(() => {
-                getData();
-                clear();
-                handleClose();
-                toast.success('SeatTypes has been created');
-            })
-            .catch((error) => {
-                toast.error('Failed to create SeatTypes', error);
-            });
-    };
-
-    const handleEdit = (id) => {
-        handleEditShow();
-        editSeatTypes(id)
-            .then((data) => {
-                setEditId(id);
-                setEditName(data.name);
-            })
-            .catch((error) => console.error('Error fetching SeatTypes data:', error));
-    };
-
-    const handleUpdate = () => {
-        updateSeatTypes(editId, editName)
-            .then(() => {
-                handleClose();
-                getData();
-                clear();
-                toast.success('SeatTypes has been updated');
-            })
-            .catch((error) => {
-                toast.error('Failed to update SeatTypes', error);
-            });
-    };
-
     const handleDelete = (id) => {
         setDeleteId(id);
         handleDeleteShow();
     };
 
     const handleDeleteConfirm = async () => {
-        deleteSeatTypes(deleteId)
+        deleteCustomers(deleteId)
             .then(() => {
-                toast.success('SeatTypes has been deleted');
+                toast.success('Customers has been deleted');
                 handleClose();
                 getData();
             })
             .catch((error) => {
-                toast.error('Failed to delete SeatTypes', error);
+                toast.error('Failed to delete Customers', error);
             });
-    };
-
-    const clear = () => {
-        setName('');
-        setEditId('');
-        setEditName('');
     };
 
     const handleClose = () => {
         setDeleteShow(false);
-        setCreateShow(false);
-        setEditShow(false);
     };
 
-    const handleEditShow = () => setEditShow(true);
     const handleDeleteShow = () => setDeleteShow(true);
-    const handleCreateShow = () => setCreateShow(true);
 
     return (
         <section className="section">
             <div className="section-header">
-                <h1>SeatTypes</h1>
+                <h1>Customers</h1>
+                <div className="section-header-button">
+                    <a href="/Customers/create" className="btn btn-primary">
+                        Add New
+                    </a>
+                </div>
                 <div className="section-header-breadcrumb">
                     <div className="breadcrumb-item active">
                         <a href="#">Dashboard</a>
                     </div>
                     <div className="breadcrumb-item">
-                        <a href="#">SeatTypes</a>
+                        <a href="#">Customers</a>
                     </div>
-                    <div className="breadcrumb-item">All SeatTypes</div>
+                    <div className="breadcrumb-item">All Customers</div>
                 </div>
             </div>
             <div className="section-body">
@@ -158,12 +108,7 @@ function SeatTypes() {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-header">
-                                <h4>All SeatTypes</h4>
-                                <div className="section-header-button">
-                                    <button className="btn btn-primary" onClick={() => handleSave()}>
-                                        Create
-                                    </button>
-                                </div>
+                                <h4>All Customers</h4>
                             </div>
 
                             <div className="card-body">
@@ -183,7 +128,15 @@ function SeatTypes() {
                                                 <thead>
                                                     <tr>
                                                         <th>Id</th>
-                                                        <th>Name</th>
+                                                        <th>FullName</th>
+                                                        <th>UserName</th>
+                                                        <th>Email</th>
+                                                        <th>BirthDay</th>
+                                                        <th>Phone</th>
+                                                        <th>Password</th>
+                                                        <th>Role</th>
+                                                        <th>Status</th>
+                                                        <th>Address</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -191,14 +144,23 @@ function SeatTypes() {
                                                     {records.map((item, index) => (
                                                         <tr key={item.id}>
                                                             <td>{index + firstIndex + 1}</td>
-                                                            <td>{item.name}</td>
+                                                            <td>{item.fullName}</td>
+                                                            <td>{item.username}</td>
+                                                            <td>{item.email}</td>
+                                                            <td>{item.birthDay}</td>
+                                                            <td>{item.phone_Number}</td>
+                                                            <td>{item.password}</td>
+                                                            <td>{item.role}</td>
+                                                            <td>{item.status}</td>
+                                                            <td>{item.address}</td>
                                                             <td colSpan={2}>
-                                                                <button
+                                                                <a
+                                                                    href={`/Customers/edit/${item.id}`}
                                                                     className="btn btn-primary"
-                                                                    onClick={() => handleEdit(item.id)}
+                                                                    title="Edit"
                                                                 >
                                                                     <i class="fas fa-pencil-alt"></i>
-                                                                </button>
+                                                                </a>
                                                                 &nbsp;
                                                                 <button
                                                                     className="btn btn-danger"
@@ -227,78 +189,12 @@ function SeatTypes() {
                     </div>
                 </div>
             </div>
-            <Modal show={createShow} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Create SeatTypes</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Container>
-                        <Row>
-                            <Col>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter Name"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                />
-                            </Col>
-                        </Row>
-                    </Container>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleSaveConfirm}>
-                        Create
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-
-            <Modal show={editShow} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Edit SeatTypes</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Container>
-                        <Row>
-                        <Col>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter Name"
-                                    value={editId}
-                                    onChange={(e) => setEditId(e.target.value)}
-                                />
-                            </Col>
-                            <Col>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter Name"
-                                    value={editName}
-                                    onChange={(e) => setEditName(e.target.value)}
-                                />
-                            </Col>
-                        </Row>
-                    </Container>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleUpdate}>
-                        Update
-                    </Button>
-                </Modal.Footer>
-            </Modal>
 
             <Modal show={deleteShow} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Delete</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure you want to delete this SeatTypes?</Modal.Body>
+                <Modal.Body>Are you sure you want to delete this Customers?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
@@ -314,4 +210,4 @@ function SeatTypes() {
     );
 }
 
-export default SeatTypes;
+export default Customers;

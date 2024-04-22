@@ -6,7 +6,7 @@ function SidebarAdmin() {
                 <aside id="sidebar-wrapper">
                     <div className="sidebar-brand">
                         <image src={images.logo} width={0} height={18}></image>
-                        <a href="/"> RAdmin - Mall </a>
+                        <a href="/"> RMall - Admin </a>
                     </div>
                     <div className="sidebar-brand sidebar-brand-sm">
                         <a href="index.html">St</a>
@@ -23,7 +23,7 @@ function SidebarAdmin() {
                                         Ecommerce Dashboard
                                     </a>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <a className="nav-link" href="/chart">
                                         Chart
                                     </a>
@@ -32,7 +32,7 @@ function SidebarAdmin() {
                                     <a className="nav-link" href="/barChart">
                                         Bar Chart
                                     </a>
-                                </li>
+                                </li> */}
                             </ul>
                         </li>
 
@@ -209,8 +209,13 @@ function SidebarAdmin() {
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="nav-link" href="/users">
-                                        Users
+                                    <a className="nav-link" href="/customers">
+                                        Customers
+                                    </a>
+                                </li>
+                                <li>
+                                    <a className="nav-link" href="/admins">
+                                        Admins
                                     </a>
                                 </li>
                             </ul>

@@ -2,7 +2,7 @@ import { get, post, put, del } from '~/utils/httpRequest';
 
 export const getSeatTypes = async () => {
     try {
-        const response = await get('/v1/SeatTypes/');
+        const response = await get('/SeatTypes/');
         return response;
     } catch (error) {
         console.error('Error fetching SeatTypes data:', error);
@@ -10,10 +10,10 @@ export const getSeatTypes = async () => {
     }
 };
 
-export const createSeatTypes = async (name, seatPricings) => {
+export const createSeatTypes = async (name) => {
     try {
-        const newData = { name, seatPricings };
-        await post('/v1/SeatTypes', newData);
+        const newData = { name };
+        await post('/SeatTypes', newData);
     } catch (error) {
         console.error('Failed to create SeatTypes', error);
         throw error;
@@ -22,7 +22,7 @@ export const createSeatTypes = async (name, seatPricings) => {
 
 export const editSeatTypes = async (id) => {
     try {
-        const response = await get(`/v1/SeatTypes/id?id=${id}`);
+        const response = await get(`/SeatTypes/id?id=${id}`);
         return response;
     } catch (error) {
         console.error('Error fetching SeatTypes data:', error);
@@ -30,10 +30,10 @@ export const editSeatTypes = async (id) => {
     }
 };
 
-export const updateSeatTypes = async (id, name, seatPricings) => {
+export const updateSeatTypes = async (id, name) => {
     try {
-        const updatedData = { id, name, seatPricings };
-        await put(`/v1/SeatTypes/id?id=${id}`, updatedData);
+        const updatedData = { id, name };
+        await put(`/SeatTypes/id?id=${id}`, updatedData);
     } catch (error) {
         console.error('Failed to update SeatTypes', error);
         throw error;
@@ -42,7 +42,7 @@ export const updateSeatTypes = async (id, name, seatPricings) => {
 
 export const deleteSeatTypes = async (id) => {
     try {
-        await del(`/v1/SeatTypes/id?id=${id}`);
+        await del(`/SeatTypes/id?id=${id}`);
         return true;
     } catch (error) {
         console.error('Failed to delete SeatTypes', error);

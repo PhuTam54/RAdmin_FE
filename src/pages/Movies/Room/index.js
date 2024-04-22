@@ -4,23 +4,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getRooms, createRooms, editRooms, updateRooms, deleteRooms, getDetail } from '~/services/Movie/roomService';
+import { getRooms, deleteRooms, getDetail } from '~/services/Movie/roomService';
 
 function Rooms() {
     const [loading, setLoading] = useState(true);
-    const [editShow, setEditShow] = useState(false);
-    const [deleteShow, setDeleteShow] = useState(false);
-    const [createShow, setCreateShow] = useState(false);
-    const [name, setName] = useState('');
-    const [slug, setSlug] = useState('');
-    const [rows, setRows] = useState('');
-    const [columns, setColumns] = useState('');
-    const [editId, setEditId] = useState('');
-    const [editName, setEditName] = useState('');
-    const [editSlug, setEditSlug] = useState('');
-    const [editRows, setEditRows] = useState('');
-    const [editColumns, setEditColumns] = useState('');
     const [data, setData] = useState([]);
+    const [deleteShow, setDeleteShow] = useState(false);
     const [deleteId, setDeleteId] = useState('');
 
     //search
@@ -33,7 +22,7 @@ function Rooms() {
 
     //Page
     const [currentPage, setCurrentPage] = useState(1);
-    const recordsPerPage = 7;
+    const recordsPerPage = 9;
     const lastindex = currentPage * recordsPerPage;
     const firstIndex = lastindex - recordsPerPage;
     const records = searchedData.slice(firstIndex, lastindex);
@@ -71,53 +60,10 @@ function Rooms() {
                 setLoading(false);
             });
     };
-
-    const handleSave = () => {
-        handleCreateShow();
-    };
-
-    const handleSaveConfirm = () => {
-        createRooms(name, slug, rows, columns)
-            .then(() => {
-                getData();
-                clear();
-                handleClose();
-                toast.success('Rooms has been created');
-            })
-            .catch((error) => {
-                toast.error('Failed to create Rooms', error);
-            });
-    };
     const handleDetail = (id) => {
         getDetail(id)
             .then((data) => {})
             .catch((error) => toast.error('Details failde'));
-    };
-
-    const handleEdit = (id) => {
-        handleEditShow();
-        editRooms(id)
-            .then((data) => {
-                setEditId(id);
-                setEditName(data.name);
-                setEditSlug(data.slug);
-                setEditRows(data.rows);
-                setEditColumns(data.columns);
-            })
-            .catch((error) => console.error('Error fetching Rooms data:', error));
-    };
-
-    const handleUpdate = () => {
-        updateRooms(editId, editName, editSlug, editRows, editColumns)
-            .then(() => {
-                handleClose();
-                getData();
-                clear();
-                toast.success('Rooms has been updated');
-            })
-            .catch((error) => {
-                toast.error('Failed to update Rooms', error);
-            });
     };
 
     const handleDelete = (id) => {
@@ -137,31 +83,21 @@ function Rooms() {
             });
     };
 
-    const clear = () => {
-        setName('');
-        setSlug('');
-        setRows('');
-        setColumns('');
-        setEditId('');
-        setEditName('');
-        setEditRows('');
-        setEditColumns('');
-    };
-
     const handleClose = () => {
         setDeleteShow(false);
-        setCreateShow(false);
-        setEditShow(false);
     };
 
-    const handleEditShow = () => setEditShow(true);
     const handleDeleteShow = () => setDeleteShow(true);
-    const handleCreateShow = () => setCreateShow(true);
 
     return (
         <section className="section">
             <div className="section-header">
                 <h1>Rooms</h1>
+                <div className="section-header-button">
+                    <a href="/Rooms/create" className="btn btn-primary">
+                        Add New
+                    </a>
+                </div>
                 <div className="section-header-breadcrumb">
                     <div className="breadcrumb-item active">
                         <a href="#">Dashboard</a>
@@ -178,11 +114,6 @@ function Rooms() {
                         <div className="card">
                             <div className="card-header">
                                 <h4>All Rooms</h4>
-                                <div className="section-header-button">
-                                    <button className="btn btn-primary" onClick={() => handleSave()}>
-                                        Create
-                                    </button>
-                                </div>
                             </div>
 
                             <div className="card-body">
@@ -218,26 +149,27 @@ function Rooms() {
                                                             <td>{item.rows}</td>
                                                             <td>{item.columns}</td>
                                                             <td colSpan={2}>
-                                                                <button
+                                                                {/* <button
                                                                     className="btn btn-primary"
                                                                     onClick={() => handleDetail(item.id)}
                                                                 >
                                                                     <i class="fa-solid fa-circle-info"></i>
-                                                                </button>
-                                                                {/* <a
-                                                                    href={`/shows/detail/${item.id}`}
+                                                                </button> */}
+                                                                <a
+                                                                    href={`/rooms/detail/${item.id}`}
                                                                     className="btn btn-primary"
                                                                     title="Detail"
                                                                 >
                                                                     <i class="fa-solid fa-circle-info"></i>
-                                                                </a> */}
+                                                                </a>
                                                                 &nbsp;
-                                                                <button
+                                                                <a
+                                                                    href={`/rooms/edit/${item.id}`}
                                                                     className="btn btn-primary"
-                                                                    onClick={() => handleEdit(item.id)}
+                                                                    title="Edit"
                                                                 >
                                                                     <i class="fas fa-pencil-alt"></i>
-                                                                </button>
+                                                                </a>
                                                                 &nbsp;
                                                                 <button
                                                                     className="btn btn-danger"
@@ -266,100 +198,6 @@ function Rooms() {
                     </div>
                 </div>
             </div>
-
-            <Modal show={createShow} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Create Rooms</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Container>
-                        <Row>
-                            <Col>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter Name"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                />
-                            </Col>
-                            <Col>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    placeholder="Enter Rows"
-                                    value={rows}
-                                    onChange={(e) => setRows(e.target.value)}
-                                />
-                            </Col>
-                            <Col>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    placeholder="Enter Colums"
-                                    value={columns}
-                                    onChange={(e) => setColumns(e.target.value)}
-                                />
-                            </Col>
-                        </Row>
-                    </Container>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleSaveConfirm}>
-                        Create
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-
-            <Modal show={editShow} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Edit Rooms</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Container>
-                        <Row>
-                            <Col>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter Name"
-                                    value={editName}
-                                    onChange={(e) => setEditName(e.target.value)}
-                                />
-                            </Col>
-                            <Col>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    placeholder="Enter Rows"
-                                    value={editRows}
-                                    onChange={(e) => setEditRows(e.target.value)}
-                                />
-                            </Col>
-                            <Col>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    placeholder="Enter Colums"
-                                    value={editColumns}
-                                    onChange={(e) => setEditColumns(e.target.value)}
-                                />
-                            </Col>
-                        </Row>
-                    </Container>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleUpdate}>
-                        Update
-                    </Button>
-                </Modal.Footer>
-            </Modal>
 
             <Modal show={deleteShow} onHide={handleClose}>
                 <Modal.Header closeButton>

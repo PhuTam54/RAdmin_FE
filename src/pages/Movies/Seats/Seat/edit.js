@@ -6,13 +6,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 function EditSeats() {
     const [rooms, setRooms] = useState([]);
-    const [movies, setMovies] = useState([]);
+    const [seat_Type, setSeat_Type] = useState([]);
 
     const [data, setData] = useState({
         editId: '',
-        row_Number: '',
-        seat_Number: '',
-        seatType: '',
+        editRow_Number: '',
+        editSeat_Number: '',
+        editSeat_Type_Id: '',
         editRoom_Id: '',
     });
 
@@ -25,19 +25,19 @@ function EditSeats() {
                 const showData = await editSeats(id);
                 setData({
                     editId: showData.id,
-                    row_Number: showData.show_Code,
-                    seat_Number: showData.start_Date,
+                    editRow_Number: showData.show_Code,
+                    editSeat_Number: showData.start_Date,
                     editRoom_Id: showData.room_Id,
-                    seatType: showData.movie_Id,
+                    editSeat_Type_Id: showData.seat_Type_Id,
                 });
 
-                const roomsData = await fetch('https://rmallbe20240413154509.azurewebsites.net/api/v1/Rooms');
+                const roomsData = await fetch('https://localhost:7168/api/v1/Rooms');
                 const roomsJson = await roomsData.json();
                 setRooms(roomsJson);
 
-                const moviesData = await fetch('https://rmallbe20240413154509.azurewebsites.net/api/v1/Movies');
-                const moviesJson = await moviesData.json();
-                setMovies(moviesJson);
+                const seatTypesData = await fetch('https://localhost:7168/api/v1/SeatTypes');
+                const seatTypeJson = await seatTypesData.json();
+                setSeat_Type(seatTypeJson);
             } catch (error) {
                 console.error('Error fetching Show data:', error);
             }
@@ -48,20 +48,13 @@ function EditSeats() {
     const handleUpdate = async (event) => {
         event.preventDefault();
         try {
-            await updateSeats(
-                data.editId,
-                data.row_Number,
-                data.seat_Number,
-                data.editRoom_Id,
-                data.seatType,
-            );
+            await updateSeats(data.editId, data.editRow_Number, data.editSeat_Number, data.editRoom_Id, data.editSeat_Type_Id);
             toast.success('Show updated successfully');
             navigate('/Seats');
         } catch (error) {
             toast.error('Failed to update Show');
         }
     };
-
 
     return (
         <section className="section">
@@ -110,30 +103,49 @@ function EditSeats() {
                                     </div>
                                     <div className="form-group row mb-4">
                                         <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Show Code
+                                            Row Number
                                         </label>
                                         <div className="col-sm-12 col-md-7">
                                             <input
-                                                type="text"
+                                                type="number"
                                                 className="form-control"
-                                                placeholder="Enter Show Code"
-                                                value={data.row_Number}
-                                                onChange={(e) => setData({ ...data, row_Number: e.target.value })}
+                                                placeholder="Enter Row Number"
+                                                value={data.editRow_Number}
+                                                onChange={(e) => setData({ ...data, editRow_Number: e.target.value })}
                                             />
                                         </div>
                                     </div>
                                     <div className="form-group row mb-4">
                                         <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Start Date
+                                            Seat Number
                                         </label>
                                         <div className="col-sm-12 col-md-7">
                                             <input
-                                                type="date"
+                                                type="number"
                                                 className="form-control"
-                                                placeholder="Enter Start Date"
-                                                value={data.seat_Number}
-                                                onChange={(e) => setData({ ...data, seat_Number: e.target.value })}
+                                                placeholder="Enter Seat Number"
+                                                value={data.editSeat_Number}
+                                                onChange={(e) => setData({ ...data, editSeat_Number: e.target.value })}
                                             />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-4">
+                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
+                                            Seat Type
+                                        </label>
+                                        <div className="col-sm-12 col-md-7">
+                                            <select
+                                                className="form-control selectric"
+                                                value={data.editSeat_Type_Id}
+                                                onChange={(e) => setData({ ...data, editSeat_Type_Id: e.target.value })}
+                                            >
+                                                <option>Select Seat Type</option>
+                                                {seat_Type.map((type) => (
+                                                    <option key={type.id} value={type.id}>
+                                                        {type.name}
+                                                    </option>
+                                                ))}
+                                            </select>
                                         </div>
                                     </div>
                                     <div className="form-group row mb-4">
@@ -143,32 +155,13 @@ function EditSeats() {
                                         <div className="col-sm-12 col-md-7">
                                             <select
                                                 className="form-control selectric"
-                                                value={data.editRoom_Id}
-                                                onChange={(e) => setData({ ...data, editRoom_Id: e.target.value })}
+                                                value={data.room_Id}
+                                                onChange={(e) => setData({ ...data, room_Id: e.target.value })}
                                             >
                                                 <option>Select Rooms</option>
                                                 {rooms.map((room) => (
                                                     <option key={room.id} value={room.id}>
                                                         {room.name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="form-group row mb-4">
-                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Movie Id
-                                        </label>
-                                        <div className="col-sm-12 col-md-7">
-                                            <select
-                                                className="form-control selectric"
-                                                value={data.seatType}
-                                                onChange={(e) => setData({ ...data, seatType: e.target.value })}
-                                            >
-                                                <option>Select Movie</option>
-                                                {movies.map((movie) => (
-                                                    <option key={movie.id} value={movie.id}>
-                                                        {movie.title}
                                                     </option>
                                                 ))}
                                             </select>
