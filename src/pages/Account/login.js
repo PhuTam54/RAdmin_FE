@@ -18,7 +18,7 @@ function Login() {
         if (validate()) {
             try {
                 const response = await httpRequest.post(
-                    'https://rmallbe20240413154509.azurewebsites.net/api/v1/LoginRegister/Login',
+                    'https://localhost:7168/api/v1/LoginRegister/Login',
                     {
                         email: email,
                         password: password,

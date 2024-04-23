@@ -109,7 +109,7 @@ function CreateProduct() {
                                             </select>
                                         </div>
                                     </div>
-                                    <div className="form-group row mb-4">
+                                    {/* <div className="form-group row mb-4">
                                         <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
                                             Img
                                         </label>
@@ -121,25 +121,25 @@ function CreateProduct() {
                                                 onChange={(e) => setData({ ...data, image: e.target.value })}
                                             />
                                         </div>
-                                    </div>
-                                    {/* <div className="form-group row mb-4">
-                                        <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-                                            Thumbnail
-                                        </label>
-                                        <div className="col-sm-12 col-md-7">
-                                            <div id="image-preview" className="image-preview">
-                                                <label htmlFor="image-upload" id="image-label">
-                                                    Choose File
-                                                </label>
-                                                <input
-                                                    type="file"
-                                                    name="image"
-                                                    id="image-upload"
-                                                    onChange={handleImageChange}
-                                                />
+                                    </div> */}
+                                        <div className="form-group row mb-4">
+                                            <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
+                                                Thumbnail
+                                            </label>
+                                            <div className="col-sm-12 col-md-7">
+                                                <div id="image-preview" className="image-preview">
+                                                    <label htmlFor="image-upload" id="image-label">
+                                                        Choose File
+                                                    </label>
+                                                    <input
+                                                        type="file"
+                                                        name="image"
+                                                        id="image-upload"
+                                                        onChange={handleImageChange}
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div> */}
                                     <div className="form-group row mb-4">
                                         <label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
                                             Price
