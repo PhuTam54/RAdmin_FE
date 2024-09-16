@@ -37,6 +37,9 @@ const routes = {
     createShows: 'shows/create',
     editShows: 'shows/edit/:id',
     rooms: '/rooms',
+    createRooms: '/rooms/create',
+    editRooms: '/rooms/edit/:id',
+    detailRooms: '/rooms/detail/:id',
 
     //      Seats
     seats: '/seats',
@@ -65,8 +68,13 @@ const routes = {
     ticketEdit: '/ticket/edit/:id',
 
     //      Users
-    users: '/users',
-    createUsers: '/users/create',
+    customers: '/customers',
+    createCustomers: '/customers/create',
+    editCustomers: '/customers/edit/:id',
+
+    admins: '/admins',
+    createAdmins: '/admins/create',
+    editAdmins: '/admins/edit/:id',
 };
 
 export default routes;

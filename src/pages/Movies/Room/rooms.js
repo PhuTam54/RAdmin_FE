@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from '~/layouts/components/Admin/Search';
 import Pagination from '~/layouts/components/Admin/Pagination';
-import { getRooms, createRooms, editRooms, updateRooms, deleteRooms } from '~/services/Movie/roomService';
+import { getRooms, createRooms, editRooms, updateRooms, deleteRooms, getDetail } from '~/services/Movie/roomService';
 
 function Rooms() {
     const [loading, setLoading] = useState(true);
@@ -87,6 +87,11 @@ function Rooms() {
             .catch((error) => {
                 toast.error('Failed to create Rooms', error);
             });
+    };
+    const handleDetail = (id) => {
+        getDetail(id)
+            .then((data) => {})
+            .catch((error) => toast.error('Details failde'));
     };
 
     const handleEdit = (id) => {
@@ -215,6 +220,20 @@ function Rooms() {
                                                             <td colSpan={2}>
                                                                 <button
                                                                     className="btn btn-primary"
+                                                                    onClick={() => handleDetail(item.id)}
+                                                                >
+                                                                    <i class="fa-solid fa-circle-info"></i>
+                                                                </button>
+                                                                {/* <a
+                                                                    href={`/shows/detail/${item.id}`}
+                                                                    className="btn btn-primary"
+                                                                    title="Detail"
+                                                                >
+                                                                    <i class="fa-solid fa-circle-info"></i>
+                                                                </a> */}
+                                                                &nbsp;
+                                                                <button
+                                                                    className="btn btn-primary"
                                                                     onClick={() => handleEdit(item.id)}
                                                                 >
                                                                     <i class="fas fa-pencil-alt"></i>
@@ -247,6 +266,7 @@ function Rooms() {
                     </div>
                 </div>
             </div>
+
             <Modal show={createShow} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Create Rooms</Modal.Title>

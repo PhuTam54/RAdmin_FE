@@ -127,7 +127,7 @@ function EditShows() {
                                         </label>
                                         <div className="col-sm-12 col-md-7">
                                             <input
-                                                type="date"
+                                                type="text"
                                                 className="form-control"
                                                 placeholder="Enter Start Date"
                                                 value={data.editStart_Date}

@@ -12,10 +12,8 @@ function SeatTypes() {
     const [deleteShow, setDeleteShow] = useState(false);
     const [createShow, setCreateShow] = useState(false);
     const [name, setName] = useState('');
-    const [SeatPricings, setSeatPricings] = useState('');
     const [editId, setEditId] = useState('');
     const [editName, setEditName] = useState('');
-    const [editSeatPricings, setEditSeatPricings] = useState('');
     const [data, setData] = useState([]);
     const [deleteId, setDeleteId] = useState('');
 
@@ -73,7 +71,7 @@ function SeatTypes() {
     };
 
     const handleSaveConfirm = () => {
-        createSeatTypes(name, SeatPricings)
+        createSeatTypes(name)
             .then(() => {
                 getData();
                 clear();
@@ -91,13 +89,12 @@ function SeatTypes() {
             .then((data) => {
                 setEditId(id);
                 setEditName(data.name);
-                setEditSeatPricings(data.SeatPricings);
             })
             .catch((error) => console.error('Error fetching SeatTypes data:', error));
     };
 
     const handleUpdate = () => {
-        updateSeatTypes(editId, editName, editSeatPricings)
+        updateSeatTypes(editId, editName)
             .then(() => {
                 handleClose();
                 getData();
@@ -128,10 +125,8 @@ function SeatTypes() {
 
     const clear = () => {
         setName('');
-        setSeatPricings('');
         setEditId('');
         setEditName('');
-        setEditSeatPricings('');
     };
 
     const handleClose = () => {
@@ -189,7 +184,6 @@ function SeatTypes() {
                                                     <tr>
                                                         <th>Id</th>
                                                         <th>Name</th>
-                                                        <th>SeatPricings</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -198,7 +192,6 @@ function SeatTypes() {
                                                         <tr key={item.id}>
                                                             <td>{index + firstIndex + 1}</td>
                                                             <td>{item.name}</td>
-                                                            <td>{item.SeatPricings}</td>
                                                             <td colSpan={2}>
                                                                 <button
                                                                     className="btn btn-primary"
@@ -250,15 +243,6 @@ function SeatTypes() {
                                     onChange={(e) => setName(e.target.value)}
                                 />
                             </Col>
-                            <Col>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    placeholder="Enter SeatPricings"
-                                    value={SeatPricings}
-                                    onChange={(e) => setSeatPricings(e.target.value)}
-                                />
-                            </Col>
                         </Row>
                     </Container>
                 </Modal.Body>
@@ -279,6 +263,15 @@ function SeatTypes() {
                 <Modal.Body>
                     <Container>
                         <Row>
+                        <Col>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Name"
+                                    value={editId}
+                                    onChange={(e) => setEditId(e.target.value)}
+                                />
+                            </Col>
                             <Col>
                                 <input
                                     type="text"
@@ -286,15 +279,6 @@ function SeatTypes() {
                                     placeholder="Enter Name"
                                     value={editName}
                                     onChange={(e) => setEditName(e.target.value)}
-                                />
-                            </Col>
-                            <Col>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    placeholder="Enter SeatPricings"
-                                    value={editSeatPricings}
-                                    onChange={(e) => setEditSeatPricings(e.target.value)}
                                 />
                             </Col>
                         </Row>
